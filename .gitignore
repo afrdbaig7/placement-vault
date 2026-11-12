@@ -60,3 +60,4 @@ mini-services/chat-service/*.db*
 upload/
 download/
 examples/
+data-sources/
