@@ -45,24 +45,27 @@ export function reportView(
   r: OaReport & {
     author: User;
     body?: OaBody | null;
-    drive: { company: string; status: string; role: string; driveDate: Date };
+    drive?: { company: string; status: string; role: string; driveDate: Date } | null;
+    company?: { slug: string; name: string } | null;
   },
   viewer: Viewer
 ) {
   const isAuthor = viewer.user?.id === r.authorId;
   const isModRole = isMod(viewer.user?.role ?? "");
-  const publiclyVisible = r.status === "APPROVED" && r.drive.status === "CLOSED";
+  const companySlug = r.drive?.company ?? r.company?.slug ?? "";
+  const driveStatus = r.drive?.status ?? "CLOSED";
+  const publiclyVisible = r.status === "APPROVED" && driveStatus === "CLOSED";
   if (!publiclyVisible && !isAuthor && !isModRole) return null;
 
   const canReadBody = isAuthor || isModRole || viewer.unlockedSet.has(r.id);
-  const free = isAuthor || isModRole || viewer.giveToGet.has(r.drive.company);
+  const free = isAuthor || isModRole || (companySlug ? viewer.giveToGet.has(companySlug) : false);
   return {
     id: r.id,
-    company: r.drive.company,
+    company: companySlug,
     driveId: r.driveId,
-    driveRole: r.drive.role,
-    driveStatus: r.drive.status,
-    driveDate: r.drive.driveDate,
+    driveRole: r.drive?.role ?? r.role,
+    driveStatus,
+    driveDate: r.drive?.driveDate ?? r.assessmentDate,
     round: r.round,
     platform: r.platform,
     topics: safeParseTopics(r.topics),
@@ -73,7 +76,7 @@ export function reportView(
     upvoteCount: r.upvoteCount,
     createdAt: r.createdAt,
     author: authorDisplay(r.author, false),
-    underEmbargo: r.drive.status === "OPEN",
+    underEmbargo: driveStatus === "OPEN",
     gated: !canReadBody,
     body: canReadBody && r.status === "APPROVED" ? r.body?.text ?? null : null,
     unlockCost: free ? 0 : config.rates.unlockOa,

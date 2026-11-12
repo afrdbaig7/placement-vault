@@ -12,6 +12,7 @@ export async function GET() {
         orderBy: { createdAt: "asc" },
         include: {
           author: true,
+          company: true,
           body: true,
           drive: { select: { company: true, role: true, status: true, driveDate: true } },
         },
@@ -70,9 +71,9 @@ export async function GET() {
       pendingReports: pendingReports.map((r) => ({
         id: r.id,
         author: { id: r.author.id, name: r.author.name },
-        company: r.drive.company,
-        driveRole: r.drive.role,
-        driveStatus: r.drive.status,
+        company: r.drive?.company ?? r.company.slug,
+        driveRole: r.drive?.role ?? r.role,
+        driveStatus: r.drive?.status ?? "CLOSED",
         round: r.round,
         platform: r.platform,
         topics: safeParseTopics(r.topics),

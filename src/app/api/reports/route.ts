@@ -33,6 +33,7 @@ export async function GET(req: Request) {
       orderBy: { createdAt: "desc" },
       include: {
         author: true,
+        company: true,
         drive: { select: { company: true, status: true, role: true, driveDate: true } },
         body: true,
       },
@@ -65,11 +66,13 @@ export async function POST(req: Request) {
     const report = await db.$transaction(async (tx) => {
       const created = await tx.oaReport.create({
         data: {
+          companyId: drive.companyId,
+          role: drive.role,
           authorId: user.id,
           driveId,
           round,
           platform,
-          topics: JSON.stringify(topics),
+          topics,
           difficulty,
           outcome,
           summary,

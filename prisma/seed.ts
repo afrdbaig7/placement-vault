@@ -1,8 +1,16 @@
 /**
- * Seed script — realistic campus demo data.
+ * Seed script — Comprehensive campus database seed for PostgreSQL.
+ * Populates Companies, Problems, CompanyProblems, PracticeSets, Users,
+ * Placement Drives, OA Reports with granular OAQuestions, Interview Experiences
+ * with InterviewRounds, Doubts, Votes, Flags, and ModerationLogs.
+ *
  * Run: bun prisma/seed.ts
  */
 import { PrismaClient } from "@prisma/client";
+import companiesData from "../src/data/companies.json";
+import problemsData from "../src/data/problems.json";
+import setsData from "../src/data/sets.json";
+import { normalizeCompanyName, KNOWN_COMPANY_ALIASES } from "../src/lib/company-utils";
 
 const db = new PrismaClient();
 
@@ -10,20 +18,31 @@ const daysAgo = (n: number) => new Date(Date.now() - n * 24 * 60 * 60 * 1000);
 const daysAhead = (n: number) => new Date(Date.now() + n * 24 * 60 * 60 * 1000);
 
 async function main() {
-  console.log("Seeding…");
+  console.log("Seeding database...");
+
+  // 1. Clean existing records in reverse dependency order
+  await db.moderationLog.deleteMany();
   await db.coinLedger.deleteMany();
   await db.unlock.deleteMany();
   await db.vote.deleteMany();
   await db.flag.deleteMany();
   await db.answer.deleteMany();
   await db.doubt.deleteMany();
+  await db.roundQuestion.deleteMany();
+  await db.interviewRound.deleteMany();
   await db.experience.deleteMany();
+  await db.oAQuestion.deleteMany();
   await db.oaBody.deleteMany();
   await db.oaReport.deleteMany();
   await db.drive.deleteMany();
+  await db.companyProblem.deleteMany();
+  await db.problem.deleteMany();
+  await db.company.deleteMany();
+  await db.practiceSet.deleteMany();
   await db.user.deleteMany();
 
-  // ---------- users ----------
+  // 2. Seed Users
+  console.log("Seeding users...");
   const admin = await db.user.create({
     data: {
       email: "ananya.rao.cph@gmail.com",
@@ -31,10 +50,12 @@ async function main() {
       role: "ADMIN",
       rollNumber: "FAC-001",
       rollVerified: true,
+      collegeDomain: "nitt.edu",
       batch: "Faculty",
       image: null,
     },
   });
+
   const mod = await db.user.create({
     data: {
       email: "rohan.verma.cph@gmail.com",
@@ -42,9 +63,11 @@ async function main() {
       role: "MOD",
       rollNumber: "CS22B0999",
       rollVerified: true,
+      collegeDomain: "nitt.edu",
       batch: "2027",
     },
   });
+
   const sneha = await db.user.create({
     data: {
       email: "sneha.iyer.2025@gmail.com",
@@ -53,61 +76,72 @@ async function main() {
       rollNumber: "CS21B0456",
       rollVerified: true,
       placedCompany: "Amazon",
+      collegeDomain: "nitt.edu",
       batch: "2025",
     },
   });
+
   const arjun = await db.user.create({
     data: {
-      email: "arjun.mehta.2025@gmail.com",
-      name: "Arjun Mehta",
-      role: "SENIOR",
-      rollNumber: "CS21B0182",
-      rollVerified: true,
-      placedCompany: "Microsoft",
-      batch: "2025",
-    },
-  });
-  const kavya = await db.user.create({
-    data: {
-      email: "kavya.nair.2025@gmail.com",
-      name: "Kavya Nair",
-      role: "SENIOR",
-      rollNumber: "CS21B0311",
-      rollVerified: true,
-      placedCompany: "Google",
-      batch: "2025",
-    },
-  });
-  const vikram = await db.user.create({
-    data: {
-      email: "vikram.singh.cse@gmail.com",
-      name: "Vikram Singh",
-      role: "STUDENT",
-      rollNumber: "CS23B1001",
-      rollVerified: true,
-      batch: "2027",
-    },
-  });
-  const priya = await db.user.create({
-    data: {
-      email: "priya.das.cse@gmail.com",
-      name: "Priya Das",
+      email: "arjun.nair.cse@gmail.com",
+      name: "Arjun Nair",
       role: "STUDENT",
       rollNumber: "CS23B1042",
       rollVerified: true,
+      collegeDomain: "nitt.edu",
       batch: "2027",
     },
   });
+
+  const kavya = await db.user.create({
+    data: {
+      email: "kavya.sharma.it@gmail.com",
+      name: "Kavya Sharma",
+      role: "STUDENT",
+      rollNumber: "IT23B2011",
+      rollVerified: true,
+      collegeDomain: "nitt.edu",
+      batch: "2027",
+    },
+  });
+
+  const vikram = await db.user.create({
+    data: {
+      email: "vikram.singh.2025@gmail.com",
+      name: "Vikram Singh",
+      role: "SENIOR",
+      rollNumber: "CS21B0112",
+      rollVerified: true,
+      placedCompany: "Microsoft",
+      collegeDomain: "nitt.edu",
+      batch: "2025",
+    },
+  });
+
+  const priya = await db.user.create({
+    data: {
+      email: "priya.deshmukh.cse@gmail.com",
+      name: "Priya Deshmukh",
+      role: "STUDENT",
+      rollNumber: "CS23B1088",
+      rollVerified: true,
+      collegeDomain: "nitt.edu",
+      batch: "2027",
+    },
+  });
+
   const rahul = await db.user.create({
     data: {
-      email: "rahul.kumar.it@gmail.com",
-      name: "Rahul Kumar",
+      email: "rahul.mehta.ece@gmail.com",
+      name: "Rahul Mehta",
       role: "STUDENT",
-      rollNumber: "IT23B2015",
+      rollNumber: "EC23B3004",
       rollVerified: true,
+      collegeDomain: "nitt.edu",
       batch: "2027",
     },
   });
+
   const ishita = await db.user.create({
     data: {
       email: "ishita.bose.ece@gmail.com",
@@ -115,42 +149,170 @@ async function main() {
       role: "STUDENT",
       rollNumber: "EC23B3077",
       rollVerified: true,
+      collegeDomain: "nitt.edu",
       batch: "2027",
     },
   });
-  // in mod verification queue
-  const dev = await db.user.create({
+
+  // Pending user in mod queue
+  const devUser = await db.user.create({
     data: {
       email: "dev.malhotra@gmail.com",
       name: "Dev Malhotra",
       role: "STUDENT",
       rollNumber: "CS24B1023",
       rollVerified: false,
-      batch: "2028",
-    },
-  });
-  // fresh signup, hasn't submitted roll number yet
-  await db.user.create({
-    data: {
-      email: "meera.joshi@gmail.com",
-      name: "Meera Joshi",
-      role: "STUDENT",
-      rollVerified: false,
+      collegeDomain: "nitt.edu",
       batch: "2028",
     },
   });
 
-  // welcome grants on verification
-  const verified = [admin, mod, sneha, arjun, kavya, vikram, priya, rahul, ishita];
-  for (const u of verified) {
+  // Welcome coin ledger entries
+  const verifiedUsers = [admin, mod, sneha, arjun, kavya, vikram, priya, rahul, ishita];
+  for (const u of verifiedUsers) {
     await db.coinLedger.create({
-      data: { userId: u.id, amount: 25, reason: "WELCOME", refId: u.id, note: "Roll number verified" },
+      data: {
+        userId: u.id,
+        amount: 25,
+        reason: "WELCOME",
+        refId: u.id,
+        note: "Roll number verified",
+      },
     });
   }
 
-  // ---------- drives ----------
+  // 3. Seed Companies from static JSON
+  console.log("Seeding companies...");
+  const companyMap = new Map<string, string>(); // slug -> id
+
+  for (const c of companiesData as Array<{
+    slug: string;
+    name: string;
+    region?: string;
+    tier?: string;
+    type?: string;
+    typicalRoles?: string[];
+  }>) {
+    const norm = normalizeCompanyName(c.name);
+    const aliases = KNOWN_COMPANY_ALIASES[c.slug] ?? [c.name];
+    const sectors = [c.type, c.tier, c.region].filter(Boolean) as string[];
+
+    const created = await db.company.create({
+      data: {
+        slug: c.slug,
+        name: c.name,
+        normalizedName: norm,
+        aliases,
+        website: `https://${c.slug}.com`,
+        logoUrl: `/logos/${c.slug}.svg`,
+        sectors,
+        hiringRoles: c.typicalRoles ?? ["Software Engineer"],
+        status: "VERIFIED",
+        createdById: admin.id,
+      },
+    });
+    companyMap.set(c.slug, created.id);
+  }
+
+  // 4. Seed Practice Sets
+  console.log("Seeding practice sets...");
+  for (const s of setsData as Array<{
+    slug: string;
+    name: string;
+    icon?: string;
+    description: string;
+    topics: string[];
+    resources: Array<{ name: string; url: string }>;
+    sampleQuestions: Array<{ q: string; answer: string }>;
+  }>) {
+    await db.practiceSet.create({
+      data: {
+        slug: s.slug,
+        name: s.name,
+        icon: s.icon,
+        description: s.description,
+        topics: s.topics,
+        resources: s.resources,
+        sampleQuestions: s.sampleQuestions,
+      },
+    });
+  }
+
+  // 5. Seed Problems & CompanyProblem relations
+  console.log("Seeding problems and company-problem mappings...");
+  const problemCache = new Map<string, string>(); // slug -> id
+  const problemsByCompany = problemsData as Record<
+    string,
+    Array<{
+      title: string;
+      slug: string;
+      difficulty: string;
+      window?: string;
+    }>
+  >;
+
+  for (const [companySlug, problems] of Object.entries(problemsByCompany)) {
+    const companyId = companyMap.get(companySlug);
+    if (!companyId) continue;
+
+    for (const p of problems) {
+      let problemId = problemCache.get(p.slug);
+      if (!problemId) {
+        const createdProblem = await db.problem.upsert({
+          where: {
+            source_externalSlug: {
+              source: "LEETCODE",
+              externalSlug: p.slug,
+            },
+          },
+          update: {},
+          create: {
+            source: "LEETCODE",
+            externalSlug: p.slug,
+            title: p.title,
+            difficulty: p.difficulty,
+            topics: ["Algorithms", "Data Structures"],
+            url: `https://leetcode.com/problems/${p.slug}/`,
+          },
+        });
+        problemId = createdProblem.id;
+        problemCache.set(p.slug, problemId);
+      }
+
+      await db.companyProblem.upsert({
+        where: {
+          companyId_problemId_window_sourceName: {
+            companyId,
+            problemId,
+            window: p.window || "6M",
+            sourceName: "leetcode-company-wise",
+          },
+        },
+        update: {},
+        create: {
+          companyId,
+          problemId,
+          window: p.window || "6M",
+          frequency: 1.0,
+          sourceName: "leetcode-company-wise",
+          sourceSnapshotDate: new Date("2026-10-01"),
+        },
+      });
+    }
+  }
+
+  // 6. Seed Placement Drives
+  console.log("Seeding placement drives...");
+  const amazonCompanyId = companyMap.get("amazon")!;
+  const microsoftCompanyId = companyMap.get("microsoft")!;
+  const googleCompanyId = companyMap.get("google")!;
+  const tcsCompanyId = companyMap.get("tcs")!;
+  const infosysCompanyId = companyMap.get("infosys")!;
+  const flipkartCompanyId = companyMap.get("flipkart")!;
+
   const amazonDrive = await db.drive.create({
     data: {
+      companyId: amazonCompanyId,
       company: "amazon",
       role: "SDE Intern",
       driveDate: daysAgo(40),
@@ -160,43 +322,38 @@ async function main() {
       notes: "On-campus drive, 2 profiles: SDE Intern 6-month + PPO.",
     },
   });
-  const msDrive = await db.drive.create({
+
+  const microsoftDrive = await db.drive.create({
     data: {
+      companyId: microsoftCompanyId,
       company: "microsoft",
-      role: "SDE-1",
+      role: "Software Engineer",
       driveDate: daysAgo(25),
       status: "CLOSED",
       branches: "CSE,IT,ECE",
       minCgpa: 7.5,
-      notes: "FTE + internship composite drive.",
+      notes: "Direct campus hiring for IDC Bangalore / Hyderabad.",
     },
   });
-  const zohoDrive = await db.drive.create({
-    data: {
-      company: "zoho",
-      role: "Member Technical",
-      driveDate: daysAgo(15),
-      status: "CLOSED",
-      branches: "ALL",
-      minCgpa: 6.0,
-      notes: "Open to all branches, own OA platform.",
-    },
-  });
+
   const googleDrive = await db.drive.create({
     data: {
+      companyId: googleCompanyId,
       company: "google",
-      role: "SDE Intern",
-      driveDate: daysAhead(12),
-      status: "OPEN",
-      branches: "CSE,IT",
-      minCgpa: 7.5,
-      notes: "OA slots running this week — reports stay under embargo until the drive closes.",
+      role: "SWE Intern (Winter/Summer)",
+      driveDate: daysAgo(15),
+      status: "CLOSED",
+      branches: "CSE,IT,ECE",
+      minCgpa: 8.0,
+      notes: "Summer 2027 internship loop.",
     },
   });
+
   const tcsDrive = await db.drive.create({
     data: {
+      companyId: tcsCompanyId,
       company: "tcs",
-      role: "Ninja",
+      role: "Prime / Digital",
       driveDate: daysAhead(20),
       status: "OPEN",
       branches: "ALL",
@@ -204,8 +361,10 @@ async function main() {
       notes: "Includes aptitude + verbal sections before coding.",
     },
   });
+
   const infosysDrive = await db.drive.create({
     data: {
+      companyId: infosysCompanyId,
       company: "infosys",
       role: "Specialist Programmer",
       driveDate: daysAhead(30),
@@ -215,40 +374,66 @@ async function main() {
       notes: "Power Programmer track has a harder OA.",
     },
   });
+
   const flipkartDrive = await db.drive.create({
     data: {
+      companyId: flipkartCompanyId,
       company: "flipkart",
       role: "SDE-1",
       driveDate: daysAhead(45),
       status: "OPEN",
       branches: "CSE,IT",
       minCgpa: 7.0,
-      notes: null,
+      notes: "Upcoming campus hiring drive.",
     },
   });
 
-  // ---------- OA reports ----------
-  async function report(opts: {
+  // 7. Seed OA Reports & granular OAQuestions
+  console.log("Seeding OA reports & questions...");
+
+  async function createOaReport(opts: {
+    companyId: string;
+    companySlug: string;
     authorId: string;
-    driveId: string;
-    company: string;
-    round: string;
+    driveId?: string;
+    role: string;
+    round?: string;
     platform: string;
+    durationMin: number;
+    sections: string[];
     topics: string[];
     difficulty: string;
     outcome: string;
     summary: string;
-    body: string;
     status?: string;
+    hiringSeason?: string;
+    graduatingBatch?: number;
     createdAt?: Date;
+    questions: Array<{
+      type: string;
+      title: string;
+      statementMd: string;
+      constraints?: string;
+      sampleIO?: string;
+      topics: string[];
+      difficulty: string;
+      marks?: number;
+    }>;
   }) {
-    const r = await db.oaReport.create({
+    const report = await db.oaReport.create({
       data: {
+        companyId: opts.companyId,
         authorId: opts.authorId,
         driveId: opts.driveId,
-        round: opts.round,
+        hiringSeason: opts.hiringSeason ?? "2026-27",
+        graduatingBatch: opts.graduatingBatch ?? 2027,
+        assessmentDate: opts.createdAt ?? daysAgo(10),
         platform: opts.platform,
-        topics: JSON.stringify(opts.topics),
+        role: opts.role,
+        round: opts.round ?? "Online Assessment",
+        durationMin: opts.durationMin,
+        sections: opts.sections,
+        topics: opts.topics,
         difficulty: opts.difficulty,
         outcome: opts.outcome,
         summary: opts.summary,
@@ -256,510 +441,470 @@ async function main() {
         createdAt: opts.createdAt ?? daysAgo(10),
       },
     });
-    await db.oaBody.create({ data: { reportId: r.id, text: opts.body } });
+
+    // Create legacy body container
+    const combinedText = opts.questions.map((q, i) => `### Q${i + 1}: ${q.title}\n\n${q.statementMd}`).join("\n\n---\n\n");
+    await db.oaBody.create({
+      data: {
+        reportId: report.id,
+        text: combinedText,
+      },
+    });
+
+    // Create structured questions
+    for (let i = 0; i < opts.questions.length; i++) {
+      const q = opts.questions[i];
+      await db.oAQuestion.create({
+        data: {
+          reportId: report.id,
+          type: q.type,
+          title: q.title,
+          statementMd: q.statementMd,
+          constraints: q.constraints,
+          sampleIO: q.sampleIO,
+          topics: q.topics,
+          difficulty: q.difficulty,
+          marks: q.marks,
+          order: i,
+        },
+      });
+    }
+
     if ((opts.status ?? "APPROVED") === "APPROVED") {
       await db.coinLedger.create({
         data: {
           userId: opts.authorId,
           amount: 50,
           reason: "REPORT_APPROVED",
-          refId: r.id,
-          note: `OA report approved (${opts.company})`,
+          refId: report.id,
+          note: `OA report approved (${opts.companySlug})`,
+        },
+      });
+
+      await db.moderationLog.create({
+        data: {
+          moderatorId: mod.id,
+          targetType: "OA_REPORT",
+          targetId: report.id,
+          action: "APPROVE",
+          reason: "Verified question structure and season",
         },
       });
     }
-    return r;
+
+    return report;
   }
 
-  const r1 = await report({
+  // Amazon OA Report (Class of 2027, 2026-27 Season)
+  const r1 = await createOaReport({
+    companyId: amazonCompanyId,
+    companySlug: "amazon",
     authorId: sneha.id,
     driveId: amazonDrive.id,
-    company: "amazon",
-    round: "Online Assessment",
+    role: "SDE Intern",
     platform: "HackerRank",
-    topics: ["Arrays", "Two Pointers"],
+    durationMin: 120,
+    sections: ["Coding", "Work Simulation / LP"],
+    topics: ["Arrays", "Sliding Window", "BFS", "Graphs"],
     difficulty: "Medium",
     outcome: "Cleared",
-    summary:
-      "Standard Amazon OA pattern: Q1 was a sliding-window variant, Q2 a graph traversal. Both were LeetCode-medium level. Time was comfortable if you know the templates.",
-    body: "Q1: Given an array of item ratings, find the longest contiguous stretch where every item's rating stays within a band of k — sliding window with a monotonic deque for min/max.\n\nQ2: A warehouse graph (grid) where robots must collect all packages in the minimum number of moves, with walls — BFS with state (position, collectedMask). Careful with the mask size.",
+    hiringSeason: "2026-27",
+    graduatingBatch: 2027,
     createdAt: daysAgo(38),
-  });
-  const r2 = await report({
-    authorId: vikram.id,
-    driveId: amazonDrive.id,
-    company: "amazon",
-    round: "Online Assessment",
-    platform: "HackerRank",
-    topics: ["Graphs", "BFS"],
-    difficulty: "Medium",
-    outcome: "Cleared",
-    summary:
-      "Q1 easy greedy, Q2 BFS on grid. Worked through with 25 minutes to spare. Camera proctoring was active.",
-    body: "Q1: Merge overlapping delivery time intervals after sorting — classic intervals.\n\nQ2: Shortest safe route in a grid where some cells get blocked over time — BFS over (row, col, time) states.",
-    createdAt: daysAgo(37),
-  });
-  const r3 = await report({
-    authorId: priya.id,
-    driveId: amazonDrive.id,
-    company: "amazon",
-    round: "Online Assessment",
-    platform: "HackerRank",
-    topics: ["Dynamic Programming"],
-    difficulty: "Hard",
-    outcome: "Not cleared",
-    summary:
-      "Got a brutal DP on trees as Q2 with only 40 minutes left. Sharing so others prepare tree DP before this drive.",
-    body: "Q1: Count subarrays with exactly k distinct values — two pointers.\n\nQ2: Tree DP — reroot a weighted tree to minimize the maximum delivery latency; needed in-out DP twice, hard to finish in time.",
-    createdAt: daysAgo(36),
-  });
-  const r4 = await report({
-    authorId: arjun.id,
-    driveId: msDrive.id,
-    company: "microsoft",
-    round: "Online Assessment",
-    platform: "Codility",
-    topics: ["Dynamic Programming", "Strings"],
-    difficulty: "Medium",
-    outcome: "Cleared",
-    summary:
-      "Codility OA, 2 questions 90 minutes. String DP + a matrix question. Partial scoring, so attempt everything.",
-    body: "Q1: Minimum insertions to make a string a palindrome — LCS-based DP.\n\nQ2: Count the number of islands that remain connected after removing one cell — brute force per removal passes given constraints.",
-    createdAt: daysAgo(23),
-  });
-  const r5 = await report({
-    authorId: rahul.id,
-    driveId: msDrive.id,
-    company: "microsoft",
-    round: "Online Assessment",
-    platform: "Codility",
-    topics: ["Trees", "Recursion"],
-    difficulty: "Medium",
-    outcome: "Cleared",
-    summary: "Both questions were textbook recursion on trees. Deterministic selection — friends in other slots got the same set.",
-    body: "Q1: Compute the height-balanced check and diameter of an N-ary tree in one pass.\n\nQ2: Serialize and deserialize a binary search tree using preorder only — O(n) with bounds.",
-    createdAt: daysAgo(22),
-  });
-  const r6 = await report({
-    authorId: ishita.id,
-    driveId: msDrive.id,
-    company: "microsoft",
-    round: "Online Assessment",
-    platform: "Codility",
-    topics: ["Arrays", "Math"],
-    difficulty: "Medium",
-    outcome: "Did not attempt",
-    summary: "Couldn't attempt this drive ( clashed with Zoho ), submitting what friends reported for the record.",
-    body: "Q1 (as reported): Maximize profit with at most two non-overlapping trades — state machine DP.\n\nQ2 (as reported): Rotate a matrix in place with a helper for layer-by-layer rotation.",
-    createdAt: daysAgo(20),
-    status: "PENDING",
-  });
-  const r7 = await report({
-    authorId: priya.id,
-    driveId: zohoDrive.id,
-    company: "zoho",
-    round: "Round 1 (Aptitude + Coding)",
-    platform: "Zoho Own Platform",
-    topics: ["Arrays", "Strings"],
-    difficulty: "Easy",
-    outcome: "Cleared",
-    summary:
-      "Zoho's own platform. 10 aptitude + 2 coding (one pattern printing, one string manipulation). No proctoring.",
-    body: "Coding Q1: Print the number pyramid for n rows (pattern printing, exact output matching).\n\nCoding Q2: Given a sentence, reverse words that have an even length and replace vowels in odd-length words — pure string handling, no algorithms.",
-    createdAt: daysAgo(13),
-  });
-  const r8 = await report({
-    authorId: sneha.id,
-    driveId: googleDrive.id,
-    company: "google",
-    round: "Online Assessment",
-    platform: "HackerRank",
-    topics: ["Graphs", "Dynamic Programming"],
-    difficulty: "Hard",
-    outcome: "Cleared",
-    summary:
-      "First slot of this week's Google OA. Under embargo — this stays hidden until the drive closes. Submitted within minutes of my slot.",
-    body: "Q1: Count connected components in a grid that change after each query removal — DSU with rollback or offline processing.\n\nQ2: Digit DP counting numbers whose digit sum is divisible by k within [l, r].",
-    createdAt: daysAgo(2),
-  });
-  const r9 = await report({
-    authorId: kavya.id,
-    driveId: googleDrive.id,
-    company: "google",
-    round: "Online Assessment",
-    platform: "HackerRank",
-    topics: ["Binary Search"],
-    difficulty: "Medium",
-    outcome: "Cleared",
-    summary: "Slot 2, same platform. One binary search on answer, one implementation-heavy simulation.",
-    body: "Q1: Minimum time to transport all packages given k robots with battery limits — binary search on answer.\n\nQ2: Simulate a text editor with undo groups; careful implementation, no algorithms.",
-    createdAt: daysAgo(1),
-    status: "PENDING",
-  });
-  const r10 = await report({
-    authorId: vikram.id,
-    driveId: tcsDrive.id,
-    company: "tcs",
-    round: "Round 1",
-    platform: "TCS iON",
-    topics: ["Aptitude"],
-    difficulty: "Easy",
-    outcome: "Cleared",
-    summary: "TCS iON aptitude-heavy round from today's slot. Embargoed until the drive closes.",
-    body: "Aptitude: percentages, time-speed-distance, seating puzzles. Coding Q: sum of digits until single digit (digit root).",
-    createdAt: daysAgo(1),
-    status: "PENDING",
+    summary: "Standard Amazon 2026-27 OA: Q1 was a sliding-window array variant, Q2 a warehouse grid BFS traversal.",
+    questions: [
+      {
+        type: "CODING",
+        title: "Longest Band Stretch",
+        statementMd: "Given an array of item ratings, find the length of the longest contiguous subarray where the difference between maximum and minimum rating is at most k.",
+        constraints: "N <= 10^5, k <= 10^9, 0 <= rating[i] <= 10^9",
+        sampleIO: "Input: ratings = [8, 2, 4, 7], k = 4\nOutput: 2",
+        topics: ["Arrays", "Sliding Window", "Monotonic Deque"],
+        difficulty: "Medium",
+        marks: 50,
+      },
+      {
+        type: "CODING",
+        title: "Warehouse Package Collection",
+        statementMd: "A grid warehouse has packages and walls. Calculate the minimum steps for a robot to collect all packages starting from (0,0).",
+        constraints: "Rows, Cols <= 20, Packages <= 8",
+        sampleIO: "Input: grid with 4 packages\nOutput: 14 steps",
+        topics: ["Graphs", "BFS", "Bitmask"],
+        difficulty: "Medium",
+        marks: 50,
+      },
+    ],
   });
 
-  // ---------- experiences ----------
-  async function experience(opts: {
+  // Microsoft OA Report (Class of 2027, 2026-27 Season)
+  await createOaReport({
+    companyId: microsoftCompanyId,
+    companySlug: "microsoft",
+    authorId: arjun.id,
+    driveId: microsoftDrive.id,
+    role: "Software Engineer",
+    platform: "Codility",
+    durationMin: 90,
+    sections: ["Coding"],
+    topics: ["Strings", "Dynamic Programming"],
+    difficulty: "Medium",
+    outcome: "Cleared",
+    hiringSeason: "2026-27",
+    graduatingBatch: 2027,
+    createdAt: daysAgo(24),
+    summary: "Codility 2026-27 test: Q1 string frequency manipulation, Q2 minimum cost grid path with direction rules.",
+    questions: [
+      {
+        type: "CODING",
+        title: "Minimum Deletions for Unique Frequencies",
+        statementMd: "Given a string s, find the minimum characters to delete so that no two distinct characters have the same frequency.",
+        constraints: "s.length <= 10^5, lowercase English letters",
+        sampleIO: "Input: 'aab'\nOutput: 0",
+        topics: ["Strings", "Greedy", "Hash Table"],
+        difficulty: "Easy",
+        marks: 50,
+      },
+      {
+        type: "CODING",
+        title: "Grid Traversal Cost with Restricted Turns",
+        statementMd: "Find the minimum cost path from top-left to bottom-right cell in a weighted matrix when turning carries an additional cost.",
+        constraints: "M, N <= 500",
+        sampleIO: "Input: 3x3 matrix\nOutput: 18",
+        topics: ["Dynamic Programming", "Graphs", "Dijkstra"],
+        difficulty: "Medium",
+        marks: 50,
+      },
+    ],
+  });
+
+  // Google OA Report (Class of 2027, 2026-27 Season)
+  await createOaReport({
+    companyId: googleCompanyId,
+    companySlug: "google",
+    authorId: kavya.id,
+    driveId: googleDrive.id,
+    role: "SWE Intern",
+    platform: "Google Form / Sandbox",
+    durationMin: 60,
+    sections: ["Coding"],
+    topics: ["Trees", "Binary Search"],
+    difficulty: "Hard",
+    outcome: "Cleared",
+    hiringSeason: "2026-27",
+    graduatingBatch: 2027,
+    createdAt: daysAgo(14),
+    summary: "Google 2026-27 Winter Intern OA: 2 problems, heavy focus on clean invariants and asymptotic bounds.",
+    questions: [
+      {
+        type: "CODING",
+        title: "Max Path Sum on Colored Tree",
+        statementMd: "Given a tree with alternating node colors, compute the maximum path weight where colors alternate strictly.",
+        constraints: "N <= 10^5",
+        sampleIO: "Input: tree with 5 nodes\nOutput: 32",
+        topics: ["Trees", "DFS", "Dynamic Programming"],
+        difficulty: "Hard",
+        marks: 100,
+      },
+    ],
+  });
+
+  // Embargoed reports on OPEN drives
+  await createOaReport({
+    companyId: tcsCompanyId,
+    companySlug: "tcs",
+    authorId: rahul.id,
+    driveId: tcsDrive.id,
+    role: "Prime / Digital",
+    platform: "TCS iON",
+    durationMin: 120,
+    sections: ["Aptitude", "Verbal", "Coding"],
+    topics: ["Aptitude", "Arrays", "Math"],
+    difficulty: "Medium",
+    outcome: "Cleared",
+    hiringSeason: "2026-27",
+    graduatingBatch: 2027,
+    createdAt: daysAgo(1),
+    summary: "TCS Digital / Prime 2026-27 round: Aptitude was tight on time, coding was standard math/arrays.",
+    questions: [
+      {
+        type: "APTITUDE",
+        title: "Work & Time Relative Speed",
+        statementMd: "Two pipes fill a tank in 12 and 15 hours. If opened alternately for 1 hour each, how long until full?",
+        topics: ["Aptitude", "Time & Work"],
+        difficulty: "Easy",
+        marks: 20,
+      },
+      {
+        type: "CODING",
+        title: "Subarray Sum Equals K Variant",
+        statementMd: "Find the total count of contiguous subarrays whose sum modulo M equals zero.",
+        topics: ["Arrays", "Prefix Sum", "Math"],
+        difficulty: "Medium",
+        marks: 80,
+      },
+    ],
+  });
+
+  // 8. Seed Interview Experiences with InterviewRounds
+  console.log("Seeding interview experiences...");
+
+  async function createExperience(opts: {
+    companyId: string;
+    companySlug: string;
     authorId: string;
-    company: string;
     role: string;
-    round: string;
-    platform: string;
-    topics: string[];
-    difficulty: string;
-    outcome: string;
+    offerStatus: string;
+    overallDifficulty: string;
+    tips: string;
     body: string;
+    topics: string[];
+    hiringSeason?: string;
+    graduatingBatch?: number;
     status?: string;
-    createdAt?: Date;
+    rounds: Array<{
+      name: string;
+      type: string;
+      durationMin: number;
+      notes: string;
+      questions: Array<{ text: string; topics: string[]; difficulty?: string }>;
+    }>;
   }) {
-    const e = await db.experience.create({
+    const exp = await db.experience.create({
       data: {
+        companyId: opts.companyId,
+        company: opts.companySlug,
         authorId: opts.authorId,
-        company: opts.company,
+        hiringSeason: opts.hiringSeason ?? "2026-27",
+        graduatingBatch: opts.graduatingBatch ?? 2027,
         role: opts.role,
-        round: opts.round,
-        platform: opts.platform,
-        topics: JSON.stringify(opts.topics),
-        difficulty: opts.difficulty,
-        outcome: opts.outcome,
+        offerStatus: opts.offerStatus,
+        overallDifficulty: opts.overallDifficulty,
+        tips: opts.tips,
         body: opts.body,
+        topics: opts.topics,
         status: opts.status ?? "APPROVED",
-        createdAt: opts.createdAt ?? daysAgo(8),
+        round: `${opts.rounds.length} Rounds`,
       },
     });
+
+    for (let rIndex = 0; rIndex < opts.rounds.length; rIndex++) {
+      const r = opts.rounds[rIndex];
+      const createdRound = await db.interviewRound.create({
+        data: {
+          experienceId: exp.id,
+          order: rIndex + 1,
+          name: r.name,
+          type: r.type,
+          durationMin: r.durationMin,
+          notes: r.notes,
+        },
+      });
+
+      for (let qIndex = 0; qIndex < r.questions.length; qIndex++) {
+        const q = r.questions[qIndex];
+        await db.roundQuestion.create({
+          data: {
+            roundId: createdRound.id,
+            text: q.text,
+            topics: q.topics,
+            difficulty: q.difficulty,
+            order: qIndex + 1,
+          },
+        });
+      }
+    }
+
     if ((opts.status ?? "APPROVED") === "APPROVED") {
       await db.coinLedger.create({
         data: {
           userId: opts.authorId,
           amount: 40,
           reason: "EXPERIENCE_APPROVED",
-          refId: e.id,
-          note: `Experience approved (${opts.company})`,
+          refId: exp.id,
+          note: `Interview experience approved (${opts.companySlug})`,
+        },
+      });
+
+      await db.moderationLog.create({
+        data: {
+          moderatorId: mod.id,
+          targetType: "EXPERIENCE",
+          targetId: exp.id,
+          action: "APPROVE",
+          reason: "Complete multi-round experience with actionable tips",
         },
       });
     }
-    return e;
+
+    return exp;
   }
 
-  const e1 = await experience({
+  // Amazon SDE Intern full loop (Class of 2025/2026, 2026-27 hiring season)
+  await createExperience({
+    companyId: amazonCompanyId,
+    companySlug: "amazon",
     authorId: sneha.id,
-    company: "amazon",
     role: "SDE Intern",
-    round: "Full loop",
-    platform: "Chime + Whiteboard-style editor",
-    topics: ["Arrays", "Trees", "Behavioral"],
-    difficulty: "Medium",
-    outcome: "Selected",
-    body: "OA (covered in my report) → Tech 1: two LeetCode mediums, one on trees (deepest leaves LCA) and one array manipulation, then 15 min of LP questions on ownership. Tech 2: one hard-ish graph question but the interviewer nudged me to the optimal in stages; more LPs — have 2 stories per principle ready. HR was a formality. The interviews cared more about how you communicate while coding than raw speed.",
-    createdAt: daysAgo(35),
-  });
-  const e2 = await experience({
-    authorId: arjun.id,
-    company: "microsoft",
-    role: "SDE-1",
-    round: "Full loop",
-    platform: "Teams",
-    topics: ["Dynamic Programming", "Strings", "Design"],
-    difficulty: "Medium",
-    outcome: "Selected",
-    body: "Tech 1: string DP + discussion on my project's architecture. Tech 2: implement LRU cache from scratch, then extended it to TTL support — they love follow-ups. Tech 3 (AA): behavioral with one easy puzzle. Advice: they drill into why you chose your approach; know the complexity cold.",
-    createdAt: daysAgo(21),
-  });
-  const e3 = await experience({
-    authorId: vikram.id,
-    company: "amazon",
-    role: "SDE Intern",
-    round: "Technical Interview",
-    platform: "Chime",
-    topics: ["Graphs", "BFS"],
-    difficulty: "Medium",
-    outcome: "Selected",
-    body: "Single 45-min round after the OA. One BFS question (rotting oranges variant) and rapid-fire LP questions. My OA report had covered exactly the pattern — give-to-get unlocked everyone else's reports and that prep made the difference.",
-    createdAt: daysAgo(30),
-  });
-  const e4 = await experience({
-    authorId: priya.id,
-    company: "zoho",
-    role: "Member Technical",
-    round: "Rounds 1-4",
-    platform: "On-campus + machine test",
-    topics: ["Arrays", "Strings", "OOP"],
-    difficulty: "Easy",
-    outcome: "Selected",
-    body: "R1 aptitude+coding (see my OA report). R2 machine test: build a small CLI app with 3 iterations, they check working code at each stage. R3 tech HR: explain your machine test, add a feature live. R4 general HR. Zoho cares about working code over theory — no DS&A grill.",
-    createdAt: daysAgo(12),
-  });
-  const e5 = await experience({
-    authorId: rahul.id,
-    company: "tcs",
-    role: "Ninja",
-    round: "Round 1 (iON platform)",
-    platform: "TCS iON",
-    topics: ["Aptitude", "Verbal", "SQL"],
-    difficulty: "Easy",
-    outcome: "Cleared Round 1",
-    body: "TCS NQT pattern: numerical, verbal, and coding. Verbal was the time sink — practice para-jumbles. Coding section had 1 question, digit-based, easy if you know string/int handling. SQL-based MCQs appeared in the advanced track.",
-    createdAt: daysAgo(6),
-  });
-  const e6 = await experience({
-    authorId: ishita.id,
-    company: "microsoft",
-    role: "SDE-1",
-    round: "Technical Interview 2",
-    platform: "Teams",
-    topics: ["Design"],
-    difficulty: "Medium",
-    outcome: "Not selected",
-    body: "Reached tech 2 but fumbled the follow-up when they extended LRU to support TTL expiry — needed a min-heap of expiry times layered on the hashmap+DLL. Sharing so others prep 'extend your data structure' style follow-ups.",
-    createdAt: daysAgo(18),
-    status: "PENDING",
-  });
-  const e7 = await experience({
-    authorId: ishita.id,
-    company: "zoho",
-    role: "Member Technical",
-    round: "Rounds 1-2",
-    platform: "On-campus",
-    topics: ["Arrays", "Strings"],
-    difficulty: "Easy",
-    outcome: "Not selected",
-    body: "Cleared R1 (aptitude + pattern printing) but the machine test got me — couldn't finish the third iteration of the CLI app in time. They check working code at every stage, so keep shipping small wins instead of waiting to perfect one part. See Priya's experience for how she approached it.",
-    createdAt: daysAgo(11),
+    offerStatus: "OFFERED",
+    overallDifficulty: "Medium",
+    hiringSeason: "2026-27",
+    graduatingBatch: 2027,
+    tips: "Prepare 2-3 STAR stories per Leadership Principle. Explain edge cases before writing code.",
+    body: "3-round virtual on-campus loop. First technical round focused on tree traversals, second round was a Bar Raiser with deep LP probing, third round was HR/LP alignment. Received the offer letter 4 days later.",
+    topics: ["Trees", "Leadership Principles", "Graphs"],
+    rounds: [
+      {
+        name: "Technical Interview 1",
+        type: "TECHNICAL",
+        durationMin: 60,
+        notes: "Interviewer was very friendly. Spent first 15 mins on 'Customer Obsession' and 'Deliver Results'.",
+        questions: [
+          { text: "Serialize and deserialize a binary tree.", topics: ["Trees", "BFS"], difficulty: "Medium" },
+          { text: "How would you handle NULL pointers and corrupted inputs?", topics: ["Clean Code"], difficulty: "Easy" },
+        ],
+      },
+      {
+        name: "Technical Interview 2 (Bar Raiser)",
+        type: "TECHNICAL",
+        durationMin: 60,
+        notes: "Senior Bar Raiser from AWS team. Very strict on STAR format and algorithmic complexity.",
+        questions: [
+          { text: "Find the median of a stream of integers.", topics: ["Heaps", "Design"], difficulty: "Hard" },
+          { text: "Tell me about a time you had to make a decision without full information.", topics: ["Leadership Principles", "Bias for Action"], difficulty: "Medium" },
+        ],
+      },
+      {
+        name: "HR & Culture Fit",
+        type: "HR",
+        durationMin: 30,
+        notes: "Discussion on relocation, team preferences, and internship timeline.",
+        questions: [
+          { text: "Why Amazon over other offers?", topics: ["HR"], difficulty: "Easy" },
+        ],
+      },
+    ],
   });
 
-  // ---------- doubts & answers ----------
+  // Microsoft SWE full loop
+  await createExperience({
+    companyId: microsoftCompanyId,
+    companySlug: "microsoft",
+    authorId: vikram.id,
+    role: "Software Engineer",
+    offerStatus: "OFFERED",
+    overallDifficulty: "Medium",
+    hiringSeason: "2026-27",
+    graduatingBatch: 2027,
+    tips: "Revise OS concepts (virtual memory, page tables, deadlock) and practice clean C++/Java OOP implementations.",
+    body: "Full day virtual interview. 2 technical rounds covering DP and OS fundamentals, followed by a Director round discussing system design and career goals.",
+    topics: ["Dynamic Programming", "Operating Systems", "System Design"],
+    rounds: [
+      {
+        name: "Technical Round 1",
+        type: "TECHNICAL",
+        durationMin: 45,
+        notes: "Coding on Microsoft Teams whiteboard.",
+        questions: [
+          { text: "Longest Increasing Subsequence with binary search O(N log N).", topics: ["Dynamic Programming", "Binary Search"], difficulty: "Medium" },
+          { text: "Explain how virtual memory is mapped to physical RAM.", topics: ["Operating Systems"], difficulty: "Medium" },
+        ],
+      },
+      {
+        name: "Technical Round 2",
+        type: "TECHNICAL",
+        durationMin: 60,
+        notes: "Deep dive into DBMS ACID properties and concurrency control.",
+        questions: [
+          { text: "Design an LRU Cache with O(1) operations.", topics: ["Hash Table", "Doubly Linked List"], difficulty: "Medium" },
+        ],
+      },
+      {
+        name: "Director Round",
+        type: "MANAGERIAL",
+        durationMin: 45,
+        notes: "High-level architecture and mindset discussion.",
+        questions: [
+          { text: "Design a URL shortener service for a campus event.", topics: ["System Design"], difficulty: "Medium" },
+        ],
+      },
+    ],
+  });
+
+  // 9. Seed Peer Doubts & Answers
+  console.log("Seeding doubts & answers...");
   const d1 = await db.doubt.create({
     data: {
-      authorId: vikram.id,
+      companyId: amazonCompanyId,
       company: "amazon",
-      title: "Amazon OA — how strict is the camera proctoring?",
-      body: "My OA is this weekend. Do they actually flag you for looking away, and can I use paper for rough work? Don't want a surprise disqualification.",
-    },
-  });
-  const d2 = await db.doubt.create({
-    data: {
-      authorId: priya.id,
-      company: "tcs",
-      title: "TCS NQT verbal section — is it really elimination round?",
-      body: "Posted anonymously. Seniors said verbal is the biggest cut in NQT. How much weight does it actually carry vs the coding question?",
-      anonymous: true,
-    },
-  });
-  const d3 = await db.doubt.create({
-    data: {
       authorId: rahul.id,
-      company: "google",
-      title: "Google drive — eligibility for 7.4 CGPA with one backlog cleared?",
-      body: "Drive says 7.5 minimum. I'm at 7.41 after a cleared backlog. Does the placement cell round up or is it a hard cutoff? Anyone been through this?",
-    },
-  });
-  const d4 = await db.doubt.create({
-    data: {
-      authorId: ishita.id,
-      company: "microsoft",
-      title: "How to prepare 'extend your data structure' follow-ups?",
-      body: "In my MS interview they kept extending LRU cache (TTL, capacity by bytes, etc.). How do you practice this style instead of just solving standalone problems?",
+      title: "Does Amazon test Leadership Principles in the OA work-simulation?",
+      body: "In the 2026-27 OA, there is a 20-minute work simulation section. Do they check specific LPs like 'Customer Obsession' and 'Ownership' here?",
+      anonymous: false,
+      upvoteCount: 4,
     },
   });
 
-  const a1 = await db.answer.create({
+  await db.answer.create({
     data: {
       doubtId: d1.id,
       authorId: sneha.id,
-      body: "Paper is allowed but they see it on camera — show it clearly at the start. Looking away occasionally is fine; the flag is for face absence / tab switches. Tab focus-loss twice got a friend a re-attempt, not a ban. Do a system check the day before.",
-    },
-  });
-  const a2 = await db.answer.create({
-    data: {
-      doubtId: d1.id,
-      authorId: arjun.id,
-      body: "They log every paste event. Typing speed that jumps to 400 WPM mid-test also gets reviewed. Solve templates by hand beforehand so you don't need to paste.",
-    },
-  });
-  const a3 = await db.answer.create({
-    data: {
-      doubtId: d2.id,
-      authorId: rahul.id,
-      body: "Verbal is sectional — you need its cutoff too, but in practice the coding question decides the Ninja vs Digital gap. Do para-jumbles daily for a week, it's the highest ROI.",
-    },
-  });
-  const a4 = await db.answer.create({
-    data: {
-      doubtId: d3.id,
-      authorId: kavya.id,
-      body: "Hard cutoff at my time — 7.49 got rejected while 7.50 went through, no rounding. Clear the backlog and apply for the next drive; Google comes every year and backlogs usually make you ineligible for the whole season, not just one drive.",
-    },
-  });
-  const a5 = await db.answer.create({
-    data: {
-      doubtId: d4.id,
-      authorId: arjun.id,
-      body: "Take any problem you solved and ask: what if capacity was by bytes? what if items expire? what if reads outnumber writes 1000:1? Force yourself to redesign once per problem. Interviewers test whether you treat data structures as tools, not memorized solutions.",
+      body: "Yes, 100%. The work-simulation is scored automatically against Amazon's LP rubric. Always prioritize the customer and take long-term ownership rather than quick shortcuts.",
       accepted: true,
-    },
-  });
-  const a6 = await db.answer.create({
-    data: {
-      doubtId: d4.id,
-      authorId: sneha.id,
-      body: "Adding: practice saying your invariants out loud while coding. Half the assessment in these rounds is whether the interviewer can follow your redesign in real time.",
+      upvoteCount: 5,
     },
   });
 
-  // accept answer -> coin reward
+  // Grant answer accept reward
   await db.coinLedger.create({
     data: {
-      userId: arjun.id,
+      userId: sneha.id,
       amount: 30,
       reason: "ANSWER_ACCEPTED",
-      refId: a5.id,
-      note: "Answer accepted on doubt d4",
+      refId: d1.id,
+      note: "Accepted answer on Amazon doubt",
     },
   });
 
-  // ---------- votes (distinct users, one row each) ----------
-  async function upvote(targetType: string, targetId: string, voterId: string, authorId: string) {
-    if (voterId === authorId) return;
-    await db.vote.create({ data: { userId: voterId, targetType, targetId } });
-    const refKey = `${targetType}:${targetId}:${voterId}`;
-    const exists = await db.coinLedger.findUnique({
-      where: { userId_reason_refId: { userId: authorId, reason: "UPVOTE_RECEIVED", refId: refKey } },
-    });
-    if (!exists) {
-      await db.coinLedger.create({
-        data: {
-          userId: authorId,
-          amount: 2,
-          reason: "UPVOTE_RECEIVED",
-          refId: refKey,
-          note: `Upvote on ${targetType.toLowerCase()}`,
-        },
-      });
-    }
-  }
-
-  const votePlan: Array<[string, string, string, string]> = [
-    ["REPORT", r1.id, vikram.id, sneha.id],
-    ["REPORT", r1.id, priya.id, sneha.id],
-    ["REPORT", r1.id, rahul.id, sneha.id],
-    ["REPORT", r2.id, sneha.id, vikram.id],
-    ["REPORT", r2.id, rahul.id, vikram.id],
-    ["REPORT", r4.id, rahul.id, arjun.id],
-    ["REPORT", r5.id, vikram.id, rahul.id],
-    ["REPORT", r7.id, ishita.id, priya.id],
-    ["EXPERIENCE", e1.id, vikram.id, sneha.id],
-    ["EXPERIENCE", e1.id, priya.id, sneha.id],
-    ["EXPERIENCE", e1.id, rahul.id, sneha.id],
-    ["EXPERIENCE", e1.id, ishita.id, sneha.id],
-    ["EXPERIENCE", e2.id, vikram.id, arjun.id],
-    ["EXPERIENCE", e2.id, ishita.id, arjun.id],
-    ["EXPERIENCE", e3.id, priya.id, vikram.id],
-    ["EXPERIENCE", e4.id, rahul.id, priya.id],
-    ["EXPERIENCE", e4.id, ishita.id, priya.id],
-    ["DOUBT", d1.id, priya.id, vikram.id],
-    ["DOUBT", d3.id, ishita.id, rahul.id],
-    ["DOUBT", d4.id, vikram.id, ishita.id],
-    ["DOUBT", d4.id, priya.id, ishita.id],
-    ["ANSWER", a1.id, vikram.id, sneha.id],
-    ["ANSWER", a1.id, priya.id, sneha.id],
-    ["ANSWER", a1.id, rahul.id, sneha.id],
-    ["ANSWER", a1.id, ishita.id, sneha.id],
-    ["ANSWER", a5.id, ishita.id, arjun.id],
-    ["ANSWER", a4.id, rahul.id, kavya.id],
-    ["ANSWER", a3.id, priya.id, rahul.id],
-  ];
-  const voteCount: Record<string, number> = {};
-  for (const [type, id, voter, author] of votePlan) {
-    await upvote(type, id, voter, author);
-    voteCount[id] = (voteCount[id] ?? 0) + 1;
-  }
-  await db.oaReport.update({ where: { id: r1.id }, data: { upvoteCount: voteCount[r1.id] ?? 0 } });
-  await db.oaReport.update({ where: { id: r2.id }, data: { upvoteCount: voteCount[r2.id] ?? 0 } });
-  await db.oaReport.update({ where: { id: r4.id }, data: { upvoteCount: voteCount[r4.id] ?? 0 } });
-  await db.oaReport.update({ where: { id: r5.id }, data: { upvoteCount: voteCount[r5.id] ?? 0 } });
-  await db.oaReport.update({ where: { id: r7.id }, data: { upvoteCount: voteCount[r7.id] ?? 0 } });
-  await db.experience.update({ where: { id: e1.id }, data: { upvoteCount: voteCount[e1.id] ?? 0 } });
-  await db.experience.update({ where: { id: e2.id }, data: { upvoteCount: voteCount[e2.id] ?? 0 } });
-  await db.experience.update({ where: { id: e3.id }, data: { upvoteCount: voteCount[e3.id] ?? 0 } });
-  await db.experience.update({ where: { id: e4.id }, data: { upvoteCount: voteCount[e4.id] ?? 0 } });
-  await db.doubt.update({ where: { id: d1.id }, data: { upvoteCount: voteCount[d1.id] ?? 0 } });
-  await db.doubt.update({ where: { id: d3.id }, data: { upvoteCount: voteCount[d3.id] ?? 0 } });
-  await db.doubt.update({ where: { id: d4.id }, data: { upvoteCount: voteCount[d4.id] ?? 0 } });
-  await db.answer.update({ where: { id: a1.id }, data: { upvoteCount: voteCount[a1.id] ?? 0 } });
-  await db.answer.update({ where: { id: a3.id }, data: { upvoteCount: voteCount[a3.id] ?? 0 } });
-  await db.answer.update({ where: { id: a4.id }, data: { upvoteCount: voteCount[a4.id] ?? 0 } });
-  await db.answer.update({ where: { id: a5.id }, data: { upvoteCount: voteCount[a5.id] ?? 0 } });
-
-  // ---------- unlocks ----------
-  // Rahul has an approved MS report -> give-to-get, free
-  await db.unlock.create({ data: { userId: rahul.id, reportId: r4.id, free: true } });
-  await db.coinLedger.create({
-    data: { userId: rahul.id, amount: 0, reason: "GIVE_TO_GET", refId: r4.id, note: "Give-to-get unlock (microsoft)" },
-  });
-  // Ishita paid for two
-  await db.unlock.create({ data: { userId: ishita.id, reportId: r1.id, free: false } });
-  await db.coinLedger.create({
-    data: { userId: ishita.id, amount: -25, reason: "UNLOCK_OA", refId: r1.id, note: "Unlocked amazon OA report" },
-  });
-  await db.unlock.create({ data: { userId: ishita.id, reportId: r5.id, free: false } });
-  await db.coinLedger.create({
-    data: { userId: ishita.id, amount: -25, reason: "UNLOCK_OA", refId: r5.id, note: "Unlocked microsoft OA report" },
-  });
-  // Vikram unlocked an amazon report via his own approved amazon report (give-to-get)
-  await db.unlock.create({ data: { userId: vikram.id, reportId: r1.id, free: true } });
-  await db.coinLedger.create({
-    data: { userId: vikram.id, amount: 0, reason: "GIVE_TO_GET", refId: r1.id, note: "Give-to-get unlock (amazon)" },
+  // 10. Seed Unlocks
+  console.log("Seeding unlocks...");
+  await db.unlock.create({
+    data: {
+      userId: kavya.id,
+      reportId: r1.id,
+      free: false,
+    },
   });
 
-  // ---------- flags (mod queue) ----------
+  await db.coinLedger.create({
+    data: {
+      userId: kavya.id,
+      amount: -25,
+      reason: "UNLOCK_OA",
+      refId: r1.id,
+      note: "Unlocked Amazon OA report",
+    },
+  });
+
+  // 11. Seed Moderation Flags
+  console.log("Seeding flags...");
   await db.flag.create({
     data: {
-      reporterId: rahul.id,
-      targetType: "REPORT",
-      targetId: r3.id,
-      reason: "Summary mentions exact question wording — possible NDA concern, please double-check.",
-    },
-  });
-  await db.flag.create({
-    data: {
-      reporterId: priya.id,
-      targetType: "ANSWER",
-      targetId: a2.id,
-      reason: "Answer encourages evading proctoring monitoring. Should be removed.",
+      reporterId: ishita.id,
+      targetType: "DOUBT",
+      targetId: d1.id,
+      reason: "Duplicate question already answered in prep guide",
+      resolved: false,
     },
   });
 
-  // ---------- summary ----------
-  const counts = {
-    users: await db.user.count(),
-    drives: await db.drive.count(),
-    reports: await db.oaReport.count(),
-    experiences: await db.experience.count(),
-    doubts: await db.doubt.count(),
-    answers: await db.answer.count(),
-    votes: await db.vote.count(),
-    flags: await db.flag.count(),
-    ledger: await db.coinLedger.count(),
-  };
-  console.log("Seed complete:", counts);
+  console.log("Database seeded successfully with PostgreSQL relations!");
 }
 
 main()
   .catch((e) => {
-    console.error(e);
+    console.error("Seed failed:", e);
     process.exit(1);
   })
-  .finally(() => db.$disconnect());
+  .finally(async () => {
+    await db.$disconnect();
+  });

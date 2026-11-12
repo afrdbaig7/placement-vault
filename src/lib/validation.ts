@@ -1,12 +1,8 @@
 import "server-only";
 import { z } from "zod";
-import companiesData from "@/data/companies.json";
 import { ApiError } from "@/lib/auth";
 
 const MAX_BODY_BYTES = 64 * 1024; // 64 KB cap on JSON payloads
-const COMPANY_SLUGS = new Set(
-  (companiesData as { slug: string }[]).map((c) => c.slug)
-);
 
 const trimmed = (min: number, max: number, label: string) =>
   z
@@ -27,7 +23,7 @@ export const companySlugSchema = z
   .trim()
   .min(1, "Pick a company")
   .max(64, "Invalid company")
-  .refine((slug) => COMPANY_SLUGS.has(slug), "Unknown company");
+  .regex(/^[a-z0-9-]+$/, "Invalid company slug format");
 
 export const googleCredentialSchema = z.object({
   credential: z.string().trim().min(10, "Google ID token is required").max(8192),
@@ -190,7 +186,9 @@ export async function parseBody<T>(req: Request, schema: z.ZodType<T>): Promise<
   return parsed.data;
 }
 
-export function safeParseTopics(raw: string): string[] {
+export function safeParseTopics(raw: string[] | string | null | undefined): string[] {
+  if (Array.isArray(raw)) return raw.filter((t): t is string => typeof t === "string");
+  if (!raw) return [];
   try {
     const parsed = JSON.parse(raw);
     return Array.isArray(parsed) ? parsed.filter((t): t is string => typeof t === "string") : [];

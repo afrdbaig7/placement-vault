@@ -1,5 +1,5 @@
 import { db } from "@/lib/db";
-import { fail, ok, requireMod } from "@/lib/auth";
+import { fail, ok, requireMod, ApiError } from "@/lib/auth";
 import { assertCsrf } from "@/lib/csrf";
 import { enforceRateLimit } from "@/lib/rate-limit";
 import { createDriveSchema, parseBody } from "@/lib/validation";
@@ -48,9 +48,13 @@ export async function POST(req: Request) {
       createDriveSchema
     );
 
+    const companyRecord = await db.company.findUnique({ where: { slug: company } });
+    if (!companyRecord) throw new ApiError(404, "Company not found");
+
     const drive = await db.drive.create({
       data: {
-        company,
+        companyId: companyRecord.id,
+        company: companyRecord.slug,
         role,
         driveDate: new Date(driveDate),
         status: "OPEN",

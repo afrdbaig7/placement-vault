@@ -1,80 +1,220 @@
-// Campus Placement Prep Platform — Prisma schema (SQLite)
-// Mirrors the doc's core tables: profiles, drives, oa_reports (+ oa_bodies),
-// unlocks, append-only coin_ledger, experiences, doubts/answers/votes, flags.
-// Note: SQLite has no enums/lists, so roles/statuses are strings and
-// topic arrays are stored as JSON strings.
+// Campus Placement Prep Platform — Production Prisma Schema (PostgreSQL)
+// Enterprise data model supporting DB-backed companies, LeetCode problem imports,
+// granular OA questions, multi-round interview experiences, atomic coin economy,
+// and full moderation audit trails.
 
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
-// ---------- profiles ----------
+// ==========================================
+// 1. COMPANIES & PROBLEM DIRECTORY
+// ==========================================
+
+model Company {
+  id             String   @id @default(cuid())
+  slug           String   @unique
+  name           String
+  normalizedName String   @unique // Lowercase trimmed for duplicate prevention (e.g. "tata consultancy services")
+  aliases        String[] @default([]) // e.g. ["TCS", "Tata Consultancy"]
+  website        String?
+  logoUrl        String?
+  sectors        String[] @default([]) // e.g. ["IT Services", "Fintech", "E-commerce"]
+  hiringRoles    String[] @default([]) // e.g. ["SDE-1", "Systems Engineer", "Analyst"]
+  status         String   @default("VERIFIED") // VERIFIED | PENDING | REJECTED
+  createdById    String?
+  createdBy      User?    @relation("CompanyCreator", fields: [createdById], references: [id], onDelete: SetNull)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  drives          Drive[]
+  oaReports       OaReport[]
+  experiences     Experience[]
+  doubts          Doubt[]
+  companyProblems CompanyProblem[]
+
+  @@index([status])
+  @@index([normalizedName])
+}
+
+model Problem {
+  id           String   @id @default(cuid())
+  source       String   @default("LEETCODE") // LEETCODE | CODEFORCES | CUSTOM
+  externalSlug String? // e.g. "two-sum"
+  title        String
+  difficulty   String // Easy | Medium | Hard
+  topics       String[] @default([])
+  url          String?
+  createdAt    DateTime @default(now())
+
+  companyProblems CompanyProblem[]
+  oaQuestions     OAQuestion[]
+  roundQuestions  RoundQuestion[]
+
+  @@unique([source, externalSlug])
+  @@index([difficulty])
+  @@index([title])
+}
+
+model CompanyProblem {
+  id                 String    @id @default(cuid())
+  companyId          String
+  problemId          String
+  window             String // 30D | 90D | 6M | ALL
+  frequency          Float     @default(1.0)
+  sourceName         String    @default("leetcode-company-wise")
+  sourceSnapshotDate DateTime?
+  createdAt          DateTime  @default(now())
+
+  company Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  problem Problem @relation(fields: [problemId], references: [id], onDelete: Cascade)
+
+  @@unique([companyId, problemId, window, sourceName])
+  @@index([companyId, window])
+}
+
+model PracticeSet {
+  id              String   @id @default(cuid())
+  slug            String   @unique
+  name            String
+  icon            String?
+  description     String
+  topics          String[] @default([])
+  resources       Json     @default("[]") // Array of { name: string, url: string }
+  sampleQuestions Json     @default("[]") // Array of { q: string, answer: string }
+  createdAt       DateTime @default(now())
+
+  @@index([slug])
+}
+
+// ==========================================
+// 2. USER PROFILES & AUTHENTICATION
+// ==========================================
+
 model User {
-  id            String   @id @default(cuid())
-  email         String   @unique
+  id            String    @id @default(cuid())
+  email         String    @unique
   name          String
   image         String?
-  role          String   @default("STUDENT") // STUDENT | SENIOR | MOD | ADMIN
-  rollNumber    String?  // collected at first login; mods verify it
-  rollVerified  Boolean  @default(false)
-  placedCompany String?  // verified "placed at X" badge for seniors
-  batch         String?  // e.g. "2026"
-  createdAt     DateTime @default(now())
+  role          String    @default("STUDENT") // STUDENT | SENIOR | MOD | ADMIN
+  rollNumber    String?
+  rollVerified  Boolean   @default(false)
+  collegeDomain String? // e.g. "nitt.edu"
+  emailVerified DateTime?
+  placedCompany String?
+  batch         String? // e.g. "2027"
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
 
-  reports     OaReport[]
-  experiences Experience[]
-  doubts      Doubt[]
-  answers     Answer[]
-  votes       Vote[]
-  flags       Flag[]
-  unlocks     Unlock[]
-  ledger      CoinLedger[]
+  createdCompanies Company[]       @relation("CompanyCreator")
+  reports          OaReport[]
+  experiences      Experience[]
+  doubts           Doubt[]
+  answers          Answer[]
+  votes            Vote[]
+  flags            Flag[]          @relation("FlagReporter")
+  unlocks          Unlock[]
+  ledger           CoinLedger[]
+  moderationLogs   ModerationLog[] @relation("ModeratorLogs")
+
+  @@index([role])
+  @@index([rollVerified])
 }
 
-// ---------- drives ----------
+// ==========================================
+// 3. PLACEMENT DRIVES & EMBARGO
+// ==========================================
+
 model Drive {
-  id        String   @id @default(cuid())
-  company   String // company slug, matches src/data/companies.json
-  role      String
-  driveDate DateTime
-  status    String   @default("OPEN") // OPEN | CLOSED  (open drive = OA embargo active)
-  branches  String   @default("ALL") // CSV of eligible branches or ALL
-  minCgpa   Float?
-  notes     String?
-  createdAt DateTime @default(now())
+  id         String   @id @default(cuid())
+  companyId  String
+  companyRef Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  company    String // Slug preserved for legacy compatibility
+  role       String
+  driveDate  DateTime
+  status     String   @default("OPEN") // OPEN | CLOSED (OPEN = embargo active)
+  branches   String   @default("ALL")
+  minCgpa    Float?
+  notes      String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 
   reports OaReport[]
+
+  @@index([companyId, status])
+  @@index([status, driveDate])
 }
 
-// ---------- oa_reports + gated oa_bodies ----------
+// ==========================================
+// 4. OA REPORTS & GRANULAR QUESTIONS
+// ==========================================
+
 model OaReport {
-  id          String   @id @default(cuid())
-  authorId    String
-  driveId     String
-  round       String
-  platform    String
-  topics      String   @default("[]") // JSON string array
-  difficulty  String // Easy | Medium | Hard
-  outcome     String // Cleared | Not cleared | Did not attempt
-  summary     String // public description, no question text
-  status      String   @default("PENDING") // PENDING | APPROVED | REJECTED | REMOVED
-  modNote     String?
-  upvoteCount Int      @default(0)
-  createdAt   DateTime @default(now())
+  id              String    @id @default(cuid())
+  companyId       String
+  company         Company   @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  authorId        String
+  author          User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  driveId         String? // Nullable for off-campus / general OA contributions
+  drive           Drive?    @relation(fields: [driveId], references: [id], onDelete: SetNull)
+  hiringSeason    String    @default("2026-27") // e.g. "2026-27"
+  graduatingBatch Int       @default(2027) // Class of 2027
+  assessmentDate  DateTime  @default(now())
+  platform        String // HackerRank | HackerEarth | Mettl | AMCAT | CoCubes | Codility | Custom | Other
+  role            String
+  round           String    @default("Online Assessment")
+  durationMin     Int?
+  sections        String[]  @default([]) // e.g. ["Aptitude", "Coding", "SQL"]
+  topics          String[]  @default([])
+  difficulty      String // Easy | Medium | Hard
+  outcome         String // Cleared | Not cleared | Unknown
+  summary         String // Public overview
+  status          String    @default("PENDING") // PENDING | APPROVED | REJECTED | REMOVED
+  isAnonymous     Boolean   @default(false)
+  embargoUntil    DateTime?
+  modNote         String?
+  upvoteCount     Int       @default(0)
+  deletedAt       DateTime? // Soft-delete support
+  takedownReason  String?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
 
-  author  User     @relation(fields: [authorId], references: [id])
-  drive   Drive    @relation(fields: [driveId], references: [id])
-  body    OaBody?
-  unlocks Unlock[]
+  questions OAQuestion[]
+  body      OaBody? // Legacy monolithic text container preserved
+  unlocks   Unlock[]
+
+  @@index([companyId, status, hiringSeason])
+  @@index([hiringSeason, createdAt])
+  @@index([status, createdAt])
+  @@index([authorId])
 }
 
-// Question text lives in a separate table so it can be gated on its own
-// (DB-level equivalent of the doc's RLS-protected oa_bodies).
+model OAQuestion {
+  id              String   @id @default(cuid())
+  reportId        String
+  report          OaReport @relation(fields: [reportId], references: [id], onDelete: Cascade)
+  type            String // CODING | MCQ | SQL | APTITUDE | SUBJECTIVE
+  title           String?
+  statementMd     String
+  constraints     String?
+  sampleIO        String?
+  topics          String[] @default([])
+  difficulty      String // Easy | Medium | Hard
+  linkedProblemId String?
+  linkedProblem   Problem? @relation(fields: [linkedProblemId], references: [id], onDelete: SetNull)
+  marks           Int?
+  order           Int      @default(0)
+  createdAt       DateTime @default(now())
+
+  @@index([reportId, order])
+  @@index([linkedProblemId])
+}
+
 model OaBody {
   id       String @id @default(cuid())
   reportId String @unique
@@ -83,83 +223,117 @@ model OaBody {
   report OaReport @relation(fields: [reportId], references: [id], onDelete: Cascade)
 }
 
-// ---------- unlocks ----------
-model Unlock {
-  id        String   @id @default(cuid())
-  userId    String
-  reportId  String
-  free      Boolean  @default(false) // unlocked via give-to-get (or author/mod)
-  createdAt DateTime @default(now())
+// ==========================================
+// 5. INTERVIEW EXPERIENCES & ROUNDS
+// ==========================================
 
-  user   User     @relation(fields: [userId], references: [id])
-  report OaReport @relation(fields: [reportId], references: [id])
-
-  @@unique([userId, reportId])
-}
-
-// ---------- append-only coin ledger ----------
-model CoinLedger {
-  id        String   @id @default(cuid())
-  userId    String
-  amount    Int // positive = earn, negative = spend
-  reason    String // WELCOME | REPORT_APPROVED | EXPERIENCE_APPROVED | ANSWER_ACCEPTED | UPVOTE_RECEIVED | UNLOCK_OA | GIVE_TO_GET | MOD_GRANT
-  refId     String? // related entity id (reportId / experienceId / answerId / voteKey / reportId)
-  note      String?
-  createdAt DateTime @default(now())
-
-  user User @relation(fields: [userId], references: [id])
-
-  // stops double rewards: one row per (user, reason, ref)
-  @@unique([userId, reason, refId])
-  @@index([userId])
-}
-
-// ---------- experiences ----------
 model Experience {
-  id          String   @id @default(cuid())
-  authorId    String
-  company     String // company slug
-  role        String
-  round       String // which round the experience describes
-  platform    String
-  topics      String   @default("[]") // JSON string array
-  difficulty  String
-  outcome     String
-  body        String
-  status      String   @default("PENDING") // PENDING | APPROVED | REJECTED | REMOVED
-  modNote     String?
-  upvoteCount Int      @default(0)
-  createdAt   DateTime @default(now())
+  id                String    @id @default(cuid())
+  companyId         String
+  companyRef        Company   @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  company           String // Slug for backward compatibility
+  authorId          String
+  author            User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  hiringSeason      String    @default("2026-27")
+  graduatingBatch   Int       @default(2027)
+  role              String
+  offerStatus       String    @default("OFFERED") // OFFERED | REJECTED | WAITLISTED | NO_OFFER
+  overallDifficulty String    @default("Medium") // Easy | Medium | Hard
+  tips              String?
+  isAnonymous       Boolean   @default(false)
+  round             String    @default("Full Loop") // Legacy summary
+  platform          String    @default("On-Campus")
+  topics            String[]  @default([])
+  difficulty        String    @default("Medium")
+  outcome           String    @default("Cleared")
+  body              String // Summary write-up
+  status            String    @default("PENDING") // PENDING | APPROVED | REJECTED | REMOVED
+  modNote           String?
+  upvoteCount       Int       @default(0)
+  deletedAt         DateTime?
+  takedownReason    String?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
 
-  author User @relation(fields: [authorId], references: [id])
+  rounds InterviewRound[]
+
+  @@index([companyId, status, hiringSeason])
+  @@index([hiringSeason, createdAt])
+  @@index([status, createdAt])
+  @@index([authorId])
 }
 
-// ---------- doubts, answers, votes ----------
-model Doubt {
-  id          String   @id @default(cuid())
-  authorId    String
-  company     String
-  title       String
-  body        String
-  anonymous   Boolean  @default(false)
-  upvoteCount Int      @default(0)
-  createdAt   DateTime @default(now())
+model InterviewRound {
+  id           String     @id @default(cuid())
+  experienceId String
+  experience   Experience @relation(fields: [experienceId], references: [id], onDelete: Cascade)
+  order        Int
+  name         String // e.g. "Technical Interview 1", "Bar Raiser", "HR Round"
+  type         String     @default("TECHNICAL") // TECHNICAL | HR | MANAGERIAL | SYSTEM_DESIGN | GROUP_DISCUSSION | OTHER
+  durationMin  Int?
+  notes        String?
+  createdAt    DateTime   @default(now())
 
-  author  User     @relation(fields: [authorId], references: [id])
+  questions RoundQuestion[]
+
+  @@index([experienceId, order])
+}
+
+model RoundQuestion {
+  id              String         @id @default(cuid())
+  roundId         String
+  round           InterviewRound @relation(fields: [roundId], references: [id], onDelete: Cascade)
+  text            String
+  topics          String[]       @default([])
+  difficulty      String?
+  linkedProblemId String?
+  linkedProblem   Problem?       @relation(fields: [linkedProblemId], references: [id], onDelete: SetNull)
+  order           Int            @default(0)
+  createdAt       DateTime       @default(now())
+
+  @@index([roundId, order])
+  @@index([linkedProblemId])
+}
+
+// ==========================================
+// 6. PEER DOUBTS, ANSWERS & VOTES
+// ==========================================
+
+model Doubt {
+  id             String    @id @default(cuid())
+  companyId      String?
+  companyRef     Company?  @relation(fields: [companyId], references: [id], onDelete: SetNull)
+  company        String
+  authorId       String
+  author         User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  title          String
+  body           String
+  anonymous      Boolean   @default(false)
+  upvoteCount    Int       @default(0)
+  deletedAt      DateTime?
+  takedownReason String?
+  createdAt      DateTime  @default(now())
+
   answers Answer[]
+
+  @@index([company])
+  @@index([companyId])
 }
 
 model Answer {
-  id          String   @id @default(cuid())
-  doubtId     String
-  authorId    String
-  body        String
-  accepted    Boolean  @default(false)
-  upvoteCount Int      @default(0)
-  createdAt   DateTime @default(now())
+  id             String    @id @default(cuid())
+  doubtId        String
+  doubt          Doubt     @relation(fields: [doubtId], references: [id], onDelete: Cascade)
+  authorId       String
+  author         User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  body           String
+  accepted       Boolean   @default(false)
+  upvoteCount    Int       @default(0)
+  deletedAt      DateTime?
+  takedownReason String?
+  createdAt      DateTime  @default(now())
 
-  doubt  Doubt @relation(fields: [doubtId], references: [id], onDelete: Cascade)
-  author User  @relation(fields: [authorId], references: [id])
+  @@index([doubtId])
 }
 
 model Vote {
@@ -169,20 +343,79 @@ model Vote {
   targetId   String
   createdAt  DateTime @default(now())
 
-  user User @relation(fields: [userId], references: [id])
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userId, targetType, targetId])
+  @@index([targetType, targetId])
 }
 
-// ---------- flags (report/takedown) ----------
-model Flag {
-  id         String   @id @default(cuid())
-  reporterId String
-  targetType String // REPORT | EXPERIENCE | DOUBT | ANSWER
-  targetId   String
-  reason     String
-  resolved   Boolean  @default(false)
-  createdAt  DateTime @default(now())
+// ==========================================
+// 7. COIN ECONOMY & UNLOCKS
+// ==========================================
 
-  reporter User @relation(fields: [reporterId], references: [id])
+model CoinLedger {
+  id        String   @id @default(cuid())
+  userId    String
+  amount    Int // positive = earn, negative = spend
+  reason    String // WELCOME | REPORT_APPROVED | EXPERIENCE_APPROVED | ANSWER_ACCEPTED | UPVOTE_RECEIVED | UNLOCK_OA | GIVE_TO_GET | MOD_GRANT | FRESH_SEASON_BONUS
+  refId     String?
+  note      String?
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, reason, refId])
+  @@index([userId, createdAt])
+}
+
+model Unlock {
+  id        String   @id @default(cuid())
+  userId    String
+  reportId  String
+  free      Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  user   User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  report OaReport @relation(fields: [reportId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, reportId])
+  @@index([userId])
+}
+
+// ==========================================
+// 8. TRUST, MODERATION & AUDIT LOGS
+// ==========================================
+
+model Flag {
+  id             String    @id @default(cuid())
+  reporterId     String
+  reporter       User      @relation("FlagReporter", fields: [reporterId], references: [id], onDelete: Cascade)
+  targetType     String // REPORT | EXPERIENCE | DOUBT | ANSWER | COMPANY
+  targetId       String
+  reason         String
+  resolved       Boolean   @default(false)
+  resolvedById   String?
+  resolvedAt     DateTime?
+  resolutionNote String?
+  slaDeadline    DateTime?
+  createdAt      DateTime  @default(now())
+
+  @@index([resolved, createdAt])
+  @@index([targetType, targetId])
+}
+
+model ModerationLog {
+  id          String   @id @default(cuid())
+  moderatorId String
+  moderator   User     @relation("ModeratorLogs", fields: [moderatorId], references: [id], onDelete: Cascade)
+  targetType  String // COMPANY | OA_REPORT | EXPERIENCE | DOUBT | ANSWER | USER_VERIFY | FLAG
+  targetId    String
+  action      String // APPROVE | REJECT | MERGE | TAKEDOWN | RESTORE | RESOLVE
+  beforeState Json?
+  afterState  Json?
+  reason      String?
+  createdAt   DateTime @default(now())
+
+  @@index([targetType, targetId])
+  @@index([moderatorId, createdAt])
 }

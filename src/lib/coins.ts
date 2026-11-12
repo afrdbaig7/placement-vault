@@ -27,8 +27,7 @@ export async function contributionCompanies(userId: string, tx?: Tx): Promise<st
   const [reportCompanies, expCompanies] = await Promise.all([
     client.oaReport.findMany({
       where: { authorId: userId, status: "APPROVED" },
-      select: { drive: { select: { company: true } } },
-      distinct: ["driveId"],
+      select: { company: { select: { slug: true } }, drive: { select: { company: true } } },
     }),
     client.experience.findMany({
       where: { authorId: userId, status: "APPROVED" },
@@ -37,7 +36,10 @@ export async function contributionCompanies(userId: string, tx?: Tx): Promise<st
     }),
   ]);
   const set = new Set<string>();
-  reportCompanies.forEach((r) => set.add(r.drive.company));
+  reportCompanies.forEach((r) => {
+    const slug = r.drive?.company ?? r.company?.slug;
+    if (slug) set.add(slug);
+  });
   expCompanies.forEach((e) => set.add(e.company));
   return [...set];
 }
@@ -157,15 +159,16 @@ export async function unlockOa(userId: string, reportId: string) {
 
       const report = await tx.oaReport.findUnique({
         where: { id: reportId },
-        include: { drive: true, body: true },
+        include: { drive: true, company: true, body: true },
       });
       if (!report || !report.body) throw new ApiError(404, "Report not found");
       if (report.status !== "APPROVED") throw new ApiError(400, "Report is not approved");
 
       const isAuthor = report.authorId === userId;
+      const companySlug = report.drive?.company ?? report.company.slug;
 
       // Embargo: reports tied to an OPEN drive stay hidden until a moderator closes the drive.
-      if (report.drive.status === "OPEN" && !isAuthor && !userIsMod) {
+      if (report.drive && report.drive.status === "OPEN" && !isAuthor && !userIsMod) {
         throw new ApiError(
           423,
           "This drive is still open — reports stay under embargo until a moderator closes it"
@@ -178,7 +181,7 @@ export async function unlockOa(userId: string, reportId: string) {
       if (existing) return { alreadyUnlocked: true, free: existing.free };
 
       const contribCompanies = await contributionCompanies(userId, tx);
-      const giveToGet = contribCompanies.includes(report.drive.company);
+      const giveToGet = contribCompanies.includes(companySlug);
 
       if (isAuthor || userIsMod || giveToGet) {
         await tx.unlock.create({
@@ -190,7 +193,7 @@ export async function unlockOa(userId: string, reportId: string) {
             amount: 0,
             reason: "GIVE_TO_GET",
             refId: reportId,
-            note: `Give-to-get unlock (${report.drive.company})`,
+            note: `Give-to-get unlock (${companySlug})`,
           });
         }
         return {
@@ -215,7 +218,7 @@ export async function unlockOa(userId: string, reportId: string) {
         amount: -cost,
         reason: "UNLOCK_OA",
         refId: reportId,
-        note: `Unlocked ${report.drive.company} OA report`,
+        note: `Unlocked ${companySlug} OA report`,
       });
       return { alreadyUnlocked: false, free: false, balance: balance - cost };
     });

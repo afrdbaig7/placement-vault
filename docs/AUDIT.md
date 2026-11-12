@@ -275,3 +275,4 @@ Before executing Phase 1 (Database and Data Model), the following operational as
    - The chat microservice will cease querying SQLite files on disk. Handshake authentication will rely exclusively on cryptographically signed HMAC WebSocket tokens issued by the Next.js API (`/api/chat/token`).
 5. **No AI-Generated Fabrications:**
    - All company problems, questions, and interview records will come strictly from authentic imports or verified student submissions. Missing data will render helpful empty states encouraging contributions.
+

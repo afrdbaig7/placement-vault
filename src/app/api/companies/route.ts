@@ -1,64 +1,97 @@
 import { db } from "@/lib/db";
 import { fail, ok } from "@/lib/auth";
+import companiesSeed from "@/data/companies.json";
 
-/** Companies grid: static info merged with per-company DB counts and problem-set metadata. */
+/** Companies grid: database backed with aggregated problem, report, experience, doubt counts. */
 export async function GET() {
   try {
-    const [companies, problemsData] = await Promise.all([
-      import("@/data/companies.json").then((m) => m.default),
-      import("@/data/problems.json").then((m) => m.default),
-    ]);
-
-    const [reportGroups, expGroups, doubtGroups, openDrives] = await Promise.all([
+    const [companies, reportGroups, expGroups, doubtGroups, openDrives] = await Promise.all([
+      db.company.findMany({
+        where: { status: "VERIFIED" },
+        orderBy: { name: "asc" },
+        include: {
+          _count: {
+            select: {
+              companyProblems: true,
+              oaReports: { where: { status: "APPROVED" } },
+              experiences: { where: { status: "APPROVED" } },
+              doubts: true,
+            },
+          },
+        },
+      }),
       db.oaReport.groupBy({
-        by: ["driveId"],
-        where: { status: "APPROVED", drive: { status: "CLOSED" } },
+        by: ["companyId"],
+        where: { status: "APPROVED" },
         _count: { _all: true },
       }),
-      db.experience.groupBy({ by: ["company"], where: { status: "APPROVED" }, _count: { _all: true } }),
-      db.doubt.groupBy({ by: ["company"], _count: { _all: true } }),
-      db.drive.findMany({ where: { status: "OPEN" }, orderBy: { driveDate: "asc" } }),
+      db.experience.groupBy({
+        by: ["companyId"],
+        where: { status: "APPROVED" },
+        _count: { _all: true },
+      }),
+      db.doubt.groupBy({
+        by: ["company"],
+        _count: { _all: true },
+      }),
+      db.drive.findMany({
+        where: { status: "OPEN" },
+        orderBy: { driveDate: "asc" },
+      }),
     ]);
 
-    const driveIds = reportGroups.map((r) => r.driveId);
-    const driveCompanies = driveIds.length
-      ? await db.drive.findMany({
-          where: { id: { in: driveIds } },
-          select: { id: true, company: true },
-        })
-      : [];
-    const driveToCompany = new Map<string, string>(driveCompanies.map((d) => [d.id, d.company]));
-
-    const reportCounts = new Map<string, number>();
-    for (const g of reportGroups) {
-      const c = driveToCompany.get(g.driveId);
-      if (c) reportCounts.set(c, (reportCounts.get(c) ?? 0) + g._count._all);
-    }
-    const expCounts = new Map<string, number>(expGroups.map((g) => [g.company, g._count._all]));
+    const seedMap = new Map((companiesSeed as Array<Record<string, unknown>>).map((c) => [c.slug, c]));
+    const reportCounts = new Map<string, number>(reportGroups.map((g) => [g.companyId, g._count._all]));
+    const expCounts = new Map<string, number>(expGroups.map((g) => [g.companyId, g._count._all]));
     const doubtCounts = new Map<string, number>(doubtGroups.map((g) => [g.company, g._count._all]));
 
-    return ok({
-      companies: companies.map((c) => {
-        const nextDrive = openDrives.find((d) => d.company === c.slug);
-        const problems = problemsData[c.slug as keyof typeof problemsData] ?? [];
-        const windowLabel = problems.some((p) => p.window === "6mo")
-          ? "last 6 months"
-          : problems.some((p) => p.window === "1yr")
-            ? "last 12 months"
-            : "all time";
-        return {
-          ...c,
-          problemCount: problems.length,
-          windowLabel,
-          reportCount: reportCounts.get(c.slug) ?? 0,
-          experienceCount: expCounts.get(c.slug) ?? 0,
-          doubtCount: doubtCounts.get(c.slug) ?? 0,
-          nextDrive: nextDrive
-            ? { role: nextDrive.role, driveDate: nextDrive.driveDate }
-            : null,
-        };
-      }),
+    const result = companies.map((c) => {
+      const seed = seedMap.get(c.slug) ?? {};
+      const nextDrive = openDrives.find((d) => d.companyId === c.id || d.company === c.slug);
+      const repCount = reportCounts.get(c.id) ?? c._count.oaReports;
+      const expCount = expCounts.get(c.id) ?? c._count.experiences;
+      const doubtCount = doubtCounts.get(c.slug) ?? c._count.doubts;
+
+      const sectors = c.sectors ?? [];
+      const isService = sectors.some((s) => s.toLowerCase().includes("service"));
+      const isFintech = sectors.some((s) => s.toLowerCase().includes("fintech"));
+      const isFinance = sectors.some((s) => s.toLowerCase().includes("finance") || s.toLowerCase().includes("banking"));
+
+      let tier = (seed.tier as string) || (isFintech ? "Fintech" : isFinance ? "Finance" : isService ? "Service" : "Product");
+      if (["google", "amazon", "microsoft", "meta", "apple"].includes(c.slug)) {
+        tier = "FAANG";
+      }
+
+      return {
+        id: c.id,
+        slug: c.slug,
+        name: c.name,
+        aliases: c.aliases,
+        website: c.website,
+        logoUrl: c.logoUrl,
+        sectors: c.sectors,
+        hiringRoles: c.hiringRoles,
+        status: c.status,
+        createdAt: c.createdAt,
+        // UI card presentation helpers (fallback to seed or infer from DB):
+        color: (seed.color as string) ?? "#2563eb",
+        type: (seed.type as string) ?? (isService ? "service" : "product"),
+        region: (seed.region as string) ?? (c.aliases.some((a) => a.toLowerCase().includes("india")) ? "Indian" : "Global"),
+        tier,
+        tagline: (seed.tagline as string) ?? (c.website ?? `${c.name} Hiring Hub`),
+        topicsFocus: (seed.topicsFocus as string[]) ?? c.sectors,
+        problemCount: c._count.companyProblems,
+        windowLabel: "last 6 months",
+        reportCount: repCount,
+        experienceCount: expCount,
+        doubtCount: doubtCount,
+        nextDrive: nextDrive
+          ? { role: nextDrive.role, driveDate: nextDrive.driveDate.toISOString() }
+          : null,
+      };
     });
+
+    return ok({ companies: result });
   } catch (err) {
     return fail(err);
   }

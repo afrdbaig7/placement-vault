@@ -19,8 +19,11 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Coins, FileText, Gift, Info, ShieldAlert } from "lucide-react";
 import { Spinner } from "@/components/shared/bits";
 
-const companies = companiesData as Company2[];
-type Company2 = (typeof companies)[number];
+type CompanyOption = {
+  slug: string;
+  name: string;
+};
+const defaultCompanies: CompanyOption[] = companiesData as CompanyOption[];
 
 const TOPIC_OPTIONS = ["Arrays", "Strings", "Hashing", "Two Pointers", "Sliding Window", "Binary Search", "Dynamic Programming", "Graphs", "BFS/DFS", "Trees", "Heaps", "Greedy", "Recursion", "Math", "Bit Manipulation", "Aptitude", "Verbal", "SQL", "OS/DBMS/OOP"];
 const PLATFORMS = ["HackerRank", "Codility", "TCS iON", "AMCAT", "Cocubes", "Company's own platform", "Google Form", "Other"];
@@ -257,6 +260,12 @@ function OaReportForm({ disabled, postsToday, cap }: { disabled: boolean; postsT
 
 function ExperienceForm({ disabled }: { disabled: boolean }) {
   const qc = useQueryClient();
+  const { data: compData } = useQuery({
+    queryKey: ["companies"],
+    queryFn: () => api<{ companies: CompanyOption[] }>("/api/companies"),
+  });
+  const companyList = compData?.companies ?? defaultCompanies;
+
   const [company, setCompany] = useState("");
   const [role, setRole] = useState("");
   const [round, setRound] = useState("");
@@ -293,7 +302,7 @@ function ExperienceForm({ disabled }: { disabled: boolean }) {
             <Label>Company</Label>
             <Select value={company} onValueChange={setCompany}>
               <SelectTrigger aria-label="Company"><SelectValue placeholder="Company" /></SelectTrigger>
-              <SelectContent>{companies.map((c) => <SelectItem key={c.slug} value={c.slug}>{c.name}</SelectItem>)}</SelectContent>
+              <SelectContent>{companyList.map((c) => <SelectItem key={c.slug} value={c.slug}>{c.name}</SelectItem>)}</SelectContent>
             </Select>
           </div>
           <div className="space-y-1.5">

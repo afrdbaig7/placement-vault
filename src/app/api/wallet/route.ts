@@ -16,9 +16,11 @@ export async function GET() {
           report: {
             select: {
               id: true,
+              role: true,
               round: true,
               platform: true,
               difficulty: true,
+              company: { select: { slug: true, name: true } },
               drive: { select: { company: true, role: true, status: true } },
             },
           },
@@ -42,8 +44,8 @@ export async function GET() {
         createdAt: u.createdAt,
         report: {
           id: u.report.id,
-          company: u.report.drive.company,
-          driveRole: u.report.drive.role,
+          company: u.report.drive?.company ?? u.report.company.slug,
+          driveRole: u.report.drive?.role ?? u.report.role,
           round: u.report.round,
           platform: u.report.platform,
           difficulty: u.report.difficulty,

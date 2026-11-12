@@ -57,3 +57,6 @@ mini-services/chat-service/*.db*
 .zscripts/*.pid
 # Skills directory
 /skills/
+upload/
+download/
+examples/

@@ -45,14 +45,18 @@ export async function POST(req: Request) {
       createExperienceSchema
     );
 
+    const comp = await db.company.findUnique({ where: { slug: company } });
+    if (!comp) throw new ApiError(404, "Company not found");
+
     const experience = await db.experience.create({
       data: {
+        companyId: comp.id,
         authorId: user.id,
-        company,
+        company: comp.slug,
         role,
         round,
         platform,
-        topics: JSON.stringify(topics),
+        topics,
         difficulty,
         outcome,
         body: text,
