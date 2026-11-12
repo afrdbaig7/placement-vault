@@ -21,6 +21,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
       id: parsedId.data,
       action,
       modNote: modNote ?? null,
+      moderatorId: mod.id,
     });
     return ok({ experience });
   } catch (err) {

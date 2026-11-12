@@ -1,5 +1,10 @@
 import { db } from "@/lib/db";
-import { fail, ok } from "@/lib/auth";
+import { fail, ok, ApiError, requireVerified } from "@/lib/auth";
+import { assertCsrf } from "@/lib/csrf";
+import { enforceRateLimit } from "@/lib/rate-limit";
+import { isMod } from "@/data/config";
+import { createCompanySchema, parseBody } from "@/lib/validation";
+import { normalizeCompanyName } from "@/lib/company-utils";
 import companiesSeed from "@/data/companies.json";
 
 /** Companies grid: database backed with aggregated problem, report, experience, doubt counts. */
@@ -92,6 +97,67 @@ export async function GET() {
     });
 
     return ok({ companies: result });
+  } catch (err) {
+    return fail(err);
+  }
+}
+
+/**
+ * POST /api/companies
+ * Student proposes a new company (status: PENDING), or moderator creates directly (status: VERIFIED).
+ * Normalized name prevents duplicate entries.
+ */
+export async function POST(req: Request) {
+  try {
+    await assertCsrf(req);
+    const user = await requireVerified();
+    enforceRateLimit(req, { bucket: "company-propose", limit: 5, windowMs: 60_000, keySuffix: user.id });
+
+    const body = await parseBody(req, createCompanySchema);
+    const norm = normalizeCompanyName(body.name);
+
+    let baseSlug = body.name
+      .toLowerCase()
+      .trim()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-|-$/g, "");
+    if (!baseSlug) baseSlug = "company";
+
+    // Duplicate check
+    const existing = await db.company.findFirst({
+      where: {
+        OR: [{ normalizedName: norm }, { slug: baseSlug }],
+      },
+    });
+
+    if (existing) {
+      throw new ApiError(
+        409,
+        `Company "${existing.name}" already exists (${existing.status.toLowerCase()}). Please use the existing company.`
+      );
+    }
+
+    const userIsMod = isMod(user.role);
+    const company = await db.company.create({
+      data: {
+        slug: baseSlug,
+        name: body.name.trim(),
+        normalizedName: norm,
+        website: body.website ? body.website.trim() : null,
+        sectors: body.sectors.length > 0 ? body.sectors : ["Technology"],
+        hiringRoles: body.hiringRoles.length > 0 ? body.hiringRoles : ["Software Engineer"],
+        aliases: body.aliases,
+        status: userIsMod ? "VERIFIED" : "PENDING",
+        createdById: user.id,
+      },
+    });
+
+    return ok({
+      company,
+      message: userIsMod
+        ? "Company created and verified."
+        : "Company submitted for moderation review. Once approved, it will appear on the hub.",
+    });
   } catch (err) {
     return fail(err);
   }

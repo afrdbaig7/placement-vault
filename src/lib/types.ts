@@ -59,45 +59,90 @@ export type PracticeSet = {
 
 export type AuthorInfo = { name: string; placedCompany: string | null; isPlaced: boolean; role: string };
 
+export type OAQuestionView = {
+  id: string;
+  type: string;
+  title: string | null;
+  statementMd: string;
+  constraints: string | null;
+  sampleIO: string | null;
+  topics: string[];
+  difficulty: string;
+  linkedProblemId: string | null;
+  marks: number | null;
+};
+
 export type ReportView = {
   id: string;
   company: string;
-  driveId: string;
+  driveId: string | null;
   driveRole: string;
   driveStatus: string;
   driveDate: string;
+  hiringSeason?: string;
+  graduatingBatch?: number;
   round: string;
   platform: string;
+  sections?: string[];
   topics: string[];
   difficulty: string;
   outcome: string;
   summary: string;
   status: string;
+  isAnonymous?: boolean;
   upvoteCount: number;
   createdAt: string;
   author: AuthorInfo;
   underEmbargo: boolean;
   gated: boolean;
   body: string | null;
+  questions?: OAQuestionView[];
+  questionCount?: number;
   unlockCost: number;
   freeUnlock: boolean;
   myVote: boolean;
 };
 
+export type RoundQuestionView = {
+  id: string;
+  text: string;
+  topics: string[];
+  difficulty: string | null;
+  linkedProblemId: string | null;
+};
+
+export type InterviewRoundView = {
+  id: string;
+  order: number;
+  name: string;
+  type: string;
+  durationMin: number | null;
+  notes: string | null;
+  questions?: RoundQuestionView[];
+};
+
 export type ExperienceView = {
   id: string;
   company: string;
+  companyName?: string;
+  hiringSeason?: string;
+  graduatingBatch?: number;
   role: string;
+  offerStatus?: string;
+  overallDifficulty?: string;
   round: string;
   platform: string;
   topics: string[];
   difficulty: string;
   outcome: string;
+  tips?: string | null;
   body: string;
   status: string;
+  isAnonymous?: boolean;
   upvoteCount: number;
   createdAt: string;
   author: AuthorInfo;
+  rounds?: InterviewRoundView[];
   myVote: boolean;
 };
 
@@ -147,11 +192,24 @@ export type HubData = {
     approvedReports: number;
     approvedExperiences: number;
     doubts: number;
+    season2026Reports?: number;
+    season2026Experiences?: number;
+    problemCount?: number;
     platforms: string[];
     rounds: string[];
     difficultyDist: Record<string, number>;
     topicFreq: { topic: string; count: number }[];
   };
+  problems?: Array<{
+    id: string;
+    title: string;
+    slug: string;
+    difficulty: string;
+    window: string;
+    frequency: number;
+    url: string | null;
+    topics: string[];
+  }>;
 };
 
 export type WalletData = {

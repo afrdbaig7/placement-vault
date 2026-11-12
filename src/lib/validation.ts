@@ -78,26 +78,90 @@ export const driveActionSchema = z.object({
   action: z.enum(["close", "reopen"]),
 });
 
+export const createCompanySchema = z.object({
+  name: trimmed(2, 100, "Company name"),
+  website: z.string().trim().url("Invalid website URL").optional().or(z.literal("")),
+  sectors: z.array(trimmed(1, 50, "Sector")).max(10).default([]),
+  hiringRoles: z.array(trimmed(1, 80, "Role")).max(15).default([]),
+  aliases: z.array(trimmed(1, 50, "Alias")).max(10).default([]),
+});
+
+export const createOAQuestionSchema = z.object({
+  type: z.enum(["CODING", "MCQ", "SQL", "APTITUDE", "SUBJECTIVE"]).default("CODING"),
+  title: z.string().trim().max(200).optional(),
+  statementMd: trimmed(5, 5000, "Question statement"),
+  constraints: z.string().trim().max(1000).optional(),
+  sampleIO: z.string().trim().max(2000).optional(),
+  topics: z.array(trimmed(1, 40, "Topic")).max(15).default([]),
+  difficulty: z.enum(["Easy", "Medium", "Hard"]).default("Medium"),
+  linkedProblemId: z.string().trim().max(64).optional().nullable(),
+  marks: z.number().int().min(1).max(100).optional().nullable(),
+});
+
 export const createReportSchema = z.object({
-  driveId: idSchema,
-  round: trimmed(1, 80, "Round"),
+  companySlug: companySlugSchema.optional(),
+  company: companySlugSchema.optional(),
+  driveId: idSchema.optional().nullable(),
+  hiringSeason: z
+    .string()
+    .trim()
+    .regex(/^\d{4}-\d{2}$/, "Season must be format YYYY-YY (e.g. 2026-27)")
+    .default("2026-27"),
+  graduatingBatch: z.number().int().min(2020).max(2035).default(2027),
+  assessmentDate: z.string().trim().optional(),
   platform: trimmed(1, 80, "Platform"),
+  role: trimmed(1, 100, "Role").optional(),
+  durationMin: z.number().int().min(5).max(360).optional().nullable(),
+  round: trimmed(1, 80, "Round").default("Online Assessment"),
+  sections: z.array(trimmed(1, 50, "Section")).max(10).default([]),
   difficulty: z.enum(["Easy", "Medium", "Hard"]),
   outcome: z.enum(["Cleared", "Not cleared", "Did not attempt"]),
   topics: z.array(trimmed(1, 40, "Topic")).max(15, "Too many topics").default([]),
   summary: trimmed(20, 500, "Summary"),
-  text: trimmed(30, 10_000, "Question text"),
+  text: z.string().trim().max(10_000).optional().default(""),
+  isAnonymous: z.boolean().default(false),
+  ndaConfirmation: z.boolean().refine((v) => v === true, "You must confirm the non-disclosure policy").optional().default(true),
+  questions: z.array(createOAQuestionSchema).max(25).default([]),
+});
+
+export const createRoundQuestionSchema = z.object({
+  text: trimmed(5, 2000, "Question text"),
+  topics: z.array(trimmed(1, 40, "Topic")).max(10).default([]),
+  difficulty: z.enum(["Easy", "Medium", "Hard"]).optional().nullable(),
+  linkedProblemId: z.string().trim().max(64).optional().nullable(),
+});
+
+export const createInterviewRoundSchema = z.object({
+  name: trimmed(1, 100, "Round name"),
+  type: z
+    .enum(["TECHNICAL", "HR", "MANAGERIAL", "SYSTEM_DESIGN", "GROUP_DISCUSSION", "OTHER"])
+    .default("TECHNICAL"),
+  durationMin: z.number().int().min(5).max(360).optional().nullable(),
+  notes: z.string().trim().max(2000).optional().nullable(),
+  questions: z.array(createRoundQuestionSchema).max(20).default([]),
 });
 
 export const createExperienceSchema = z.object({
   company: companySlugSchema,
+  hiringSeason: z
+    .string()
+    .trim()
+    .regex(/^\d{4}-\d{2}$/, "Season must be format YYYY-YY (e.g. 2026-27)")
+    .default("2026-27"),
+  graduatingBatch: z.number().int().min(2020).max(2035).default(2027),
   role: trimmed(1, 100, "Role"),
-  round: trimmed(1, 80, "Round"),
-  platform: trimmed(1, 80, "Platform"),
-  difficulty: z.enum(["Easy", "Medium", "Hard"]),
-  outcome: trimmed(1, 60, "Outcome"),
+  offerStatus: z.enum(["OFFERED", "REJECTED", "WAITLISTED", "NO_OFFER"]).default("OFFERED"),
+  overallDifficulty: z.enum(["Easy", "Medium", "Hard"]).default("Medium"),
+  round: trimmed(1, 80, "Round").default("Full loop"),
+  platform: trimmed(1, 80, "Platform").default("On-Campus"),
+  difficulty: z.enum(["Easy", "Medium", "Hard"]).default("Medium"),
+  outcome: trimmed(1, 60, "Outcome").default("Cleared"),
   topics: z.array(trimmed(1, 40, "Topic")).max(15, "Too many topics").default([]),
-  text: trimmed(50, 15_000, "Experience write-up"),
+  tips: z.string().trim().max(2000).optional().nullable(),
+  text: trimmed(30, 15_000, "Experience write-up"),
+  isAnonymous: z.boolean().default(false),
+  ndaConfirmation: z.boolean().refine((v) => v === true, "You must confirm the non-disclosure policy").optional().default(true),
+  rounds: z.array(createInterviewRoundSchema).max(10).default([]),
 });
 
 export const createDoubtSchema = z.object({

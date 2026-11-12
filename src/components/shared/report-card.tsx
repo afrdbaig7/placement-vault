@@ -13,7 +13,7 @@ import { Separator } from "@/components/ui/separator";
 import { CompanyLogo } from "@/components/shared/company-logo";
 import { DifficultyBadge, EmbargoBadge, PlacedBadge, Spinner } from "@/components/shared/bits";
 import { FlagDialog } from "@/components/shared/flag-dialog";
-import { ArrowUpCircle, Coins, Flag, Lock, LockOpen, Sparkles } from "lucide-react";
+import { ArrowUpCircle, Coins, Flag, Lock, LockOpen, Sparkles, ExternalLink } from "lucide-react";
 
 export function ReportCard({ report, showCompany = true }: { report: ReportView; showCompany?: boolean }) {
   const { session, setSignInOpen } = useApp();
@@ -54,12 +54,23 @@ export function ReportCard({ report, showCompany = true }: { report: ReportView;
               <span>{report.round}</span>
               <span className="text-muted-foreground">·</span>
               <span className="text-muted-foreground">{report.platform}</span>
+              {report.hiringSeason === "2026-27" && (
+                <Badge className="bg-emerald-600 text-white hover:bg-emerald-700 text-[11px] px-2 py-0.5">
+                  Latest (2026-27)
+                </Badge>
+              )}
+              {report.hiringSeason && report.hiringSeason !== "2026-27" && (
+                <Badge variant="outline" className="text-[11px] px-2 py-0.5">
+                  {report.hiringSeason}
+                </Badge>
+              )}
               {report.underEmbargo && <EmbargoBadge />}
             </div>
             <div className="mt-1 flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
               <span>by {report.author.name}</span>
               {report.author.isPlaced && <PlacedBadge company={report.author.placedCompany!} />}
               <span>{new Date(report.createdAt).toLocaleDateString("en-IN", { day: "numeric", month: "short" })}</span>
+              {report.questionCount ? <span>· {report.questionCount} question(s)</span> : null}
             </div>
           </div>
           <div className="flex items-center gap-2">
@@ -72,7 +83,7 @@ export function ReportCard({ report, showCompany = true }: { report: ReportView;
 
         <div className="flex flex-wrap gap-1.5">
           {report.topics.map((t) => (
-            <Badge key={t} variant="secondary" className="font-normal">
+            <Badge key={t} variant="secondary" className="font-normal text-xs">
               {t}
             </Badge>
           ))}
@@ -86,7 +97,7 @@ export function ReportCard({ report, showCompany = true }: { report: ReportView;
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div className="flex items-center gap-2 text-sm font-medium text-amber-900 dark:text-amber-200">
                 <Lock className="h-4 w-4" aria-hidden />
-                Question text locked
+                Question details locked ({report.questionCount ?? 0} questions)
               </div>
               {report.unlockCost === 0 ? (
                 <Button size="sm" className="gap-1.5" onClick={() => (session?.user ? unlock.mutate() : setSignInOpen(true))}>
@@ -110,11 +121,46 @@ export function ReportCard({ report, showCompany = true }: { report: ReportView;
             )}
           </div>
         ) : (
-          <div>
-            <div className="mb-1 flex items-center gap-1.5 text-xs font-medium text-emerald-700 dark:text-emerald-400">
-              <LockOpen className="h-3.5 w-3.5" aria-hidden /> Questions (own words, no screenshots)
+          <div className="space-y-3 pt-1">
+            <div className="flex items-center gap-1.5 text-xs font-medium text-emerald-700 dark:text-emerald-400">
+              <LockOpen className="h-3.5 w-3.5" aria-hidden /> Granular Questions (own words, no screenshots)
             </div>
-            <pre className="scrollbar-thin whitespace-pre-wrap rounded-xl bg-muted/60 p-3 font-sans text-sm">{report.body}</pre>
+
+            {report.questions && report.questions.length > 0 ? (
+              <div className="space-y-2">
+                {report.questions.map((q, idx) => (
+                  <div key={q.id || idx} className="rounded-lg border bg-muted/40 p-3 space-y-2">
+                    <div className="flex flex-wrap items-center justify-between gap-2">
+                      <div className="flex items-center gap-2">
+                        <Badge variant="secondary" className="text-xs">
+                          {q.type}
+                        </Badge>
+                        {q.title && <span className="font-semibold text-xs">{q.title}</span>}
+                      </div>
+                      <DifficultyBadge level={q.difficulty as any} />
+                    </div>
+
+                    <pre className="whitespace-pre-wrap font-sans text-xs leading-relaxed text-foreground/90">
+                      {q.statementMd}
+                    </pre>
+
+                    {q.constraints && (
+                      <div className="text-[11px] text-muted-foreground">
+                        <span className="font-medium">Constraints:</span> {q.constraints}
+                      </div>
+                    )}
+
+                    {q.sampleIO && (
+                      <div className="rounded bg-background p-2 font-mono text-[11px] text-muted-foreground border">
+                        {q.sampleIO}
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            ) : report.body ? (
+              <pre className="scrollbar-thin whitespace-pre-wrap rounded-xl bg-muted/60 p-3 font-sans text-sm">{report.body}</pre>
+            ) : null}
           </div>
         )}
 
