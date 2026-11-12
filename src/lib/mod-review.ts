@@ -3,6 +3,8 @@ import { db } from "@/lib/db";
 import { ApiError } from "@/lib/auth";
 import { award } from "@/lib/coins";
 import { config } from "@/data/config";
+import { sendReportApprovedEmail, sendReportRejectedEmail } from "@/lib/email";
+import { observability } from "@/lib/observability";
 
 type ReviewKind = "report" | "experience";
 
@@ -21,9 +23,12 @@ export async function reviewSubmission(opts: {
   const { kind, id, action, modNote, moderatorId } = opts;
   const status = action === "approve" ? "APPROVED" : "REJECTED";
 
-  return db.$transaction(async (tx) => {
+  const result = await db.$transaction(async (tx) => {
     if (kind === "report") {
-      const existing = await tx.oaReport.findUnique({ where: { id } });
+      const existing = await tx.oaReport.findUnique({
+        where: { id },
+        include: { author: { select: { email: true, name: true } }, company: { select: { name: true } } },
+      });
       if (!existing) throw new ApiError(404, "Report not found");
       if (existing.status !== "PENDING") {
         throw new ApiError(400, "This report was already reviewed");
@@ -35,6 +40,7 @@ export async function reviewSubmission(opts: {
       });
       if (claimed.count !== 1) throw new ApiError(409, "Report review conflict — please refresh");
 
+      let isSeasonBounty = false;
       if (action === "approve") {
         // Standard report approval reward (+50 coins)
         await award(tx, {
@@ -56,6 +62,7 @@ export async function reviewSubmission(opts: {
             },
           });
           if (priorCount === 0) {
+            isSeasonBounty = true;
             await award(tx, {
               userId: existing.authorId,
               amount: 25,
@@ -81,10 +88,20 @@ export async function reviewSubmission(opts: {
         });
       }
 
-      return { id: existing.id, status };
+      return {
+        id: existing.id,
+        status,
+        authorEmail: existing.author.email,
+        authorName: existing.author.name,
+        companyName: existing.company.name,
+        isSeasonBounty,
+      };
     }
 
-    const existing = await tx.experience.findUnique({ where: { id } });
+    const existing = await tx.experience.findUnique({
+      where: { id },
+      include: { author: { select: { email: true, name: true } }, companyRef: { select: { name: true } } },
+    });
     if (!existing) throw new ApiError(404, "Experience not found");
     if (existing.status !== "PENDING") {
       throw new ApiError(400, "Already reviewed");
@@ -96,6 +113,7 @@ export async function reviewSubmission(opts: {
     });
     if (claimed.count !== 1) throw new ApiError(409, "Experience review conflict — please refresh");
 
+    let isSeasonBounty = false;
     if (action === "approve") {
       await award(tx, {
         userId: existing.authorId,
@@ -116,6 +134,7 @@ export async function reviewSubmission(opts: {
           },
         });
         if (priorCount === 0) {
+          isSeasonBounty = true;
           await award(tx, {
             userId: existing.authorId,
             amount: 25,
@@ -141,6 +160,42 @@ export async function reviewSubmission(opts: {
       });
     }
 
-    return { id: existing.id, status };
+    return {
+      id: existing.id,
+      status,
+      authorEmail: existing.author.email,
+      authorName: existing.author.name,
+      companyName: existing.companyRef.name,
+      isSeasonBounty,
+    };
   });
+
+  // Track event and dispatch email notification asynchronously outside transaction
+  observability.trackEvent(
+    action === "approve" ? "submission_approved" : "submission_rejected",
+    { kind, id: result.id, company: result.companyName, moderatorId }
+  );
+
+  if (result.authorEmail) {
+    if (action === "approve") {
+      const coins = (kind === "report" ? config.rates.reportApproved : config.rates.experienceApproved) +
+        (result.isSeasonBounty ? 25 : 0);
+      void sendReportApprovedEmail({
+        to: result.authorEmail,
+        userName: result.authorName ?? "Student",
+        companyName: result.companyName,
+        coinsAwarded: coins,
+        isSeasonBounty: result.isSeasonBounty,
+      });
+    } else {
+      void sendReportRejectedEmail({
+        to: result.authorEmail,
+        userName: result.authorName ?? "Student",
+        companyName: result.companyName,
+        reason: modNote ?? undefined,
+      });
+    }
+  }
+
+  return { id: result.id, status: result.status };
 }

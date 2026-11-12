@@ -46,6 +46,20 @@ export default function App() {
       url.searchParams.delete("auth_error");
       window.history.replaceState({}, "", url.pathname + url.search + url.hash);
     }
+
+    const companyParam = url.searchParams.get("company");
+    const tabParam = url.searchParams.get("tab");
+    if (companyParam) {
+      useApp.getState().navigate({ name: "hub", company: companyParam });
+    } else if (tabParam === "contribute") {
+      useApp.getState().navigate({ name: "contribute" });
+    } else if (tabParam === "problems") {
+      useApp.getState().navigate({ name: "problems" });
+    } else if (tabParam === "companies") {
+      useApp.getState().navigate({ name: "companies" });
+    } else if (tabParam === "drives") {
+      useApp.getState().navigate({ name: "drives" });
+    }
   }, []);
 
   return (

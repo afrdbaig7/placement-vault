@@ -1,0 +1,93 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches: [main, clean-main]
+  pull_request:
+    branches: [main, clean-main]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate-and-test:
+    name: Typecheck, Lint & Build
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: placement_vault_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 5
+
+      redis:
+        image: redis:7-alpine
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      NODE_ENV: test
+      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/placement_vault_test
+      REDIS_URL: redis://localhost:6379
+      SESSION_SECRET: test-session-secret-for-ci-runs-32-chars-long
+      CSRF_SECRET: test-csrf-secret-for-ci-runs-32-chars-long
+      NEXTAUTH_URL: http://localhost:3000
+      NEXT_PUBLIC_COLLEGE_NAME: "Demo Institute of Technology"
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "npm"
+
+      - name: Install Root Dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Validate Prisma Schema
+        run: bunx prisma validate
+
+      - name: Generate Prisma Client
+        run: bunx prisma generate
+
+      - name: Run Prisma Migrations
+        run: bunx prisma migrate deploy
+
+      - name: TypeScript Check (Next.js)
+        run: bunx tsc --noEmit
+
+      - name: ESLint
+        run: bunx eslint .
+
+      - name: Next.js Production Build
+        run: bun run build
+        env:
+          NEXT_TELEMETRY_DISABLED: 1
+
+      - name: Run Chat Service Validation
+        run: |
+          cd mini-services/chat-service
+          bun install --frozen-lockfile

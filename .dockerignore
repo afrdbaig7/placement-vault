@@ -1,0 +1,17 @@
+node_modules
+.next
+.git
+.github
+.env
+.env*.local
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+mini-services/chat-service/node_modules
+mini-services/chat-service/chat.db*
+db/*.db
+docs/*.png
+tests
+.coverage

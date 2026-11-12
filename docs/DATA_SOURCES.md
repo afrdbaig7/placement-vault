@@ -53,3 +53,4 @@ This document details all third-party datasets ingested into **Campus Placement 
 - **User Generated Content (UGC):** Reports and interview experiences submitted by verified students.
 - **Copyright & Non-Disclosure Notice:** Students are prompted with a mandatory confirmation acknowledging that they must describe questions in their own words and must not submit NDA-protected proprietary exam code or direct screenshots.
 - **Takedown & Embargo Policies:** Detailed in [`docs/TERMS.md`](file:///docs/TERMS.md) and [`docs/LEGAL.md`](file:///docs/LEGAL.md). Active campus placement drives remain under hard cryptographic embargo until the drive closes.
+

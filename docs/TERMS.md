@@ -54,3 +54,4 @@ Welcome to **Campus Placement Hub / Placement Vault** ("the Platform"). By signi
 
 1. **No Employment Guarantee:** The Platform is an independent peer-to-peer preparatory resource. We do not guarantee interview shortlists, exam clearance, or job offers.
 2. **No Employer Affiliation:** Company trademarks and logos remain the exclusive intellectual property of their respective owners. Their display does not imply endorsement by or affiliation with the platform.
+

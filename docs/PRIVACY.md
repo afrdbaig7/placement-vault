@@ -94,3 +94,4 @@ In accordance with Section 13 of the DPDP Act 2023, the designated Data Protecti
 - **Designation:** Campus Placement Hub Data Protection Officer
 - **Email:** `privacy@campusplacementhub.internal` / `grievance-placement@college.ac.in`
 - **SLA for Resolution:** All formal privacy and erasure inquiries are addressed within 7 business days.
+

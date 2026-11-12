@@ -1,23 +1,23 @@
 import "server-only";
 import { ApiError } from "@/lib/auth";
+import { getRedisClient } from "@/lib/redis";
 
 type BucketEntry = { count: number; resetAt: number };
 
 const MAX_BUCKETS = 10_000;
-const buckets = new Map<string, BucketEntry>();
+const memoryBuckets = new Map<string, BucketEntry>();
 let lastSweep = Date.now();
 
 function sweepExpired(now: number) {
-  if (now - lastSweep < 60_000 && buckets.size < MAX_BUCKETS) return;
+  if (now - lastSweep < 60_000 && memoryBuckets.size < MAX_BUCKETS) return;
   lastSweep = now;
-  for (const [k, entry] of buckets) {
-    if (entry.resetAt <= now) buckets.delete(k);
+  for (const [k, entry] of memoryBuckets) {
+    if (entry.resetAt <= now) memoryBuckets.delete(k);
   }
-  // If still oversized under heavy abuse, evict oldest entries
-  while (buckets.size >= MAX_BUCKETS) {
-    const oldestKey = buckets.keys().next().value;
+  while (memoryBuckets.size >= MAX_BUCKETS) {
+    const oldestKey = memoryBuckets.keys().next().value;
     if (!oldestKey) break;
-    buckets.delete(oldestKey);
+    memoryBuckets.delete(oldestKey);
   }
 }
 
@@ -32,6 +32,46 @@ export function getClientIp(req: Request): string {
   return "local";
 }
 
+/**
+ * Distributed Redis rate limiter with automatic in-memory fallback.
+ * Uses sliding/fixed TTL counter keys in Redis when available.
+ */
+export async function enforceRateLimitAsync(
+  req: Request,
+  opts: { bucket: string; limit: number; windowMs: number; keySuffix?: string }
+): Promise<void> {
+  const ip = getClientIp(req);
+  const key = opts.keySuffix ? `rl:${opts.bucket}:${opts.keySuffix}:${ip}` : `rl:${opts.bucket}:${ip}`;
+  const redis = getRedisClient();
+
+  if (redis) {
+    try {
+      const windowSec = Math.max(1, Math.ceil(opts.windowMs / 1000));
+      const current = await redis.incr(key);
+      if (current === 1) {
+        await redis.expire(key, windowSec);
+      }
+      if (current > opts.limit) {
+        const ttl = await redis.ttl(key);
+        const retryAfter = ttl > 0 ? ttl : windowSec;
+        throw new ApiError(429, "Too many requests — please wait a moment before trying again", {
+          "Retry-After": String(retryAfter),
+        });
+      }
+      return;
+    } catch (err) {
+      if (err instanceof ApiError) throw err;
+      // If redis errors out, fall back to in-memory check below
+    }
+  }
+
+  // In-memory fallback
+  enforceRateLimit(req, opts);
+}
+
+/**
+ * Synchronous in-memory rate limiter (guaranteed zero latency).
+ */
 export function enforceRateLimit(
   req: Request,
   opts: { bucket: string; limit: number; windowMs: number; keySuffix?: string }
@@ -41,10 +81,10 @@ export function enforceRateLimit(
 
   const ip = getClientIp(req);
   const key = opts.keySuffix ? `${opts.bucket}:${opts.keySuffix}:${ip}` : `${opts.bucket}:${ip}`;
-  const current = buckets.get(key);
+  const current = memoryBuckets.get(key);
 
   if (!current || current.resetAt <= now) {
-    buckets.set(key, { count: 1, resetAt: now + opts.windowMs });
+    memoryBuckets.set(key, { count: 1, resetAt: now + opts.windowMs });
     return;
   }
 
@@ -57,4 +97,3 @@ export function enforceRateLimit(
 
   current.count += 1;
 }
-

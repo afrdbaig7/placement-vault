@@ -58,3 +58,4 @@ While this architecture prevents unauthorized off-campus actors and cross-studen
 | **Delayed College Email Issuance** | Fresh first-year or transfer students may not receive `@college.ac.in` addresses immediately. | Such students can submit for manual moderator verification via `POST /api/me`, where a placement coordinator validates their physical ID card. |
 | **Email Forwarding / Alumni Retention** | Some institutions allow alumni to retain college email access indefinitely. | Batch year (`batch: "2027"`) is recorded, and placement cell coordinators periodically audit active graduating rosters. |
 | **Compromised Google Account** | Student's private Google account is breached. | Session cookies expire in 14 days, and all state-changing endpoints enforce CSRF double-submit protection. |
+

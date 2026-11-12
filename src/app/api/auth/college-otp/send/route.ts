@@ -4,6 +4,7 @@ import { assertCsrf } from "@/lib/csrf";
 import { enforceRateLimit } from "@/lib/rate-limit";
 import { parseBody } from "@/lib/validation";
 import { isCollegeEmail, generateCollegeOtp } from "@/lib/college-auth";
+import { sendCollegeOtpEmail } from "@/lib/email";
 
 const sendOtpSchema = z.object({
   collegeEmail: z.string().trim().email("Enter a valid college email address"),
@@ -35,11 +36,8 @@ export async function POST(req: Request) {
 
     const { otp, verificationToken, expiresAt } = generateCollegeOtp(collegeEmail);
 
-    // In local development or staging without live SMTP, log to console
-    console.log(
-      `\n[COLLEGE_OTP_SERVICE] Verification code for ${collegeEmail} (User: ${user.id}):`
-    );
-    console.log(`  >>> OTP: ${otp} <<< (Expires in 10 minutes)\n`);
+    // Send email asynchronously (Resend API or mock in dev)
+    void sendCollegeOtpEmail({ to: collegeEmail, otp });
 
     return ok({
       verificationToken,
@@ -53,3 +51,4 @@ export async function POST(req: Request) {
     return fail(err);
   }
 }
+

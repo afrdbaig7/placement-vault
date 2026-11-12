@@ -5,8 +5,11 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { Server, type Socket } from "socket.io";
 import { Database } from "bun:sqlite";
+import { createAdapter } from "@socket.io/redis-adapter";
+import Redis from "ioredis";
 
 const PORT = Number(process.env.CHAT_PORT || 3004);
+const NEXT_AUTH_URL = process.env.NEXT_AUTH_URL || "http://localhost:3000";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const HEX_64_RE = /^[0-9a-f]{64}$/;
 
@@ -45,54 +48,30 @@ function verifySignedToken(raw: string | undefined): string | null {
   return value;
 }
 
-function parseCookies(header: string | undefined): Record<string, string> {
-  const out: Record<string, string> = {};
-  if (!header) return out;
-  for (const part of header.split(";")) {
-    const eq = part.indexOf("=");
-    if (eq < 1) continue;
-    const key = part.slice(0, eq).trim();
-    const val = part.slice(eq + 1).trim();
-    try {
-      out[key] = decodeURIComponent(val);
-    } catch {
-      out[key] = val;
-    }
-  }
-  return out;
-}
-
-/** ---------- main app DB (readonly user lookup for session cookies) ---------- */
-function openMainDb(): Database | null {
-  const candidates = [
-    process.env.CHAT_MAIN_DB_PATH,
-    path.resolve(__dirname, "../../db/custom.db"),
-  ].filter((p): p is string => Boolean(p));
-
-  for (const p of candidates) {
-    if (fs.existsSync(p)) {
-      return new Database(p, { readonly: true });
-    }
-  }
-  return null;
-}
-
-const mainDb = openMainDb();
-
 type ChatUser = { id: string; name: string; role: string };
 
-function lookupUserById(userId: string): ChatUser | null {
-  if (!mainDb) return null;
-  const row = mainDb
-    .query("SELECT id, name, role FROM User WHERE id = ? LIMIT 1")
-    .get(userId) as { id: string; name: string; role: string } | null;
-  if (!row) return null;
-  const role = ["STUDENT", "SENIOR", "MOD", "ADMIN"].includes(row.role) ? row.role : "STUDENT";
-  return { id: row.id, name: row.name, role };
+/**
+ * Authenticates user via Next.js internal auth API endpoint instead of reading an SQLite file.
+ * This supports distributed multi-host deployments and hosted database clusters.
+ */
+async function lookupUserViaApi(cookieHeader: string): Promise<ChatUser | null> {
+  try {
+    const res = await fetch(`${NEXT_AUTH_URL}/api/auth/session`, {
+      headers: { cookie: cookieHeader },
+    });
+    if (!res.ok) return null;
+    const data = (await res.json()) as { user?: { id: string; name: string; role: string } };
+    if (!data.user) return null;
+    return { id: data.user.id, name: data.user.name, role: data.user.role };
+  } catch {
+    return null;
+  }
 }
 
-function authenticateHandshake(socket: Socket): ChatUser | null {
-  const rawToken = typeof socket.handshake.auth?.token === "string" ? socket.handshake.auth.token : undefined;
+async function authenticateHandshakeAsync(socket: Socket): Promise<ChatUser | null> {
+  // 1. Signed WS auth token path (stateless, zero DB hits)
+  const rawToken =
+    typeof socket.handshake.auth?.token === "string" ? socket.handshake.auth.token : undefined;
   if (rawToken) {
     const verified = verifySignedToken(rawToken);
     if (!verified || !verified.startsWith("ws:")) {
@@ -109,20 +88,18 @@ function authenticateHandshake(socket: Socket): ChatUser | null {
     }
     const name = sanitizeName(payload.name);
     if (!name) throw new Error("Invalid user in token");
-    const role = payload.role && ["STUDENT", "SENIOR", "MOD", "ADMIN"].includes(payload.role)
-      ? payload.role
-      : "STUDENT";
+    const role =
+      payload.role && ["STUDENT", "SENIOR", "MOD", "ADMIN"].includes(payload.role)
+        ? payload.role
+        : "STUDENT";
     return { id: String(payload.sub).slice(0, 64), name, role };
   }
 
-  const cookies = parseCookies(socket.handshake.headers.cookie);
-  const rawSession = cookies["cph_session"];
-  if (rawSession) {
-    const userId = verifySignedToken(rawSession);
-    if (!userId) throw new Error("Invalid session cookie");
-    const user = lookupUserById(userId);
-    if (!user) throw new Error("Session user not found");
-    return user;
+  // 2. Cookie session fallback via Next.js API
+  const cookieHeader = socket.handshake.headers.cookie;
+  if (cookieHeader && cookieHeader.includes("cph_session")) {
+    const user = await lookupUserViaApi(cookieHeader);
+    if (user) return user;
   }
 
   return null;
@@ -139,7 +116,7 @@ const CHANNELS: ChannelDef[] = [
 ];
 const CHANNEL_MAP = new Map(CHANNELS.map((c) => [c.slug, c]));
 
-/** ---------- persistence (SQLite) ---------- */
+/** ---------- persistence (SQLite for ephemeral chat messages) ---------- */
 const chatDbPath = path.resolve(__dirname, "./chat.db");
 const db = new Database(chatDbPath, { create: true });
 db.run("PRAGMA journal_mode = WAL;");
@@ -157,46 +134,51 @@ db.run("CREATE INDEX IF NOT EXISTS idx_messages_channel ON messages(channel, cre
 const HISTORY_LIMIT = 100;
 function loadHistory(channel: string) {
   return db
-    .query("SELECT id, channel, user_id AS userId, name, role, content, created_at AS createdAt FROM messages WHERE channel = ? ORDER BY created_at DESC LIMIT ?")
+    .query(
+      "SELECT id, channel, user_id AS userId, name, role, content, created_at AS createdAt FROM messages WHERE channel = ? ORDER BY created_at DESC LIMIT ?"
+    )
     .all(channel, HISTORY_LIMIT)
     .reverse();
 }
 
-function saveMessage(m: { id: string; channel: string; userId: string; name: string; role: string; content: string; createdAt: string }) {
-  db.query("INSERT INTO messages (id, channel, user_id, name, role, content, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)").run(
-    m.id, m.channel, m.userId, m.name, m.role, m.content, m.createdAt
-  );
-}
-
-// seed a welcome message per channel the first time the service runs
-const anyMessages = db.query("SELECT COUNT(*) AS n FROM messages").get() as { n: number };
-if (anyMessages.n === 0) {
-  for (const c of CHANNELS) {
-    saveMessage({
-      id: crypto.randomUUID(),
-      channel: c.slug,
-      userId: "bot",
-      name: "Placement Hub",
-      role: "BOT",
-      content: `Welcome to #${c.slug}! ${c.description}. Be kind — seniors took time to answer here.`,
-      createdAt: new Date().toISOString(),
-    });
-  }
-  console.log("Seeded welcome messages for", CHANNELS.length, "channels");
+function saveMessage(m: {
+  id: string;
+  channel: string;
+  userId: string;
+  name: string;
+  role: string;
+  content: string;
+  createdAt: string;
+}) {
+  db.query(
+    "INSERT INTO messages (id, channel, user_id, name, role, content, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)"
+  ).run(m.id, m.channel, m.userId, m.name, m.role, m.content, m.createdAt);
 }
 
 /** ---------- server ---------- */
-const allowedOrigins = (
-  process.env.ALLOWED_ORIGINS ||
-  "http://localhost:3000,https://localhost:3000,https://localhost,http://localhost:81"
-)
+const allowedOrigins = (process.env.CHAT_ALLOWED_ORIGINS || "http://localhost:3000")
   .split(",")
-  .map((o) => o.trim())
+  .map((s) => s.trim())
   .filter(Boolean);
 
-const httpServer = createServer();
+const httpServer = createServer((req, res) => {
+  if (req.url === "/health") {
+    res.writeHead(200, { "Content-Type": "application/json" });
+    res.end(
+      JSON.stringify({
+        status: "healthy",
+        service: "chat-service",
+        timestamp: new Date().toISOString(),
+      })
+    );
+    return;
+  }
+  res.writeHead(404);
+  res.end();
+});
+
 const io = new Server(httpServer, {
-  path: "/ws/chat",
+  path: "/chat/socket.io",
   maxHttpBufferSize: 16_384,
   cors: {
     origin: allowedOrigins,
@@ -206,6 +188,18 @@ const io = new Server(httpServer, {
   pingTimeout: 60000,
   pingInterval: 25000,
 });
+
+// Redis adapter for horizontal scaling across multiple chat service instances
+if (process.env.REDIS_URL) {
+  try {
+    const pubClient = new Redis(process.env.REDIS_URL);
+    const subClient = pubClient.duplicate();
+    io.adapter(createAdapter(pubClient, subClient));
+    console.log(`[Chat Service] Attached Redis adapter to ${process.env.REDIS_URL}`);
+  } catch (err) {
+    console.warn("[Chat Service] Failed to attach Redis adapter, running in single-node mode:", err);
+  }
+}
 
 type Presence = { name: string; role: string };
 
@@ -241,7 +235,11 @@ function broadcastPresence(channel: string) {
 
 function sanitizeName(raw: unknown): string | null {
   if (typeof raw !== "string") return null;
-  const name = raw.trim().replace(/[\x00-\x1F\x7F]/g, "").replace(/\s+/g, " ").slice(0, 60);
+  const name = raw
+    .trim()
+    .replace(/[\x00-\x1F\x7F]/g, "")
+    .replace(/\s+/g, " ")
+    .slice(0, 60);
   return name.length >= 1 ? name : null;
 }
 
@@ -275,9 +273,9 @@ function clearTyping(socket: Socket, channel: string | undefined) {
   socket.to(channel).emit("chat:typing", { channel, name: null, socketId: socket.id, typing: false });
 }
 
-io.use((socket, next) => {
+io.use(async (socket, next) => {
   try {
-    socket.data.user = authenticateHandshake(socket);
+    socket.data.user = await authenticateHandshakeAsync(socket);
     next();
   } catch (err) {
     next(err instanceof Error ? err : new Error("Authentication failed"));
@@ -354,6 +352,7 @@ io.on("connection", (socket) => {
       content,
       createdAt: new Date().toISOString(),
     };
+
     saveMessage(message);
     clearTyping(socket, channel);
     io.to(channel).emit("chat:message", message);
@@ -365,54 +364,48 @@ io.on("connection", (socket) => {
     if (!channel || !CHANNEL_MAP.has(channel)) return;
 
     if (data?.typing) {
+      const until = Date.now() + TYPING_TTL_MS;
       let m = typingUntil.get(channel);
       if (!m) {
         m = new Map();
         typingUntil.set(channel, m);
       }
-      m.set(socket.id, Date.now() + TYPING_TTL_MS);
-      socket.to(channel).emit("chat:typing", { channel, name: authUser.name, socketId: socket.id, typing: true });
+      m.set(socket.id, until);
+      socket.to(channel).emit("chat:typing", {
+        channel,
+        name: authUser.name,
+        socketId: socket.id,
+        typing: true,
+      });
     } else {
       clearTyping(socket, channel);
     }
   });
 
   socket.on("disconnect", () => {
-    const channel = currentChannel.get(socket.id);
-    if (channel) {
-      getPresenceMap(channel).delete(socket.id);
-      clearTyping(socket, channel);
-      broadcastPresence(channel);
+    const ch = currentChannel.get(socket.id);
+    if (ch) {
+      getPresenceMap(ch).delete(socket.id);
+      clearTyping(socket, ch);
+      broadcastPresence(ch);
     }
     currentChannel.delete(socket.id);
   });
-
-  socket.on("error", (error) => {
-    console.error(`socket error (${socket.id}):`, error);
-  });
 });
 
-// sweep expired typing indicators
 setInterval(() => {
   const now = Date.now();
-  for (const [channel, m] of typingUntil) {
-    for (const [socketId, until] of m) {
-      if (until < now) {
-        m.delete(socketId);
-        io.to(channel).emit("chat:typing", { channel, name: null, socketId, typing: false });
+  for (const [ch, m] of typingUntil.entries()) {
+    for (const [sid, until] of m.entries()) {
+      if (now > until) {
+        m.delete(sid);
+        io.to(ch).emit("chat:typing", { channel: ch, name: null, socketId: sid, typing: false });
       }
     }
-    if (m.size === 0) typingUntil.delete(channel);
+    if (m.size === 0) typingUntil.delete(ch);
   }
 }, 2000);
 
 httpServer.listen(PORT, () => {
-  console.log(`Chat service (socket.io) running on port ${PORT}`);
-});
-
-process.on("SIGTERM", () => {
-  httpServer.close(() => process.exit(0));
-});
-process.on("SIGINT", () => {
-  httpServer.close(() => process.exit(0));
+  console.log(`[Chat Service] Running on port ${PORT} (Next auth: ${NEXT_AUTH_URL})`);
 });

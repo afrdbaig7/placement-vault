@@ -10,3 +10,4 @@ CREATE INDEX IF NOT EXISTS problem_title_trgm_idx ON "Problem" USING gin (title 
 
 -- Trigram search index for OA questions
 CREATE INDEX IF NOT EXISTS oa_question_text_trgm_idx ON "OAQuestion" USING gin ("statementMd" gin_trgm_ops);
+

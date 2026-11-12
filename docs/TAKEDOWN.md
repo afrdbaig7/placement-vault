@@ -53,3 +53,4 @@ When a takedown request is approved by a moderator:
 1. The record is soft-deleted by setting `deletedAt = NOW()` and `takedownReason = <Reason>`.
 2. The material is instantly purged from all public API responses, company hubs, search indexes, and cache layers.
 3. The entry is retained exclusively within the `ModerationLog` table to preserve an immutable audit trail for legal dispute resolution.
+
