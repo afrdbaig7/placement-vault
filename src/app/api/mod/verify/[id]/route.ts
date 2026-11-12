@@ -42,10 +42,32 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
           refId: id,
           note: "Roll number verified — welcome to the platform",
         });
+        await tx.moderationLog.create({
+          data: {
+            moderatorId: mod.id,
+            targetType: "USER",
+            targetId: id,
+            action: "VERIFY",
+            beforeState: "UNVERIFIED",
+            afterState: "VERIFIED",
+            reason: "Roll number verified by moderator",
+          },
+        });
         return `${user.name} verified — welcome coins granted`;
       }
 
       await tx.user.update({ where: { id }, data: { rollNumber: null } });
+      await tx.moderationLog.create({
+        data: {
+          moderatorId: mod.id,
+          targetType: "USER",
+          targetId: id,
+          action: "REJECT_VERIFICATION",
+          beforeState: "UNVERIFIED",
+          afterState: "CLEARED",
+          reason: "Roll number rejected by moderator",
+        },
+      });
       return `${user.name}'s roll number cleared — they can resubmit`;
     });
 

@@ -10,8 +10,8 @@ function isRecordMissing(err: unknown): boolean {
 }
 
 /**
- * Resolve a flag atomically. With takedown=true the content is removed:
- * reports/experiences get status REMOVED, doubts/answers are deleted.
+ * Resolve a flag atomically. With takedown=true the content is soft-deleted:
+ * reports/experiences/doubts/answers record deletedAt & takedownReason and are audited in ModerationLog.
  */
 export async function POST(req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
@@ -33,16 +33,39 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
       if (takedown) {
         try {
           if (flag.targetType === "REPORT") {
-            await tx.oaReport.update({ where: { id: flag.targetId }, data: { status: "REMOVED" } });
+            await tx.oaReport.update({
+              where: { id: flag.targetId },
+              data: { status: "REMOVED", deletedAt: new Date(), takedownReason: flag.reason },
+            });
           } else if (flag.targetType === "EXPERIENCE") {
-            await tx.experience.update({ where: { id: flag.targetId }, data: { status: "REMOVED" } });
+            await tx.experience.update({
+              where: { id: flag.targetId },
+              data: { status: "REMOVED", deletedAt: new Date(), takedownReason: flag.reason },
+            });
           } else if (flag.targetType === "DOUBT") {
-            await tx.doubt.delete({ where: { id: flag.targetId } });
+            await tx.doubt.update({
+              where: { id: flag.targetId },
+              data: { deletedAt: new Date(), takedownReason: flag.reason },
+            });
           } else if (flag.targetType === "ANSWER") {
-            await tx.answer.delete({ where: { id: flag.targetId } });
+            await tx.answer.update({
+              where: { id: flag.targetId },
+              data: { deletedAt: new Date(), takedownReason: flag.reason },
+            });
           }
+
+          await tx.moderationLog.create({
+            data: {
+              moderatorId: mod.id,
+              targetType: flag.targetType,
+              targetId: flag.targetId,
+              action: "TAKEDOWN",
+              beforeState: "ACTIVE",
+              afterState: "REMOVED",
+              reason: flag.reason,
+            },
+          });
         } catch (err) {
-          // Only tolerate target already removed/deleted; propagate real DB failures
           if (!isRecordMissing(err)) throw err;
         }
       }
@@ -50,7 +73,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
       await tx.flag.update({ where: { id }, data: { resolved: true } });
     });
 
-    return ok({ message: takedown ? "Content removed and flag resolved" : "Flag resolved" });
+    return ok({ message: takedown ? "Flag resolved and content taken down" : "Flag resolved" });
   } catch (err) {
     return fail(err);
   }
