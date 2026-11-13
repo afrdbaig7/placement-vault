@@ -88,3 +88,4 @@ export const logger = {
     error: (message: string, meta?: Record<string, unknown>) => logger.error(message, meta, context),
   }),
 };
+

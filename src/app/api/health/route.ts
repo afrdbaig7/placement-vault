@@ -37,3 +37,4 @@ export async function GET() {
     return fail(err);
   }
 }
+

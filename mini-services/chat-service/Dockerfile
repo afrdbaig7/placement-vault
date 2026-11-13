@@ -18,3 +18,4 @@ ENV CHAT_PORT=3004
 EXPOSE 3004
 
 CMD ["bun", "index.ts"]
+
