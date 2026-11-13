@@ -1,0 +1,3142 @@
+{
+  "amazon": [
+    {
+      "title": "Two Sum",
+      "slug": "two-sum",
+      "difficulty": "Easy",
+      "window": "6mo"
+    },
+    {
+      "title": "Trapping Rain Water",
+      "slug": "trapping-rain-water",
+      "difficulty": "Hard",
+      "window": "6mo"
+    },
+    {
+      "title": "Maximum Coins From K Consecutive Bags",
+      "slug": "maximum-coins-from-k-consecutive-bags",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Longest Substring Without Repeating Characters",
+      "slug": "longest-substring-without-repeating-characters",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Best Time to Buy and Sell Stock",
+      "slug": "best-time-to-buy-and-sell-stock",
+      "difficulty": "Easy",
+      "window": "6mo"
+    },
+    {
+      "title": "Add Two Numbers",
+      "slug": "add-two-numbers",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "3Sum",
+      "slug": "3sum",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Group Anagrams",
+      "slug": "group-anagrams",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "LRU Cache",
+      "slug": "lru-cache",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Median of Two Sorted Arrays",
+      "slug": "median-of-two-sorted-arrays",
+      "difficulty": "Hard",
+      "window": "6mo"
+    },
+    {
+      "title": "Longest Palindromic Substring",
+      "slug": "longest-palindromic-substring",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Number of Islands",
+      "slug": "number-of-islands",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Koko Eating Bananas",
+      "slug": "koko-eating-bananas",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Merge Intervals",
+      "slug": "merge-intervals",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Container With Most Water",
+      "slug": "container-with-most-water",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Subarray Sum Equals K",
+      "slug": "subarray-sum-equals-k",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Course Schedule",
+      "slug": "course-schedule",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Top K Frequent Elements",
+      "slug": "top-k-frequent-elements",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Rotting Oranges",
+      "slug": "rotting-oranges",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Palindrome Number",
+      "slug": "palindrome-number",
+      "difficulty": "Easy",
+      "window": "6mo"
+    },
+    {
+      "title": "Search in Rotated Sorted Array",
+      "slug": "search-in-rotated-sorted-array",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Fruit Into Baskets",
+      "slug": "fruit-into-baskets",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Reorganize String",
+      "slug": "reorganize-string",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Maximum Subarray",
+      "slug": "maximum-subarray",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Longest Consecutive Sequence",
+      "slug": "longest-consecutive-sequence",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Majority Element",
+      "slug": "majority-element",
+      "difficulty": "Easy",
+      "window": "6mo"
+    },
+    {
+      "title": "Longest Common Prefix",
+      "slug": "longest-common-prefix",
+      "difficulty": "Easy",
+      "window": "6mo"
+    },
+    {
+      "title": "Valid Parentheses",
+      "slug": "valid-parentheses",
+      "difficulty": "Easy",
+      "window": "6mo"
+    },
+    {
+      "title": "Lowest Common Ancestor of a Binary Tree",
+      "slug": "lowest-common-ancestor-of-a-binary-tree",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Merge k Sorted Lists",
+      "slug": "merge-k-sorted-lists",
+      "difficulty": "Hard",
+      "window": "6mo"
+    },
+    {
+      "title": "Move Zeroes",
+      "slug": "move-zeroes",
+      "difficulty": "Easy",
+      "window": "6mo"
+    },
+    {
+      "title": "Reverse Integer",
+      "slug": "reverse-integer",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Minimum Window Substring",
+      "slug": "minimum-window-substring",
+      "difficulty": "Hard",
+      "window": "6mo"
+    },
+    {
+      "title": "Subsets",
+      "slug": "subsets",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Remove Duplicates from Sorted Array",
+      "slug": "remove-duplicates-from-sorted-array",
+      "difficulty": "Easy",
+      "window": "6mo"
+    },
+    {
+      "title": "Find First and Last Position of Element in Sorted Array",
+      "slug": "find-first-and-last-position-of-element-in-sorted-array",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Capacity To Ship Packages Within D Days",
+      "slug": "capacity-to-ship-packages-within-d-days",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "House Robber",
+      "slug": "house-robber",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Valid Anagram",
+      "slug": "valid-anagram",
+      "difficulty": "Easy",
+      "window": "6mo"
+    },
+    {
+      "title": "Product of Array Except Self",
+      "slug": "product-of-array-except-self",
+      "difficulty": "Medium",
+      "window": "6mo"
+    }
+  ],
+  "microsoft": [
+    {
+      "title": "Two Sum",
+      "slug": "two-sum",
+      "difficulty": "Easy",
+      "window": "6mo"
+    },
+    {
+      "title": "Add Two Numbers",
+      "slug": "add-two-numbers",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Longest Palindromic Substring",
+      "slug": "longest-palindromic-substring",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "3Sum",
+      "slug": "3sum",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Longest Substring Without Repeating Characters",
+      "slug": "longest-substring-without-repeating-characters",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Subarray Sum Equals K",
+      "slug": "subarray-sum-equals-k",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Best Time to Buy and Sell Stock",
+      "slug": "best-time-to-buy-and-sell-stock",
+      "difficulty": "Easy",
+      "window": "6mo"
+    },
+    {
+      "title": "Remove Duplicates from Sorted Array",
+      "slug": "remove-duplicates-from-sorted-array",
+      "difficulty": "Easy",
+      "window": "6mo"
+    },
+    {
+      "title": "Valid Parentheses",
+      "slug": "valid-parentheses",
+      "difficulty": "Easy",
+      "window": "6mo"
+    },
+    {
+      "title": "Container With Most Water",
+      "slug": "container-with-most-water",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Longest Common Prefix",
+      "slug": "longest-common-prefix",
+      "difficulty": "Easy",
+      "window": "6mo"
+    },
+    {
+      "title": "Trapping Rain Water",
+      "slug": "trapping-rain-water",
+      "difficulty": "Hard",
+      "window": "6mo"
+    },
+    {
+      "title": "Maximum Subarray",
+      "slug": "maximum-subarray",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Median of Two Sorted Arrays",
+      "slug": "median-of-two-sorted-arrays",
+      "difficulty": "Hard",
+      "window": "6mo"
+    },
+    {
+      "title": "LRU Cache",
+      "slug": "lru-cache",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Longest Consecutive Sequence",
+      "slug": "longest-consecutive-sequence",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Sliding Window Maximum",
+      "slug": "sliding-window-maximum",
+      "difficulty": "Hard",
+      "window": "6mo"
+    },
+    {
+      "title": "Palindrome Number",
+      "slug": "palindrome-number",
+      "difficulty": "Easy",
+      "window": "6mo"
+    },
+    {
+      "title": "Merge Intervals",
+      "slug": "merge-intervals",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "House Robber",
+      "slug": "house-robber",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Roman to Integer",
+      "slug": "roman-to-integer",
+      "difficulty": "Easy",
+      "window": "6mo"
+    },
+    {
+      "title": "Letter Combinations of a Phone Number",
+      "slug": "letter-combinations-of-a-phone-number",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Move Zeroes",
+      "slug": "move-zeroes",
+      "difficulty": "Easy",
+      "window": "6mo"
+    },
+    {
+      "title": "Next Permutation",
+      "slug": "next-permutation",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Climbing Stairs",
+      "slug": "climbing-stairs",
+      "difficulty": "Easy",
+      "window": "6mo"
+    },
+    {
+      "title": "Number of Islands",
+      "slug": "number-of-islands",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Valid Anagram",
+      "slug": "valid-anagram",
+      "difficulty": "Easy",
+      "window": "6mo"
+    },
+    {
+      "title": "Subsets",
+      "slug": "subsets",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Search a 2D Matrix",
+      "slug": "search-a-2d-matrix",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Minimum Window Substring",
+      "slug": "minimum-window-substring",
+      "difficulty": "Hard",
+      "window": "6mo"
+    },
+    {
+      "title": "Generate Parentheses",
+      "slug": "generate-parentheses",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Group Anagrams",
+      "slug": "group-anagrams",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Rotting Oranges",
+      "slug": "rotting-oranges",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Majority Element",
+      "slug": "majority-element",
+      "difficulty": "Easy",
+      "window": "6mo"
+    },
+    {
+      "title": "Rotate Array",
+      "slug": "rotate-array",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Max Consecutive Ones",
+      "slug": "max-consecutive-ones",
+      "difficulty": "Easy",
+      "window": "6mo"
+    },
+    {
+      "title": "Minimum Difficulty of a Job Schedule",
+      "slug": "minimum-difficulty-of-a-job-schedule",
+      "difficulty": "Hard",
+      "window": "6mo"
+    },
+    {
+      "title": "Reverse Integer",
+      "slug": "reverse-integer",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Merge Two Sorted Lists",
+      "slug": "merge-two-sorted-lists",
+      "difficulty": "Easy",
+      "window": "6mo"
+    },
+    {
+      "title": "Find the Index of the First Occurrence in a String",
+      "slug": "find-the-index-of-the-first-occurrence-in-a-string",
+      "difficulty": "Easy",
+      "window": "6mo"
+    }
+  ],
+  "google": [
+    {
+      "title": "Two Sum",
+      "slug": "two-sum",
+      "difficulty": "Easy",
+      "window": "6mo"
+    },
+    {
+      "title": "Add Two Numbers",
+      "slug": "add-two-numbers",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Palindrome Number",
+      "slug": "palindrome-number",
+      "difficulty": "Easy",
+      "window": "6mo"
+    },
+    {
+      "title": "Median of Two Sorted Arrays",
+      "slug": "median-of-two-sorted-arrays",
+      "difficulty": "Hard",
+      "window": "6mo"
+    },
+    {
+      "title": "3Sum",
+      "slug": "3sum",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Best Time to Buy and Sell Stock",
+      "slug": "best-time-to-buy-and-sell-stock",
+      "difficulty": "Easy",
+      "window": "6mo"
+    },
+    {
+      "title": "Longest Substring Without Repeating Characters",
+      "slug": "longest-substring-without-repeating-characters",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Trapping Rain Water",
+      "slug": "trapping-rain-water",
+      "difficulty": "Hard",
+      "window": "6mo"
+    },
+    {
+      "title": "Concatenation of Array",
+      "slug": "concatenation-of-array",
+      "difficulty": "Easy",
+      "window": "6mo"
+    },
+    {
+      "title": "Longest Consecutive Sequence",
+      "slug": "longest-consecutive-sequence",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Reverse Integer",
+      "slug": "reverse-integer",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Longest Common Prefix",
+      "slug": "longest-common-prefix",
+      "difficulty": "Easy",
+      "window": "6mo"
+    },
+    {
+      "title": "Container With Most Water",
+      "slug": "container-with-most-water",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Valid Parentheses",
+      "slug": "valid-parentheses",
+      "difficulty": "Easy",
+      "window": "6mo"
+    },
+    {
+      "title": "Longest Palindromic Substring",
+      "slug": "longest-palindromic-substring",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Remove Duplicates from Sorted Array",
+      "slug": "remove-duplicates-from-sorted-array",
+      "difficulty": "Easy",
+      "window": "6mo"
+    },
+    {
+      "title": "Group Anagrams",
+      "slug": "group-anagrams",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Merge Sorted Array",
+      "slug": "merge-sorted-array",
+      "difficulty": "Easy",
+      "window": "6mo"
+    },
+    {
+      "title": "Majority Element",
+      "slug": "majority-element",
+      "difficulty": "Easy",
+      "window": "6mo"
+    },
+    {
+      "title": "Maximum Subarray",
+      "slug": "maximum-subarray",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Combine Two Tables",
+      "slug": "combine-two-tables",
+      "difficulty": "Easy",
+      "window": "6mo"
+    },
+    {
+      "title": "Valid Anagram",
+      "slug": "valid-anagram",
+      "difficulty": "Easy",
+      "window": "6mo"
+    },
+    {
+      "title": "Subarray Sum Equals K",
+      "slug": "subarray-sum-equals-k",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Contains Duplicate",
+      "slug": "contains-duplicate",
+      "difficulty": "Easy",
+      "window": "6mo"
+    },
+    {
+      "title": "Climbing Stairs",
+      "slug": "climbing-stairs",
+      "difficulty": "Easy",
+      "window": "6mo"
+    },
+    {
+      "title": "Koko Eating Bananas",
+      "slug": "koko-eating-bananas",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Merge Two Sorted Lists",
+      "slug": "merge-two-sorted-lists",
+      "difficulty": "Easy",
+      "window": "6mo"
+    },
+    {
+      "title": "Roman to Integer",
+      "slug": "roman-to-integer",
+      "difficulty": "Easy",
+      "window": "6mo"
+    },
+    {
+      "title": "Sqrt(x)",
+      "slug": "sqrtx",
+      "difficulty": "Easy",
+      "window": "6mo"
+    },
+    {
+      "title": "Split Array Largest Sum",
+      "slug": "split-array-largest-sum",
+      "difficulty": "Hard",
+      "window": "6mo"
+    },
+    {
+      "title": "Max Consecutive Ones",
+      "slug": "max-consecutive-ones",
+      "difficulty": "Easy",
+      "window": "6mo"
+    },
+    {
+      "title": "Search in Rotated Sorted Array",
+      "slug": "search-in-rotated-sorted-array",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Number of Islands",
+      "slug": "number-of-islands",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Spiral Matrix",
+      "slug": "spiral-matrix",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Recyclable and Low Fat Products",
+      "slug": "recyclable-and-low-fat-products",
+      "difficulty": "Easy",
+      "window": "6mo"
+    },
+    {
+      "title": "Next Greater Element I",
+      "slug": "next-greater-element-i",
+      "difficulty": "Easy",
+      "window": "6mo"
+    },
+    {
+      "title": "Letter Combinations of a Phone Number",
+      "slug": "letter-combinations-of-a-phone-number",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Search Insert Position",
+      "slug": "search-insert-position",
+      "difficulty": "Easy",
+      "window": "6mo"
+    },
+    {
+      "title": "N-Queens",
+      "slug": "n-queens",
+      "difficulty": "Hard",
+      "window": "6mo"
+    },
+    {
+      "title": "Rotate Array",
+      "slug": "rotate-array",
+      "difficulty": "Medium",
+      "window": "6mo"
+    }
+  ],
+  "adobe": [
+    {
+      "title": "Count Subarrays With Fixed Bounds",
+      "slug": "count-subarrays-with-fixed-bounds",
+      "difficulty": "Hard",
+      "window": "6mo"
+    },
+    {
+      "title": "Find Median from Data Stream",
+      "slug": "find-median-from-data-stream",
+      "difficulty": "Hard",
+      "window": "6mo"
+    },
+    {
+      "title": "Building Boxes",
+      "slug": "building-boxes",
+      "difficulty": "Hard",
+      "window": "6mo"
+    },
+    {
+      "title": "Design Authentication Manager",
+      "slug": "design-authentication-manager",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Find Peak Element",
+      "slug": "find-peak-element",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "LRU Cache",
+      "slug": "lru-cache",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Gas Station",
+      "slug": "gas-station",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Flatten Nested List Iterator",
+      "slug": "flatten-nested-list-iterator",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Best Time to Buy and Sell Stock",
+      "slug": "best-time-to-buy-and-sell-stock",
+      "difficulty": "Easy",
+      "window": "6mo"
+    },
+    {
+      "title": "Maximize Distance to Closest Person",
+      "slug": "maximize-distance-to-closest-person",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Flatten a Multilevel Doubly Linked List",
+      "slug": "flatten-a-multilevel-doubly-linked-list",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Merge Two Sorted Lists",
+      "slug": "merge-two-sorted-lists",
+      "difficulty": "Easy",
+      "window": "6mo"
+    },
+    {
+      "title": "Second Highest Salary",
+      "slug": "second-highest-salary",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Longest Palindromic Substring",
+      "slug": "longest-palindromic-substring",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Fruit Into Baskets",
+      "slug": "fruit-into-baskets",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Special Binary String",
+      "slug": "special-binary-string",
+      "difficulty": "Hard",
+      "window": "older"
+    },
+    {
+      "title": "Group Anagrams",
+      "slug": "group-anagrams",
+      "difficulty": "Medium",
+      "window": "older"
+    },
+    {
+      "title": "Merge Intervals",
+      "slug": "merge-intervals",
+      "difficulty": "Medium",
+      "window": "older"
+    },
+    {
+      "title": "Two Sum",
+      "slug": "two-sum",
+      "difficulty": "Easy",
+      "window": "older"
+    },
+    {
+      "title": "Validate IP Address",
+      "slug": "validate-ip-address",
+      "difficulty": "Medium",
+      "window": "older"
+    },
+    {
+      "title": "Integer to Roman",
+      "slug": "integer-to-roman",
+      "difficulty": "Medium",
+      "window": "older"
+    },
+    {
+      "title": "Valid Parentheses",
+      "slug": "valid-parentheses",
+      "difficulty": "Easy",
+      "window": "older"
+    },
+    {
+      "title": "Minimum Window Substring",
+      "slug": "minimum-window-substring",
+      "difficulty": "Hard",
+      "window": "older"
+    },
+    {
+      "title": "Maximum Product Subarray",
+      "slug": "maximum-product-subarray",
+      "difficulty": "Medium",
+      "window": "older"
+    },
+    {
+      "title": "Sort Array by Increasing Frequency",
+      "slug": "sort-array-by-increasing-frequency",
+      "difficulty": "Easy",
+      "window": "older"
+    },
+    {
+      "title": "Longest Substring Without Repeating Characters",
+      "slug": "longest-substring-without-repeating-characters",
+      "difficulty": "Medium",
+      "window": "older"
+    },
+    {
+      "title": "Longest Common Prefix",
+      "slug": "longest-common-prefix",
+      "difficulty": "Easy",
+      "window": "older"
+    },
+    {
+      "title": "Next Permutation",
+      "slug": "next-permutation",
+      "difficulty": "Medium",
+      "window": "older"
+    },
+    {
+      "title": "Trapping Rain Water",
+      "slug": "trapping-rain-water",
+      "difficulty": "Hard",
+      "window": "older"
+    },
+    {
+      "title": "Jump Game",
+      "slug": "jump-game",
+      "difficulty": "Medium",
+      "window": "older"
+    }
+  ],
+  "goldman-sachs": [
+    {
+      "title": "Trapping Rain Water",
+      "slug": "trapping-rain-water",
+      "difficulty": "Hard",
+      "window": "6mo"
+    },
+    {
+      "title": "Sell Diminishing-Valued Colored Balls",
+      "slug": "sell-diminishing-valued-colored-balls",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Longest Palindromic Subsequence",
+      "slug": "longest-palindromic-subsequence",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Count Paths That Can Form a Palindrome in a Tree",
+      "slug": "count-paths-that-can-form-a-palindrome-in-a-tree",
+      "difficulty": "Hard",
+      "window": "6mo"
+    },
+    {
+      "title": "Make Lexicographically Smallest Array by Swapping Elements",
+      "slug": "make-lexicographically-smallest-array-by-swapping-elements",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Median of Two Sorted Arrays",
+      "slug": "median-of-two-sorted-arrays",
+      "difficulty": "Hard",
+      "window": "6mo"
+    },
+    {
+      "title": "High Five",
+      "slug": "high-five",
+      "difficulty": "Easy",
+      "window": "6mo"
+    },
+    {
+      "title": "Fraction to Recurring Decimal",
+      "slug": "fraction-to-recurring-decimal",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Domino and Tromino Tiling",
+      "slug": "domino-and-tromino-tiling",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Container With Most Water",
+      "slug": "container-with-most-water",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Minimum Path Sum",
+      "slug": "minimum-path-sum",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "First Unique Character in a String",
+      "slug": "first-unique-character-in-a-string",
+      "difficulty": "Easy",
+      "window": "6mo"
+    },
+    {
+      "title": "Find the Winner of the Circular Game",
+      "slug": "find-the-winner-of-the-circular-game",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "LRU Cache",
+      "slug": "lru-cache",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Longest Substring Without Repeating Characters",
+      "slug": "longest-substring-without-repeating-characters",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Binary Tree Maximum Path Sum",
+      "slug": "binary-tree-maximum-path-sum",
+      "difficulty": "Hard",
+      "window": "6mo"
+    },
+    {
+      "title": "Smallest String With Swaps",
+      "slug": "smallest-string-with-swaps",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Palindromic Substrings",
+      "slug": "palindromic-substrings",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Merge Intervals",
+      "slug": "merge-intervals",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "String Compression",
+      "slug": "string-compression",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Number of Islands",
+      "slug": "number-of-islands",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Daily Temperatures",
+      "slug": "daily-temperatures",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Design HashMap",
+      "slug": "design-hashmap",
+      "difficulty": "Easy",
+      "window": "6mo"
+    },
+    {
+      "title": "Find the Winner of an Array Game",
+      "slug": "find-the-winner-of-an-array-game",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Search a 2D Matrix II",
+      "slug": "search-a-2d-matrix-ii",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Gas Station",
+      "slug": "gas-station",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Longest Palindromic Substring",
+      "slug": "longest-palindromic-substring",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Search a 2D Matrix",
+      "slug": "search-a-2d-matrix",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Longest Repeating Character Replacement",
+      "slug": "longest-repeating-character-replacement",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Random Pick with Weight",
+      "slug": "random-pick-with-weight",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Accounts Merge",
+      "slug": "accounts-merge",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Rotting Oranges",
+      "slug": "rotting-oranges",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "LFU Cache",
+      "slug": "lfu-cache",
+      "difficulty": "Hard",
+      "window": "6mo"
+    },
+    {
+      "title": "Find the Duplicate Number",
+      "slug": "find-the-duplicate-number",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Max Consecutive Ones III",
+      "slug": "max-consecutive-ones-iii",
+      "difficulty": "Medium",
+      "window": "6mo"
+    }
+  ],
+  "flipkart": [
+    {
+      "title": "Contain Virus",
+      "slug": "contain-virus",
+      "difficulty": "Hard",
+      "window": "6mo"
+    },
+    {
+      "title": "Container With Most Water",
+      "slug": "container-with-most-water",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Rotting Oranges",
+      "slug": "rotting-oranges",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Next Greater Element I",
+      "slug": "next-greater-element-i",
+      "difficulty": "Easy",
+      "window": "6mo"
+    },
+    {
+      "title": "Cheapest Flights Within K Stops",
+      "slug": "cheapest-flights-within-k-stops",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Loud and Rich",
+      "slug": "loud-and-rich",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Minimum Number of Days to Make m Bouquets",
+      "slug": "minimum-number-of-days-to-make-m-bouquets",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Best Time to Buy and Sell Stock",
+      "slug": "best-time-to-buy-and-sell-stock",
+      "difficulty": "Easy",
+      "window": "6mo"
+    },
+    {
+      "title": "Jump Game II",
+      "slug": "jump-game-ii",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Maximum Points You Can Obtain from Cards",
+      "slug": "maximum-points-you-can-obtain-from-cards",
+      "difficulty": "Medium",
+      "window": "older"
+    },
+    {
+      "title": "Transform Array to All Equal Elements",
+      "slug": "transform-array-to-all-equal-elements",
+      "difficulty": "Medium",
+      "window": "older"
+    },
+    {
+      "title": "Two Sum",
+      "slug": "two-sum",
+      "difficulty": "Easy",
+      "window": "older"
+    },
+    {
+      "title": "Gas Station",
+      "slug": "gas-station",
+      "difficulty": "Medium",
+      "window": "older"
+    },
+    {
+      "title": "Trapping Rain Water",
+      "slug": "trapping-rain-water",
+      "difficulty": "Hard",
+      "window": "older"
+    },
+    {
+      "title": "Largest Rectangle in Histogram",
+      "slug": "largest-rectangle-in-histogram",
+      "difficulty": "Hard",
+      "window": "older"
+    },
+    {
+      "title": "Cut Off Trees for Golf Event",
+      "slug": "cut-off-trees-for-golf-event",
+      "difficulty": "Hard",
+      "window": "older"
+    },
+    {
+      "title": "Create Maximum Number",
+      "slug": "create-maximum-number",
+      "difficulty": "Hard",
+      "window": "older"
+    },
+    {
+      "title": "Find Median from Data Stream",
+      "slug": "find-median-from-data-stream",
+      "difficulty": "Hard",
+      "window": "older"
+    },
+    {
+      "title": "Koko Eating Bananas",
+      "slug": "koko-eating-bananas",
+      "difficulty": "Medium",
+      "window": "older"
+    },
+    {
+      "title": "Sum of Subarray Minimums",
+      "slug": "sum-of-subarray-minimums",
+      "difficulty": "Medium",
+      "window": "older"
+    },
+    {
+      "title": "Rectangle Area II",
+      "slug": "rectangle-area-ii",
+      "difficulty": "Hard",
+      "window": "older"
+    },
+    {
+      "title": "Cherry Pickup II",
+      "slug": "cherry-pickup-ii",
+      "difficulty": "Hard",
+      "window": "older"
+    },
+    {
+      "title": "Asteroid Collision",
+      "slug": "asteroid-collision",
+      "difficulty": "Medium",
+      "window": "older"
+    },
+    {
+      "title": "Edit Distance",
+      "slug": "edit-distance",
+      "difficulty": "Medium",
+      "window": "older"
+    },
+    {
+      "title": "Kth Largest Element in an Array",
+      "slug": "kth-largest-element-in-an-array",
+      "difficulty": "Medium",
+      "window": "older"
+    },
+    {
+      "title": "Merge Intervals",
+      "slug": "merge-intervals",
+      "difficulty": "Medium",
+      "window": "older"
+    },
+    {
+      "title": "Search in Rotated Sorted Array",
+      "slug": "search-in-rotated-sorted-array",
+      "difficulty": "Medium",
+      "window": "older"
+    },
+    {
+      "title": "Reconstruct Itinerary",
+      "slug": "reconstruct-itinerary",
+      "difficulty": "Hard",
+      "window": "older"
+    },
+    {
+      "title": "Next Permutation",
+      "slug": "next-permutation",
+      "difficulty": "Medium",
+      "window": "older"
+    },
+    {
+      "title": "Generate Parentheses",
+      "slug": "generate-parentheses",
+      "difficulty": "Medium",
+      "window": "older"
+    }
+  ],
+  "oracle": [
+    {
+      "title": "Number of Islands",
+      "slug": "number-of-islands",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Two Sum",
+      "slug": "two-sum",
+      "difficulty": "Easy",
+      "window": "6mo"
+    },
+    {
+      "title": "Search in Rotated Sorted Array",
+      "slug": "search-in-rotated-sorted-array",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Merge k Sorted Lists",
+      "slug": "merge-k-sorted-lists",
+      "difficulty": "Hard",
+      "window": "6mo"
+    },
+    {
+      "title": "Meeting Rooms II",
+      "slug": "meeting-rooms-ii",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Decode String",
+      "slug": "decode-string",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Group Anagrams",
+      "slug": "group-anagrams",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "4Sum",
+      "slug": "4sum",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Accounts Merge",
+      "slug": "accounts-merge",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Cheapest Flights Within K Stops",
+      "slug": "cheapest-flights-within-k-stops",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Remove All Adjacent Duplicates in String II",
+      "slug": "remove-all-adjacent-duplicates-in-string-ii",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Longest Substring Without Repeating Characters",
+      "slug": "longest-substring-without-repeating-characters",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Maximum Subarray",
+      "slug": "maximum-subarray",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Valid Parenthesis String",
+      "slug": "valid-parenthesis-string",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "LRU Cache",
+      "slug": "lru-cache",
+      "difficulty": "Medium",
+      "window": "older"
+    },
+    {
+      "title": "Top K Frequent Elements",
+      "slug": "top-k-frequent-elements",
+      "difficulty": "Medium",
+      "window": "older"
+    },
+    {
+      "title": "Sliding Window Maximum",
+      "slug": "sliding-window-maximum",
+      "difficulty": "Hard",
+      "window": "older"
+    },
+    {
+      "title": "Valid Parentheses",
+      "slug": "valid-parentheses",
+      "difficulty": "Easy",
+      "window": "older"
+    },
+    {
+      "title": "LFU Cache",
+      "slug": "lfu-cache",
+      "difficulty": "Hard",
+      "window": "older"
+    },
+    {
+      "title": "Merge Intervals",
+      "slug": "merge-intervals",
+      "difficulty": "Medium",
+      "window": "older"
+    },
+    {
+      "title": "Reverse Linked List",
+      "slug": "reverse-linked-list",
+      "difficulty": "Easy",
+      "window": "older"
+    },
+    {
+      "title": "Longest Palindromic Substring",
+      "slug": "longest-palindromic-substring",
+      "difficulty": "Medium",
+      "window": "older"
+    },
+    {
+      "title": "Container With Most Water",
+      "slug": "container-with-most-water",
+      "difficulty": "Medium",
+      "window": "older"
+    },
+    {
+      "title": "3Sum",
+      "slug": "3sum",
+      "difficulty": "Medium",
+      "window": "older"
+    },
+    {
+      "title": "Spiral Matrix",
+      "slug": "spiral-matrix",
+      "difficulty": "Medium",
+      "window": "older"
+    },
+    {
+      "title": "Asteroid Collision",
+      "slug": "asteroid-collision",
+      "difficulty": "Medium",
+      "window": "older"
+    },
+    {
+      "title": "Find Valid Pair of Adjacent Digits in String",
+      "slug": "find-valid-pair-of-adjacent-digits-in-string",
+      "difficulty": "Easy",
+      "window": "older"
+    },
+    {
+      "title": "Min Stack",
+      "slug": "min-stack",
+      "difficulty": "Medium",
+      "window": "older"
+    },
+    {
+      "title": "Binary Tree Right Side View",
+      "slug": "binary-tree-right-side-view",
+      "difficulty": "Medium",
+      "window": "older"
+    },
+    {
+      "title": "Valid Anagram",
+      "slug": "valid-anagram",
+      "difficulty": "Easy",
+      "window": "older"
+    }
+  ],
+  "paytm": [
+    {
+      "title": "Smallest Subsequence of Distinct Characters",
+      "slug": "smallest-subsequence-of-distinct-characters",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Remove Duplicate Letters",
+      "slug": "remove-duplicate-letters",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Min Stack",
+      "slug": "min-stack",
+      "difficulty": "Medium",
+      "window": "older"
+    },
+    {
+      "title": "Linked List Cycle II",
+      "slug": "linked-list-cycle-ii",
+      "difficulty": "Medium",
+      "window": "older"
+    },
+    {
+      "title": "Longest Consecutive Sequence",
+      "slug": "longest-consecutive-sequence",
+      "difficulty": "Medium",
+      "window": "older"
+    },
+    {
+      "title": "Search in Rotated Sorted Array",
+      "slug": "search-in-rotated-sorted-array",
+      "difficulty": "Medium",
+      "window": "older"
+    },
+    {
+      "title": "Longest Substring Without Repeating Characters",
+      "slug": "longest-substring-without-repeating-characters",
+      "difficulty": "Medium",
+      "window": "older"
+    },
+    {
+      "title": "String Compression",
+      "slug": "string-compression",
+      "difficulty": "Medium",
+      "window": "older"
+    },
+    {
+      "title": "Reverse Linked List",
+      "slug": "reverse-linked-list",
+      "difficulty": "Easy",
+      "window": "older"
+    },
+    {
+      "title": "Trapping Rain Water",
+      "slug": "trapping-rain-water",
+      "difficulty": "Hard",
+      "window": "older"
+    },
+    {
+      "title": "Burst Balloons",
+      "slug": "burst-balloons",
+      "difficulty": "Hard",
+      "window": "older"
+    },
+    {
+      "title": "Car Pooling",
+      "slug": "car-pooling",
+      "difficulty": "Medium",
+      "window": "older"
+    },
+    {
+      "title": "Search a 2D Matrix",
+      "slug": "search-a-2d-matrix",
+      "difficulty": "Medium",
+      "window": "older"
+    },
+    {
+      "title": "Ugly Number II",
+      "slug": "ugly-number-ii",
+      "difficulty": "Medium",
+      "window": "older"
+    },
+    {
+      "title": "Lexicographically Smallest String After Deleting Duplicate Characters",
+      "slug": "lexicographically-smallest-string-after-deleting-duplicate-characters",
+      "difficulty": "Hard",
+      "window": "older"
+    },
+    {
+      "title": "Find Indices With Index and Value Difference I",
+      "slug": "find-indices-with-index-and-value-difference-i",
+      "difficulty": "Easy",
+      "window": "older"
+    },
+    {
+      "title": "Find Indices With Index and Value Difference II",
+      "slug": "find-indices-with-index-and-value-difference-ii",
+      "difficulty": "Medium",
+      "window": "older"
+    },
+    {
+      "title": "Remove All Adjacent Duplicates In String",
+      "slug": "remove-all-adjacent-duplicates-in-string",
+      "difficulty": "Easy",
+      "window": "older"
+    },
+    {
+      "title": "Longest Nice Subarray",
+      "slug": "longest-nice-subarray",
+      "difficulty": "Medium",
+      "window": "older"
+    },
+    {
+      "title": "Minimize Maximum of Array",
+      "slug": "minimize-maximum-of-array",
+      "difficulty": "Medium",
+      "window": "older"
+    },
+    {
+      "title": "Number of Unequal Triplets in Array",
+      "slug": "number-of-unequal-triplets-in-array",
+      "difficulty": "Easy",
+      "window": "older"
+    },
+    {
+      "title": "Maximum Transactions Without Negative Balance",
+      "slug": "maximum-transactions-without-negative-balance",
+      "difficulty": "Medium",
+      "window": "older"
+    },
+    {
+      "title": "Best Time to Buy and Sell Stock",
+      "slug": "best-time-to-buy-and-sell-stock",
+      "difficulty": "Easy",
+      "window": "older"
+    },
+    {
+      "title": "LRU Cache",
+      "slug": "lru-cache",
+      "difficulty": "Medium",
+      "window": "older"
+    },
+    {
+      "title": "Spiral Matrix",
+      "slug": "spiral-matrix",
+      "difficulty": "Medium",
+      "window": "older"
+    }
+  ],
+  "swiggy": [
+    {
+      "title": "Distinct Subsequences",
+      "slug": "distinct-subsequences",
+      "difficulty": "Hard",
+      "window": "6mo"
+    },
+    {
+      "title": "Count Good Meals",
+      "slug": "count-good-meals",
+      "difficulty": "Medium",
+      "window": "older"
+    },
+    {
+      "title": "Next Greater Element I",
+      "slug": "next-greater-element-i",
+      "difficulty": "Easy",
+      "window": "older"
+    },
+    {
+      "title": "Happy Number",
+      "slug": "happy-number",
+      "difficulty": "Easy",
+      "window": "older"
+    },
+    {
+      "title": "Course Schedule",
+      "slug": "course-schedule",
+      "difficulty": "Medium",
+      "window": "older"
+    },
+    {
+      "title": "Edit Distance",
+      "slug": "edit-distance",
+      "difficulty": "Medium",
+      "window": "older"
+    },
+    {
+      "title": "Best Time to Buy and Sell Stock",
+      "slug": "best-time-to-buy-and-sell-stock",
+      "difficulty": "Easy",
+      "window": "older"
+    },
+    {
+      "title": "Integer to Roman",
+      "slug": "integer-to-roman",
+      "difficulty": "Medium",
+      "window": "older"
+    },
+    {
+      "title": "Daily Temperatures",
+      "slug": "daily-temperatures",
+      "difficulty": "Medium",
+      "window": "older"
+    },
+    {
+      "title": "Fair Candy Swap",
+      "slug": "fair-candy-swap",
+      "difficulty": "Easy",
+      "window": "older"
+    },
+    {
+      "title": "Longest Substring Without Repeating Characters",
+      "slug": "longest-substring-without-repeating-characters",
+      "difficulty": "Medium",
+      "window": "older"
+    },
+    {
+      "title": "Unique Binary Search Trees",
+      "slug": "unique-binary-search-trees",
+      "difficulty": "Medium",
+      "window": "older"
+    },
+    {
+      "title": "Count Days Without Meetings",
+      "slug": "count-days-without-meetings",
+      "difficulty": "Medium",
+      "window": "older"
+    },
+    {
+      "title": "Maximum Profit in Job Scheduling",
+      "slug": "maximum-profit-in-job-scheduling",
+      "difficulty": "Hard",
+      "window": "older"
+    },
+    {
+      "title": "Merge Sorted Array",
+      "slug": "merge-sorted-array",
+      "difficulty": "Easy",
+      "window": "older"
+    },
+    {
+      "title": "Sort Colors",
+      "slug": "sort-colors",
+      "difficulty": "Medium",
+      "window": "older"
+    },
+    {
+      "title": "Maximize Area of Square Hole in Grid",
+      "slug": "maximize-area-of-square-hole-in-grid",
+      "difficulty": "Medium",
+      "window": "older"
+    },
+    {
+      "title": "Immediate Food Delivery II",
+      "slug": "immediate-food-delivery-ii",
+      "difficulty": "Medium",
+      "window": "older"
+    },
+    {
+      "title": "Maximum Score From Removing Substrings",
+      "slug": "maximum-score-from-removing-substrings",
+      "difficulty": "Medium",
+      "window": "older"
+    },
+    {
+      "title": "LRU Cache",
+      "slug": "lru-cache",
+      "difficulty": "Medium",
+      "window": "older"
+    },
+    {
+      "title": "K Closest Points to Origin",
+      "slug": "k-closest-points-to-origin",
+      "difficulty": "Medium",
+      "window": "older"
+    },
+    {
+      "title": "Minimum Number of Work Sessions to Finish the Tasks",
+      "slug": "minimum-number-of-work-sessions-to-finish-the-tasks",
+      "difficulty": "Medium",
+      "window": "older"
+    },
+    {
+      "title": "Two City Scheduling",
+      "slug": "two-city-scheduling",
+      "difficulty": "Medium",
+      "window": "older"
+    },
+    {
+      "title": "Sum of Two Integers",
+      "slug": "sum-of-two-integers",
+      "difficulty": "Medium",
+      "window": "older"
+    },
+    {
+      "title": "Trapping Rain Water",
+      "slug": "trapping-rain-water",
+      "difficulty": "Hard",
+      "window": "older"
+    },
+    {
+      "title": "Minimum Window Substring",
+      "slug": "minimum-window-substring",
+      "difficulty": "Hard",
+      "window": "older"
+    },
+    {
+      "title": "Maximum Subarray",
+      "slug": "maximum-subarray",
+      "difficulty": "Medium",
+      "window": "older"
+    },
+    {
+      "title": "Longest Palindromic Substring",
+      "slug": "longest-palindromic-substring",
+      "difficulty": "Medium",
+      "window": "older"
+    },
+    {
+      "title": "Longest Consecutive Sequence",
+      "slug": "longest-consecutive-sequence",
+      "difficulty": "Medium",
+      "window": "older"
+    },
+    {
+      "title": "Maximum Product Subarray",
+      "slug": "maximum-product-subarray",
+      "difficulty": "Medium",
+      "window": "older"
+    }
+  ],
+  "zoho": [
+    {
+      "title": "Angle Between Hands of a Clock",
+      "slug": "angle-between-hands-of-a-clock",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Longest Substring Without Repeating Characters",
+      "slug": "longest-substring-without-repeating-characters",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Sequential Digits",
+      "slug": "sequential-digits",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Median of Two Sorted Arrays",
+      "slug": "median-of-two-sorted-arrays",
+      "difficulty": "Hard",
+      "window": "6mo"
+    },
+    {
+      "title": "Longest Repeating Character Replacement",
+      "slug": "longest-repeating-character-replacement",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Best Time to Buy and Sell Stock",
+      "slug": "best-time-to-buy-and-sell-stock",
+      "difficulty": "Easy",
+      "window": "6mo"
+    },
+    {
+      "title": "Sort Array By Parity",
+      "slug": "sort-array-by-parity",
+      "difficulty": "Easy",
+      "window": "6mo"
+    },
+    {
+      "title": "Valid Anagram",
+      "slug": "valid-anagram",
+      "difficulty": "Easy",
+      "window": "6mo"
+    },
+    {
+      "title": "Koko Eating Bananas",
+      "slug": "koko-eating-bananas",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Spiral Matrix",
+      "slug": "spiral-matrix",
+      "difficulty": "Medium",
+      "window": "older"
+    },
+    {
+      "title": "Two Sum",
+      "slug": "two-sum",
+      "difficulty": "Easy",
+      "window": "older"
+    },
+    {
+      "title": "Merge Intervals",
+      "slug": "merge-intervals",
+      "difficulty": "Medium",
+      "window": "older"
+    },
+    {
+      "title": "Decode String",
+      "slug": "decode-string",
+      "difficulty": "Medium",
+      "window": "older"
+    },
+    {
+      "title": "Valid Parentheses",
+      "slug": "valid-parentheses",
+      "difficulty": "Easy",
+      "window": "older"
+    },
+    {
+      "title": "Trapping Rain Water",
+      "slug": "trapping-rain-water",
+      "difficulty": "Hard",
+      "window": "older"
+    },
+    {
+      "title": "Group Anagrams",
+      "slug": "group-anagrams",
+      "difficulty": "Medium",
+      "window": "older"
+    },
+    {
+      "title": "Compare Version Numbers",
+      "slug": "compare-version-numbers",
+      "difficulty": "Medium",
+      "window": "older"
+    },
+    {
+      "title": "Climbing Stairs",
+      "slug": "climbing-stairs",
+      "difficulty": "Easy",
+      "window": "older"
+    },
+    {
+      "title": "Wildcard Matching",
+      "slug": "wildcard-matching",
+      "difficulty": "Hard",
+      "window": "older"
+    },
+    {
+      "title": "Daily Temperatures",
+      "slug": "daily-temperatures",
+      "difficulty": "Medium",
+      "window": "older"
+    },
+    {
+      "title": "Container With Most Water",
+      "slug": "container-with-most-water",
+      "difficulty": "Medium",
+      "window": "older"
+    },
+    {
+      "title": "Number of Islands",
+      "slug": "number-of-islands",
+      "difficulty": "Medium",
+      "window": "older"
+    },
+    {
+      "title": "Generate Parentheses",
+      "slug": "generate-parentheses",
+      "difficulty": "Medium",
+      "window": "older"
+    },
+    {
+      "title": "Regular Expression Matching",
+      "slug": "regular-expression-matching",
+      "difficulty": "Hard",
+      "window": "older"
+    },
+    {
+      "title": "Largest Number",
+      "slug": "largest-number",
+      "difficulty": "Medium",
+      "window": "older"
+    },
+    {
+      "title": "Zigzag Conversion",
+      "slug": "zigzag-conversion",
+      "difficulty": "Medium",
+      "window": "older"
+    },
+    {
+      "title": "Sqrt(x)",
+      "slug": "sqrtx",
+      "difficulty": "Easy",
+      "window": "older"
+    },
+    {
+      "title": "Rotate Image",
+      "slug": "rotate-image",
+      "difficulty": "Medium",
+      "window": "older"
+    },
+    {
+      "title": "Longest Valid Parentheses",
+      "slug": "longest-valid-parentheses",
+      "difficulty": "Hard",
+      "window": "older"
+    },
+    {
+      "title": "3Sum",
+      "slug": "3sum",
+      "difficulty": "Medium",
+      "window": "older"
+    }
+  ],
+  "tcs": [
+    {
+      "title": "Two Sum",
+      "slug": "two-sum",
+      "difficulty": "Easy",
+      "window": "6mo"
+    },
+    {
+      "title": "Container With Most Water",
+      "slug": "container-with-most-water",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Rank Transform of an Array",
+      "slug": "rank-transform-of-an-array",
+      "difficulty": "Easy",
+      "window": "6mo"
+    },
+    {
+      "title": "First Missing Positive",
+      "slug": "first-missing-positive",
+      "difficulty": "Hard",
+      "window": "6mo"
+    },
+    {
+      "title": "Fibonacci Number",
+      "slug": "fibonacci-number",
+      "difficulty": "Easy",
+      "window": "6mo"
+    },
+    {
+      "title": "Integer to Roman",
+      "slug": "integer-to-roman",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Roman to Integer",
+      "slug": "roman-to-integer",
+      "difficulty": "Easy",
+      "window": "6mo"
+    },
+    {
+      "title": "Longest Palindromic Substring",
+      "slug": "longest-palindromic-substring",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Valid Anagram",
+      "slug": "valid-anagram",
+      "difficulty": "Easy",
+      "window": "6mo"
+    },
+    {
+      "title": "Merge Sorted Array",
+      "slug": "merge-sorted-array",
+      "difficulty": "Easy",
+      "window": "6mo"
+    },
+    {
+      "title": "First Unique Character in a String",
+      "slug": "first-unique-character-in-a-string",
+      "difficulty": "Easy",
+      "window": "6mo"
+    },
+    {
+      "title": "Best Time to Buy and Sell Stock",
+      "slug": "best-time-to-buy-and-sell-stock",
+      "difficulty": "Easy",
+      "window": "6mo"
+    },
+    {
+      "title": "Palindrome Number",
+      "slug": "palindrome-number",
+      "difficulty": "Easy",
+      "window": "6mo"
+    },
+    {
+      "title": "Longest Substring Without Repeating Characters",
+      "slug": "longest-substring-without-repeating-characters",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Reverse String",
+      "slug": "reverse-string",
+      "difficulty": "Easy",
+      "window": "6mo"
+    },
+    {
+      "title": "Valid Parentheses",
+      "slug": "valid-parentheses",
+      "difficulty": "Easy",
+      "window": "6mo"
+    },
+    {
+      "title": "Maximum Subarray",
+      "slug": "maximum-subarray",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Longest Common Prefix",
+      "slug": "longest-common-prefix",
+      "difficulty": "Easy",
+      "window": "6mo"
+    },
+    {
+      "title": "Second Highest Salary",
+      "slug": "second-highest-salary",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Spiral Matrix",
+      "slug": "spiral-matrix",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Largest Rectangle in Histogram",
+      "slug": "largest-rectangle-in-histogram",
+      "difficulty": "Hard",
+      "window": "6mo"
+    },
+    {
+      "title": "Reverse Linked List",
+      "slug": "reverse-linked-list",
+      "difficulty": "Easy",
+      "window": "6mo"
+    },
+    {
+      "title": "Longest Consecutive Sequence",
+      "slug": "longest-consecutive-sequence",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Rotate Array",
+      "slug": "rotate-array",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Two Sum II - Input Array Is Sorted",
+      "slug": "two-sum-ii-input-array-is-sorted",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Sort Colors",
+      "slug": "sort-colors",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Remove Duplicates from Sorted Array",
+      "slug": "remove-duplicates-from-sorted-array",
+      "difficulty": "Easy",
+      "window": "6mo"
+    },
+    {
+      "title": "3Sum",
+      "slug": "3sum",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Palindrome Linked List",
+      "slug": "palindrome-linked-list",
+      "difficulty": "Easy",
+      "window": "6mo"
+    },
+    {
+      "title": "Maximum Product of Three Numbers",
+      "slug": "maximum-product-of-three-numbers",
+      "difficulty": "Easy",
+      "window": "6mo"
+    },
+    {
+      "title": "Valid Palindrome",
+      "slug": "valid-palindrome",
+      "difficulty": "Easy",
+      "window": "6mo"
+    },
+    {
+      "title": "Minimum Depth of Binary Tree",
+      "slug": "minimum-depth-of-binary-tree",
+      "difficulty": "Easy",
+      "window": "6mo"
+    },
+    {
+      "title": "Reverse Integer",
+      "slug": "reverse-integer",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Group Anagrams",
+      "slug": "group-anagrams",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Find Peak Element",
+      "slug": "find-peak-element",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Kth Smallest Element in a BST",
+      "slug": "kth-smallest-element-in-a-bst",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Peak Index in a Mountain Array",
+      "slug": "peak-index-in-a-mountain-array",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Move Zeroes",
+      "slug": "move-zeroes",
+      "difficulty": "Easy",
+      "window": "6mo"
+    },
+    {
+      "title": "Single Element in a Sorted Array",
+      "slug": "single-element-in-a-sorted-array",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "House Robber",
+      "slug": "house-robber",
+      "difficulty": "Medium",
+      "window": "6mo"
+    }
+  ],
+  "infosys": [
+    {
+      "title": "Lemonade Change",
+      "slug": "lemonade-change",
+      "difficulty": "Easy",
+      "window": "6mo"
+    },
+    {
+      "title": "Two Sum",
+      "slug": "two-sum",
+      "difficulty": "Easy",
+      "window": "6mo"
+    },
+    {
+      "title": "Longest Substring Without Repeating Characters",
+      "slug": "longest-substring-without-repeating-characters",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Second Highest Salary",
+      "slug": "second-highest-salary",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Best Time to Buy and Sell Stock",
+      "slug": "best-time-to-buy-and-sell-stock",
+      "difficulty": "Easy",
+      "window": "6mo"
+    },
+    {
+      "title": "Maximum Subarray",
+      "slug": "maximum-subarray",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Edit Distance",
+      "slug": "edit-distance",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Koko Eating Bananas",
+      "slug": "koko-eating-bananas",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Climbing Stairs",
+      "slug": "climbing-stairs",
+      "difficulty": "Easy",
+      "window": "6mo"
+    },
+    {
+      "title": "Number of Islands",
+      "slug": "number-of-islands",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Container With Most Water",
+      "slug": "container-with-most-water",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Merge Intervals",
+      "slug": "merge-intervals",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Max Consecutive Ones III",
+      "slug": "max-consecutive-ones-iii",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Jump Game",
+      "slug": "jump-game",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Trapping Rain Water",
+      "slug": "trapping-rain-water",
+      "difficulty": "Hard",
+      "window": "6mo"
+    },
+    {
+      "title": "Subarray Sum Equals K",
+      "slug": "subarray-sum-equals-k",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Move Zeroes",
+      "slug": "move-zeroes",
+      "difficulty": "Easy",
+      "window": "6mo"
+    },
+    {
+      "title": "Best Time to Buy and Sell Stock II",
+      "slug": "best-time-to-buy-and-sell-stock-ii",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Minimum Path Sum",
+      "slug": "minimum-path-sum",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Palindrome Partitioning II",
+      "slug": "palindrome-partitioning-ii",
+      "difficulty": "Hard",
+      "window": "6mo"
+    },
+    {
+      "title": "Frog Jump",
+      "slug": "frog-jump",
+      "difficulty": "Hard",
+      "window": "6mo"
+    },
+    {
+      "title": "Stone Game V",
+      "slug": "stone-game-v",
+      "difficulty": "Hard",
+      "window": "6mo"
+    },
+    {
+      "title": "Majority Element",
+      "slug": "majority-element",
+      "difficulty": "Easy",
+      "window": "6mo"
+    },
+    {
+      "title": "House Robber",
+      "slug": "house-robber",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Palindrome Partitioning",
+      "slug": "palindrome-partitioning",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Find the Number of Subsequences With Equal GCD",
+      "slug": "find-the-number-of-subsequences-with-equal-gcd",
+      "difficulty": "Hard",
+      "window": "6mo"
+    },
+    {
+      "title": "Next Permutation",
+      "slug": "next-permutation",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Longest Repeating Character Replacement",
+      "slug": "longest-repeating-character-replacement",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "3Sum",
+      "slug": "3sum",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Two City Scheduling",
+      "slug": "two-city-scheduling",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Decode Ways",
+      "slug": "decode-ways",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Maximum Product Subarray",
+      "slug": "maximum-product-subarray",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Largest Number",
+      "slug": "largest-number",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Gas Station",
+      "slug": "gas-station",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Rotting Oranges",
+      "slug": "rotting-oranges",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Min Stack",
+      "slug": "min-stack",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Valid Anagram",
+      "slug": "valid-anagram",
+      "difficulty": "Easy",
+      "window": "6mo"
+    },
+    {
+      "title": "Generate Parentheses",
+      "slug": "generate-parentheses",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Reverse Linked List",
+      "slug": "reverse-linked-list",
+      "difficulty": "Easy",
+      "window": "6mo"
+    },
+    {
+      "title": "Peak Index in a Mountain Array",
+      "slug": "peak-index-in-a-mountain-array",
+      "difficulty": "Medium",
+      "window": "6mo"
+    }
+  ],
+  "wipro": [
+    {
+      "title": "Two Sum",
+      "slug": "two-sum",
+      "difficulty": "Easy",
+      "window": "6mo"
+    },
+    {
+      "title": "Group Anagrams",
+      "slug": "group-anagrams",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Best Time to Buy and Sell Stock",
+      "slug": "best-time-to-buy-and-sell-stock",
+      "difficulty": "Easy",
+      "window": "6mo"
+    },
+    {
+      "title": "Longest Common Prefix",
+      "slug": "longest-common-prefix",
+      "difficulty": "Easy",
+      "window": "older"
+    },
+    {
+      "title": "Palindrome Number",
+      "slug": "palindrome-number",
+      "difficulty": "Easy",
+      "window": "older"
+    },
+    {
+      "title": "Valid Anagram",
+      "slug": "valid-anagram",
+      "difficulty": "Easy",
+      "window": "older"
+    },
+    {
+      "title": "Merge Intervals",
+      "slug": "merge-intervals",
+      "difficulty": "Medium",
+      "window": "older"
+    },
+    {
+      "title": "Add Binary",
+      "slug": "add-binary",
+      "difficulty": "Easy",
+      "window": "older"
+    },
+    {
+      "title": "Merge Sorted Array",
+      "slug": "merge-sorted-array",
+      "difficulty": "Easy",
+      "window": "older"
+    },
+    {
+      "title": "Toeplitz Matrix",
+      "slug": "toeplitz-matrix",
+      "difficulty": "Easy",
+      "window": "older"
+    },
+    {
+      "title": "Pascal's Triangle",
+      "slug": "pascals-triangle",
+      "difficulty": "Easy",
+      "window": "older"
+    },
+    {
+      "title": "Longest Substring Without Repeating Characters",
+      "slug": "longest-substring-without-repeating-characters",
+      "difficulty": "Medium",
+      "window": "older"
+    },
+    {
+      "title": "Reverse String",
+      "slug": "reverse-string",
+      "difficulty": "Easy",
+      "window": "older"
+    },
+    {
+      "title": "Valid Parentheses",
+      "slug": "valid-parentheses",
+      "difficulty": "Easy",
+      "window": "older"
+    },
+    {
+      "title": "Kids With the Greatest Number of Candies",
+      "slug": "kids-with-the-greatest-number-of-candies",
+      "difficulty": "Easy",
+      "window": "older"
+    },
+    {
+      "title": "Max Consecutive Ones",
+      "slug": "max-consecutive-ones",
+      "difficulty": "Easy",
+      "window": "older"
+    },
+    {
+      "title": "Add Strings",
+      "slug": "add-strings",
+      "difficulty": "Easy",
+      "window": "older"
+    },
+    {
+      "title": "Reverse Words in a String III",
+      "slug": "reverse-words-in-a-string-iii",
+      "difficulty": "Easy",
+      "window": "older"
+    }
+  ],
+  "accenture": [
+    {
+      "title": "Best Time to Buy and Sell Stock",
+      "slug": "best-time-to-buy-and-sell-stock",
+      "difficulty": "Easy",
+      "window": "6mo"
+    },
+    {
+      "title": "Consecutive Numbers",
+      "slug": "consecutive-numbers",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Two Sum",
+      "slug": "two-sum",
+      "difficulty": "Easy",
+      "window": "6mo"
+    },
+    {
+      "title": "Subarray Sum Equals K",
+      "slug": "subarray-sum-equals-k",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Majority Element",
+      "slug": "majority-element",
+      "difficulty": "Easy",
+      "window": "6mo"
+    },
+    {
+      "title": "Second Highest Salary",
+      "slug": "second-highest-salary",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Largest Rectangle in Histogram",
+      "slug": "largest-rectangle-in-histogram",
+      "difficulty": "Hard",
+      "window": "6mo"
+    },
+    {
+      "title": "Palindrome Number",
+      "slug": "palindrome-number",
+      "difficulty": "Easy",
+      "window": "6mo"
+    },
+    {
+      "title": "3Sum",
+      "slug": "3sum",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Longest Substring Without Repeating Characters",
+      "slug": "longest-substring-without-repeating-characters",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Students and Examinations",
+      "slug": "students-and-examinations",
+      "difficulty": "Easy",
+      "window": "6mo"
+    },
+    {
+      "title": "Container With Most Water",
+      "slug": "container-with-most-water",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Isomorphic Strings",
+      "slug": "isomorphic-strings",
+      "difficulty": "Easy",
+      "window": "6mo"
+    },
+    {
+      "title": "Next Permutation",
+      "slug": "next-permutation",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "LRU Cache",
+      "slug": "lru-cache",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Smallest Divisible Digit Product II",
+      "slug": "smallest-divisible-digit-product-ii",
+      "difficulty": "Hard",
+      "window": "older"
+    },
+    {
+      "title": "Smallest Divisible Digit Product I",
+      "slug": "smallest-divisible-digit-product-i",
+      "difficulty": "Easy",
+      "window": "older"
+    },
+    {
+      "title": "Reverse Integer",
+      "slug": "reverse-integer",
+      "difficulty": "Medium",
+      "window": "older"
+    },
+    {
+      "title": "Maximum Subarray",
+      "slug": "maximum-subarray",
+      "difficulty": "Medium",
+      "window": "older"
+    },
+    {
+      "title": "Move Zeroes",
+      "slug": "move-zeroes",
+      "difficulty": "Easy",
+      "window": "older"
+    },
+    {
+      "title": "Climbing Stairs",
+      "slug": "climbing-stairs",
+      "difficulty": "Easy",
+      "window": "older"
+    },
+    {
+      "title": "Rotate Array",
+      "slug": "rotate-array",
+      "difficulty": "Medium",
+      "window": "older"
+    },
+    {
+      "title": "Koko Eating Bananas",
+      "slug": "koko-eating-bananas",
+      "difficulty": "Medium",
+      "window": "older"
+    },
+    {
+      "title": "Remove Duplicates from Sorted Array",
+      "slug": "remove-duplicates-from-sorted-array",
+      "difficulty": "Easy",
+      "window": "older"
+    },
+    {
+      "title": "Letter Combinations of a Phone Number",
+      "slug": "letter-combinations-of-a-phone-number",
+      "difficulty": "Medium",
+      "window": "older"
+    },
+    {
+      "title": "Number of Islands",
+      "slug": "number-of-islands",
+      "difficulty": "Medium",
+      "window": "older"
+    },
+    {
+      "title": "Intersection of Two Arrays",
+      "slug": "intersection-of-two-arrays",
+      "difficulty": "Easy",
+      "window": "older"
+    },
+    {
+      "title": "Median of Two Sorted Arrays",
+      "slug": "median-of-two-sorted-arrays",
+      "difficulty": "Hard",
+      "window": "older"
+    },
+    {
+      "title": "Max Consecutive Ones",
+      "slug": "max-consecutive-ones",
+      "difficulty": "Easy",
+      "window": "older"
+    },
+    {
+      "title": "Shortest Palindrome",
+      "slug": "shortest-palindrome",
+      "difficulty": "Hard",
+      "window": "older"
+    }
+  ],
+  "cognizant": [
+    {
+      "title": "Longest Substring Without Repeating Characters",
+      "slug": "longest-substring-without-repeating-characters",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Two Sum",
+      "slug": "two-sum",
+      "difficulty": "Easy",
+      "window": "6mo"
+    },
+    {
+      "title": "Move Zeroes",
+      "slug": "move-zeroes",
+      "difficulty": "Easy",
+      "window": "6mo"
+    },
+    {
+      "title": "Find the Index of the First Occurrence in a String",
+      "slug": "find-the-index-of-the-first-occurrence-in-a-string",
+      "difficulty": "Easy",
+      "window": "6mo"
+    },
+    {
+      "title": "Longest Palindromic Substring",
+      "slug": "longest-palindromic-substring",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Consecutive Numbers Sum",
+      "slug": "consecutive-numbers-sum",
+      "difficulty": "Hard",
+      "window": "6mo"
+    },
+    {
+      "title": "Rank Scores",
+      "slug": "rank-scores",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Find Customer Referee",
+      "slug": "find-customer-referee",
+      "difficulty": "Easy",
+      "window": "6mo"
+    },
+    {
+      "title": "Palindrome Number",
+      "slug": "palindrome-number",
+      "difficulty": "Easy",
+      "window": "older"
+    },
+    {
+      "title": "Count Subarrays of Length Three With a Condition",
+      "slug": "count-subarrays-of-length-three-with-a-condition",
+      "difficulty": "Easy",
+      "window": "older"
+    },
+    {
+      "title": "Second Highest Salary",
+      "slug": "second-highest-salary",
+      "difficulty": "Medium",
+      "window": "older"
+    },
+    {
+      "title": "Fibonacci Number",
+      "slug": "fibonacci-number",
+      "difficulty": "Easy",
+      "window": "older"
+    },
+    {
+      "title": "Median of Two Sorted Arrays",
+      "slug": "median-of-two-sorted-arrays",
+      "difficulty": "Hard",
+      "window": "older"
+    },
+    {
+      "title": "Valid Parentheses",
+      "slug": "valid-parentheses",
+      "difficulty": "Easy",
+      "window": "older"
+    },
+    {
+      "title": "Best Time to Buy and Sell Stock",
+      "slug": "best-time-to-buy-and-sell-stock",
+      "difficulty": "Easy",
+      "window": "older"
+    },
+    {
+      "title": "Valid Anagram",
+      "slug": "valid-anagram",
+      "difficulty": "Easy",
+      "window": "older"
+    },
+    {
+      "title": "Subarray Sum Equals K",
+      "slug": "subarray-sum-equals-k",
+      "difficulty": "Medium",
+      "window": "older"
+    },
+    {
+      "title": "Merge Sorted Array",
+      "slug": "merge-sorted-array",
+      "difficulty": "Easy",
+      "window": "older"
+    },
+    {
+      "title": "Remove Duplicates from Sorted Array",
+      "slug": "remove-duplicates-from-sorted-array",
+      "difficulty": "Easy",
+      "window": "older"
+    },
+    {
+      "title": "Article Views I",
+      "slug": "article-views-i",
+      "difficulty": "Easy",
+      "window": "older"
+    },
+    {
+      "title": "Valid Palindrome",
+      "slug": "valid-palindrome",
+      "difficulty": "Easy",
+      "window": "older"
+    },
+    {
+      "title": "First Missing Positive",
+      "slug": "first-missing-positive",
+      "difficulty": "Hard",
+      "window": "older"
+    },
+    {
+      "title": "Climbing Stairs",
+      "slug": "climbing-stairs",
+      "difficulty": "Easy",
+      "window": "older"
+    },
+    {
+      "title": "Max Consecutive Ones",
+      "slug": "max-consecutive-ones",
+      "difficulty": "Easy",
+      "window": "older"
+    },
+    {
+      "title": "Combine Two Tables",
+      "slug": "combine-two-tables",
+      "difficulty": "Easy",
+      "window": "older"
+    },
+    {
+      "title": "Majority Element",
+      "slug": "majority-element",
+      "difficulty": "Easy",
+      "window": "older"
+    },
+    {
+      "title": "Reverse Integer",
+      "slug": "reverse-integer",
+      "difficulty": "Medium",
+      "window": "older"
+    },
+    {
+      "title": "Rising Temperature",
+      "slug": "rising-temperature",
+      "difficulty": "Easy",
+      "window": "older"
+    },
+    {
+      "title": "Employees Earning More Than Their Managers",
+      "slug": "employees-earning-more-than-their-managers",
+      "difficulty": "Easy",
+      "window": "older"
+    },
+    {
+      "title": "Find the Highest Altitude",
+      "slug": "find-the-highest-altitude",
+      "difficulty": "Easy",
+      "window": "older"
+    }
+  ],
+  "deloitte": [
+    {
+      "title": "Longest Substring Without Repeating Characters",
+      "slug": "longest-substring-without-repeating-characters",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Group Anagrams",
+      "slug": "group-anagrams",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Merge k Sorted Lists",
+      "slug": "merge-k-sorted-lists",
+      "difficulty": "Hard",
+      "window": "6mo"
+    },
+    {
+      "title": "Nth Highest Salary",
+      "slug": "nth-highest-salary",
+      "difficulty": "Medium",
+      "window": "6mo"
+    },
+    {
+      "title": "Two Sum",
+      "slug": "two-sum",
+      "difficulty": "Easy",
+      "window": "older"
+    },
+    {
+      "title": "Valid Parentheses",
+      "slug": "valid-parentheses",
+      "difficulty": "Easy",
+      "window": "older"
+    },
+    {
+      "title": "Second Highest Salary",
+      "slug": "second-highest-salary",
+      "difficulty": "Medium",
+      "window": "older"
+    },
+    {
+      "title": "Longest Palindromic Substring",
+      "slug": "longest-palindromic-substring",
+      "difficulty": "Medium",
+      "window": "older"
+    },
+    {
+      "title": "Best Time to Buy and Sell Stock",
+      "slug": "best-time-to-buy-and-sell-stock",
+      "difficulty": "Easy",
+      "window": "older"
+    },
+    {
+      "title": "Palindrome Number",
+      "slug": "palindrome-number",
+      "difficulty": "Easy",
+      "window": "older"
+    },
+    {
+      "title": "Longest Common Prefix",
+      "slug": "longest-common-prefix",
+      "difficulty": "Easy",
+      "window": "older"
+    },
+    {
+      "title": "Container With Most Water",
+      "slug": "container-with-most-water",
+      "difficulty": "Medium",
+      "window": "older"
+    },
+    {
+      "title": "Managers with at Least 5 Direct Reports",
+      "slug": "managers-with-at-least-5-direct-reports",
+      "difficulty": "Medium",
+      "window": "older"
+    },
+    {
+      "title": "Minimum Time to Repair Cars",
+      "slug": "minimum-time-to-repair-cars",
+      "difficulty": "Medium",
+      "window": "older"
+    },
+    {
+      "title": "Merge Intervals",
+      "slug": "merge-intervals",
+      "difficulty": "Medium",
+      "window": "older"
+    },
+    {
+      "title": "Remove Duplicates from Sorted Array",
+      "slug": "remove-duplicates-from-sorted-array",
+      "difficulty": "Easy",
+      "window": "older"
+    },
+    {
+      "title": "First Unique Character in a String",
+      "slug": "first-unique-character-in-a-string",
+      "difficulty": "Easy",
+      "window": "older"
+    },
+    {
+      "title": "3Sum",
+      "slug": "3sum",
+      "difficulty": "Medium",
+      "window": "older"
+    },
+    {
+      "title": "Add Binary",
+      "slug": "add-binary",
+      "difficulty": "Easy",
+      "window": "older"
+    },
+    {
+      "title": "Rising Temperature",
+      "slug": "rising-temperature",
+      "difficulty": "Easy",
+      "window": "older"
+    },
+    {
+      "title": "Remove K-Balanced Substrings",
+      "slug": "remove-k-balanced-substrings",
+      "difficulty": "Medium",
+      "window": "older"
+    },
+    {
+      "title": "Kth Largest Element in an Array",
+      "slug": "kth-largest-element-in-an-array",
+      "difficulty": "Medium",
+      "window": "older"
+    },
+    {
+      "title": "Maximum Subarray",
+      "slug": "maximum-subarray",
+      "difficulty": "Medium",
+      "window": "older"
+    },
+    {
+      "title": "Roman to Integer",
+      "slug": "roman-to-integer",
+      "difficulty": "Easy",
+      "window": "older"
+    },
+    {
+      "title": "Split Array Largest Sum",
+      "slug": "split-array-largest-sum",
+      "difficulty": "Hard",
+      "window": "older"
+    },
+    {
+      "title": "Longest Consecutive Sequence",
+      "slug": "longest-consecutive-sequence",
+      "difficulty": "Medium",
+      "window": "older"
+    },
+    {
+      "title": "Customers Who Never Order",
+      "slug": "customers-who-never-order",
+      "difficulty": "Easy",
+      "window": "older"
+    },
+    {
+      "title": "Rotate Array",
+      "slug": "rotate-array",
+      "difficulty": "Medium",
+      "window": "older"
+    },
+    {
+      "title": "Next Permutation",
+      "slug": "next-permutation",
+      "difficulty": "Medium",
+      "window": "older"
+    },
+    {
+      "title": "Subarray Sum Equals K",
+      "slug": "subarray-sum-equals-k",
+      "difficulty": "Medium",
+      "window": "older"
+    }
+  ]
+}

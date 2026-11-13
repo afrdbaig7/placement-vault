@@ -1,0 +1,74 @@
+[
+  {
+    "slug": "aptitude",
+    "name": "Aptitude",
+    "icon": "calculator",
+    "description": "Quantitative aptitude is the first filter at almost every service company (TCS NQT, Infosys, Wipro, Accenture, Cognizant) and in many product-company OAs. Speed plus accuracy here decides who even reaches the coding rounds.",
+    "topics": ["Percentages", "Profit & Loss", "Time & Work", "Speed & Distance", "Permutations", "Probability"],
+    "resources": [
+      {"name": "IndiaBix Quantitative Aptitude", "url": "https://www.indiabix.com/aptitude/questions-and-answers/"},
+      {"name": "PrepInsta Placement Papers & Patterns", "url": "https://prepinsta.com/"}
+    ],
+    "sampleQuestions": [
+      {"q": "A train 240 m long passes a pole in 24 s. What is its speed?", "answer": "36 km/h - speed = 240/24 = 10 m/s, and 10 x 3.6 = 36 km/h."},
+      {"q": "A shopkeeper marks goods 40% above cost price and gives a 10% discount. What is his profit %?", "answer": "26% - SP = CP x 1.4 x 0.9 = 1.26 x CP."},
+      {"q": "A alone finishes a job in 12 days and B alone in 24 days. Working together, how many days do they need?", "answer": "8 days - together they do 1/12 + 1/24 = 1/8 of the job per day."},
+      {"q": "Two dice are thrown. What is the probability that the sum of the numbers is 7?", "answer": "1/6 - there are 6 favourable outcomes out of 36 total."},
+      {"q": "Find the simple interest on Rs. 5,000 at 8% per annum for 3 years.", "answer": "Rs. 1,200 - SI = P x R x T / 100 = 5000 x 8 x 3 / 100."}
+    ]
+  },
+  {
+    "slug": "verbal",
+    "name": "Verbal Ability",
+    "icon": "book-open",
+    "description": "Verbal rounds (TCS email writing, Deloitte Versant, Accenture English ability) eliminate more candidates than coding does. Reading comprehension and sentence correction decide shortlists at every service company.",
+    "topics": ["Reading Comprehension", "Sentence Correction", "Synonyms & Antonyms", "Fill in the Blanks", "Para Jumbles", "Error Spotting"],
+    "resources": [
+      {"name": "IndiaBix Verbal Ability", "url": "https://www.indiabix.com/verbal-ability/questions-and-answers/"},
+      {"name": "PrepInsta Verbal Ability", "url": "https://prepinsta.com/verbal-ability/"}
+    ],
+    "sampleQuestions": [
+      {"q": "Choose the correct word: 'He is one of the best players ___ has ever played for India.'", "answer": "'that' - superlative constructions take 'that' as the relative pronoun."},
+      {"q": "Spot the error: 'One of my friend lives in Pune.'", "answer": "'friend' should be 'friends' - 'one of' is always followed by a plural noun."},
+      {"q": "Give a synonym of 'Abate'.", "answer": "Subside / diminish - e.g., 'The storm began to abate by evening.'"},
+      {"q": "Give an antonym of 'Frugal'.", "answer": "Extravagant - frugal means careful with money, extravagant means spending freely."},
+      {"q": "Fill in the blank: 'Despite ___ unwell, she completed the presentation on time.'", "answer": "'being' - 'despite' is followed by a gerund (-ing form), not a clause."}
+    ]
+  },
+  {
+    "slug": "cs-core",
+    "name": "CS Fundamentals",
+    "icon": "cpu",
+    "description": "The technical interview warm-up at product companies and the main course at service companies: OS, DBMS, OOP and Networks get asked in almost every campus technical round.",
+    "topics": ["Operating Systems", "DBMS", "OOP", "Computer Networks", "Data Structures Basics"],
+    "resources": [
+      {"name": "GeeksforGeeks Last Minute Notes - Operating Systems", "url": "https://www.geeksforgeeks.org/last-minute-notes-operating-systems/"},
+      {"name": "GeeksforGeeks Last Minute Notes - DBMS", "url": "https://www.geeksforgeeks.org/last-minute-notes-dbms/"}
+    ],
+    "sampleQuestions": [
+      {"q": "What is a deadlock? State the four necessary conditions.", "answer": "Two or more processes block forever waiting on each other's resources. Conditions: mutual exclusion, hold & wait, no preemption, circular wait."},
+      {"q": "What is the difference between a process and a thread?", "answer": "A process has its own address space; threads of a process share its memory. Threads are lighter to create, switch and communicate with."},
+      {"q": "What is normalization in DBMS and why do we need it?", "answer": "Organizing tables to reduce redundancy and avoid update/insert/delete anomalies, using normal forms 1NF, 2NF, 3NF and BCNF."},
+      {"q": "TCP vs UDP - what does TCP guarantee that UDP does not?", "answer": "TCP is connection-oriented with reliable, ordered, error-checked delivery and retransmission; UDP is connectionless and faster but gives no delivery guarantee."},
+      {"q": "What are the four pillars of OOP?", "answer": "Encapsulation, Abstraction, Inheritance and Polymorphism."}
+    ]
+  },
+  {
+    "slug": "sql",
+    "name": "SQL Top 50",
+    "icon": "database",
+    "description": "SQL is the most-asked non-DSA skill in Indian campus drives - Cognizant GenC Elevate, Infosys, Accenture and analyst roles at Deloitte all test joins and aggregates. The LeetCode SQL 50 plan covers every pattern you need.",
+    "topics": ["SELECT & WHERE", "Joins", "Aggregations & GROUP BY", "Sorting & Filtering", "Subqueries", "String & Date Functions"],
+    "resources": [
+      {"name": "LeetCode SQL 50 Study Plan", "url": "https://leetcode.com/studyplan/top-sql-50/"},
+      {"name": "SQLBolt Interactive Lessons", "url": "https://sqlbolt.com/"}
+    ],
+    "sampleQuestions": [
+      {"q": "Recyclable and Low-Fat Products", "answer": "SELECT product_id FROM Products WHERE low_fats = 'Y' AND recyclable = 'N';"},
+      {"q": "Find Customer Referee", "answer": "SELECT name FROM Customer WHERE referee_id IS NULL OR referee_id <> 2;"},
+      {"q": "Combine Two Tables", "answer": "SELECT p.firstName, p.lastName, a.city, a.state FROM Person p LEFT JOIN Address a ON p.personId = a.personId;"},
+      {"q": "Duplicate Emails", "answer": "SELECT email FROM Person GROUP BY email HAVING COUNT(*) > 1;"},
+      {"q": "Second Highest Salary", "answer": "SELECT MAX(salary) AS SecondHighestSalary FROM Employee WHERE salary < (SELECT MAX(salary) FROM Employee);"}
+    ]
+  }
+]

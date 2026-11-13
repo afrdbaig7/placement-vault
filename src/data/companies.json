@@ -1,0 +1,366 @@
+[
+  {
+    "slug": "amazon",
+    "name": "Amazon",
+    "color": "#FF9900",
+    "region": "Global",
+    "tier": "FAANG",
+    "type": "product",
+    "tagline": "Hires SDE-1s and interns from IITs, NITs and tier-2 campuses; DSA-heavy rounds graded against Amazon's Leadership Principles.",
+    "typicalRoles": ["SDE-1", "SDE Intern"],
+    "rounds": [
+      {"name": "Online Assessment", "details": "2 DSA questions (arrays, graphs, greedy) plus a work-simulation / Leadership Principles MCQ section; 120-150 min on HackerRank."},
+      {"name": "Technical Interview 1", "details": "Live coding on arrays, trees or graphs while the interviewer probes your thought process and edge-case handling."},
+      {"name": "Technical Interview 2 (Bar Raiser)", "details": "A senior 'Bar Raiser' from another team drives one medium-hard problem plus deep LP behavioural questions in STAR format."},
+      {"name": "HR Round", "details": "LP-heavy conversation - prepare 8-10 STAR stories; discussion on relocation, pay structure and team match."}
+    ],
+    "oaPattern": {
+      "platform": "HackerRank",
+      "duration": "120-150 min",
+      "questions": "2 coding questions + work simulation",
+      "note": "Work simulation / LP-based MCQs are bundled with coding; no negative marking, partial test-case scores count."
+    },
+    "topicsFocus": ["Array","Hash Table","Sorting","String","Two Pointers","Binary Search"]
+  },
+  {
+    "slug": "microsoft",
+    "name": "Microsoft",
+    "color": "#737373",
+    "region": "Global",
+    "tier": "FAANG",
+    "type": "product",
+    "tagline": "Recruits SWEs and interns for IDC (Hyderabad/Bangalore) through Engage and campus drives; DP, strings and design thinking dominate.",
+    "typicalRoles": ["Software Engineer", "SWE Intern"],
+    "rounds": [
+      {"name": "Online Assessment", "details": "2-3 coding questions (strings, DP, greedy) in 90-120 min; some campuses use an Engage project track instead."},
+      {"name": "Technical Interview 1", "details": "DSA mixed with CS fundamentals - OS, DBMS and OOP questions come alongside 1-2 coding problems."},
+      {"name": "Technical Interview 2", "details": "Low-level design discussion (parking lot, URL shortener) plus one DP or string problem; interns get the same treatment."},
+      {"name": "HR Round", "details": "Why Microsoft, project walk-through, relocation willingness; offer roll-out typically within a week."}
+    ],
+    "oaPattern": {
+      "platform": "HackerRank / Codility",
+      "duration": "90-120 min",
+      "questions": "2-3 coding questions",
+      "note": "Partial scoring on hidden test cases; brute force rarely clears the third question."
+    },
+    "topicsFocus": ["Array","Hash Table","String","Two Pointers","Dynamic Programming","Math"]
+  },
+  {
+    "slug": "google",
+    "name": "Google",
+    "color": "#4285F4",
+    "region": "Global",
+    "tier": "FAANG",
+    "type": "product",
+    "tagline": "Elite campus drive for SWE roles in Bangalore and Hyderabad; graphs, DP and math-heavy problems with an unusually high bar.",
+    "typicalRoles": ["Software Engineer", "STEP Intern"],
+    "rounds": [
+      {"name": "Online Assessment", "details": "2 coding questions in 60-90 min - one easy warm-up and one medium-hard graph/DP problem on Google's own judge or HackerRank."},
+      {"name": "Technical Interview 1", "details": "Two interviewers in one hour; graph traversal or DP with follow-up optimisations asked back-to-back."},
+      {"name": "Technical Interview 2", "details": "Data-structure deep-dive (trees, heaps, tries) with complexity analysis and adversarial edge cases."},
+      {"name": "Googlyness + HR Round", "details": "'Googleyness' behavioural round on collaboration and ambiguity, followed by compensation and team-fit discussion."}
+    ],
+    "oaPattern": {
+      "platform": "Google's own judge / HackerRank",
+      "duration": "60-90 min",
+      "questions": "2 coding questions",
+      "note": "Clean, compilable code expected; brute-force solutions almost never pass the hidden tests."
+    },
+    "topicsFocus": ["Array","Hash Table","String","Math","Two Pointers","Binary Search"]
+  },
+  {
+    "slug": "adobe",
+    "name": "Adobe",
+    "color": "#FF0000",
+    "region": "Global",
+    "tier": "Product",
+    "type": "product",
+    "tagline": "Hires Computer Scientists from NITs and IIITs for Noida/Bangalore; arrays, strings, math plus OS and DBMS fundamentals.",
+    "typicalRoles": ["Computer Scientist", "Software Engineer Intern"],
+    "rounds": [
+      {"name": "Online Assessment", "details": "Three sections - aptitude, CS fundamentals (OS/CN/DBMS) and 2 coding questions; roughly 2 hours."},
+      {"name": "Technical Interview 1", "details": "Arrays, strings and math problems on paper or CoderPad; puzzles and bit-manipulation tricks are common."},
+      {"name": "Technical Interview 2", "details": "Resume deep-dive with project grilling plus OOP design and DBMS schema questions."},
+      {"name": "HR Round", "details": "Standard HR - strengths, location preference (Noida/Bangalore) and service expectations."}
+    ],
+    "oaPattern": {
+      "platform": "HackerEarth / HackerRank",
+      "duration": "120 min",
+      "questions": "2 coding questions + 30 aptitude/technical MCQs",
+      "note": "MCQ section carries negative marking (0.25) with sectional cut-offs - guessing blindly is risky."
+    },
+    "topicsFocus": ["Array","Hash Table","String","Sorting","Dynamic Programming","Sliding Window"]
+  },
+  {
+    "slug": "goldman-sachs",
+    "name": "Goldman Sachs",
+    "color": "#7399C6",
+    "region": "Global",
+    "tier": "Finance",
+    "type": "product",
+    "tagline": "Hires Engineering Analysts via a multi-section HackerRank test; DSA, math, probability and CS core with a strong culture round.",
+    "typicalRoles": ["Analyst - Engineering", "Summer Analyst Intern"],
+    "rounds": [
+      {"name": "Online Assessment", "details": "Five sections - 2 coding questions, quantitative, CS-fundamentals MCQs and a short essay; about 2.5 hours."},
+      {"name": "Technical Interview 1", "details": "DSA on heaps, strings and DP plus probability puzzles and mental-math warm-ups."},
+      {"name": "Technical Interview 2", "details": "Projects, OOP design, DBMS/OS trivia and finance-awareness questions (markets, trading basics)."},
+      {"name": "HR Round", "details": "Culture and ethics focused - 'Why GS', teamwork examples and integrity scenario questions."}
+    ],
+    "oaPattern": {
+      "platform": "HackerRank",
+      "duration": "150 min",
+      "questions": "2 coding questions + math/CS MCQs + 1 essay",
+      "note": "Every section is mandatory and MCQs carry negative marking; the essay checks written communication."
+    },
+    "topicsFocus": ["Array","Hash Table","String","Dynamic Programming","Binary Search","Two Pointers"]
+  },
+  {
+    "slug": "flipkart",
+    "name": "Flipkart",
+    "color": "#2874F0",
+    "region": "Indian",
+    "tier": "Product",
+    "type": "product",
+    "tagline": "GRID campus program recruits SDE-1s from IITs/NITs; scale-heavy problems on heaps, graphs and interval scheduling.",
+    "typicalRoles": ["SDE-1", "SDE Intern (GRID)"],
+    "rounds": [
+      {"name": "Online Assessment", "details": "3 coding questions (1 easy, 2 medium-hard) in 90-120 min on HackerEarth, often themed around orders, delivery and inventory."},
+      {"name": "Technical Interview 1", "details": "Problem-solving on arrays, heaps and graph modelling with clean, compilable code expected."},
+      {"name": "Technical Interview 2 + Hiring Manager", "details": "System-design basics (URL shortener, rate limiter) and a deep discussion on your projects."},
+      {"name": "HR Round", "details": "Compensation talk (Flipkart offers are stock-heavy), location preference and cultural fit."}
+    ],
+    "oaPattern": {
+      "platform": "HackerEarth",
+      "duration": "90-120 min",
+      "questions": "3 coding questions",
+      "note": "Partial marks per test case; top scorers across all campuses are pooled for interview slots."
+    },
+    "topicsFocus": ["Array","Dynamic Programming","Stack","Two Pointers","Greedy","Monotonic Stack"]
+  },
+  {
+    "slug": "oracle",
+    "name": "Oracle",
+    "color": "#C74634",
+    "region": "Global",
+    "tier": "Product",
+    "type": "product",
+    "tagline": "Campus hiring for MTS roles across Bangalore and Hyderabad; balanced DSA, DBMS/SQL and CS-fundamentals rounds.",
+    "typicalRoles": ["Member of Technical Staff", "Software Engineer Intern"],
+    "rounds": [
+      {"name": "Online Assessment", "details": "Aptitude + 2-3 coding questions + SQL/DBMS MCQs; roughly 2 hours on Oracle's portal or HackerRank."},
+      {"name": "Technical Interview 1", "details": "Recursion, backtracking and tree problems; expect puzzle-style questions thrown in."},
+      {"name": "Technical Interview 2", "details": "DBMS-heavy round - normalization, joins, indexes and transactions - plus OOP and resume projects."},
+      {"name": "HR + Managerial Round", "details": "Behavioural round with the hiring manager; service agreement and location lock-in are discussed."}
+    ],
+    "oaPattern": {
+      "platform": "HackerRank / Oracle portal",
+      "duration": "120 min",
+      "questions": "2-3 coding questions + aptitude & SQL MCQs",
+      "note": "The SQL section is sectional - joins and aggregate functions appear every single year."
+    },
+    "topicsFocus": ["Array","String","Hash Table","Sorting","Stack","Heap (Priority Queue)"]
+  },
+  {
+    "slug": "paytm",
+    "name": "Paytm",
+    "color": "#00BAF2",
+    "region": "Indian",
+    "tier": "Fintech",
+    "type": "product",
+    "tagline": "Fintech hiring concentrated around Delhi-NCR campuses; hashing, sliding window and payment-scale thinking.",
+    "typicalRoles": ["Software Engineer", "SDE Intern"],
+    "rounds": [
+      {"name": "Online Assessment", "details": "2-3 coding questions on HackerRank/CoCubes covering arrays, strings and simple DP."},
+      {"name": "Technical Interview 1", "details": "DSA on hashing, sliding window and strings; your resume gets screened live in the same call."},
+      {"name": "Technical Interview 2", "details": "Machine-coding style task or LLD (wallet, parking lot) for some drives, plus CS-core questions."},
+      {"name": "HR Round", "details": "Cultural fit, Noida location preference and the ESOP/bonus structure explained."}
+    ],
+    "oaPattern": {
+      "platform": "HackerRank",
+      "duration": "90-120 min",
+      "questions": "2-3 coding questions",
+      "note": "No negative marking; partial scores are awarded per passing test case."
+    },
+    "topicsFocus": ["Array","Hash Table","String","Stack","Greedy","Two Pointers"]
+  },
+  {
+    "slug": "swiggy",
+    "name": "Swiggy",
+    "color": "#FC8019",
+    "region": "Indian",
+    "tier": "Product",
+    "type": "product",
+    "tagline": "Bangalore startup hiring SDE-1s and interns; graph/BFS and interval problems drawn straight from its delivery geoservices.",
+    "typicalRoles": ["SDE-1", "SDE Intern"],
+    "rounds": [
+      {"name": "Online Assessment", "details": "3 coding questions in 90 min - intervals, BFS on grids and heaps are the recurring themes."},
+      {"name": "Technical Interview 1", "details": "DSA round biased towards graphs, matrices and greedy interval scheduling."},
+      {"name": "Technical Interview 2", "details": "Practical round - design a location service or an order-matching flow; expect API-thinking questions."},
+      {"name": "HR Round", "details": "Startup-culture fit, ownership stories and a quick offer discussion."}
+    ],
+    "oaPattern": {
+      "platform": "HackerRank",
+      "duration": "90 min",
+      "questions": "3 coding questions",
+      "note": "Difficulty ramps up within the test; interview calls are made based on partially solved + fully solved counts."
+    },
+    "topicsFocus": ["Array","Dynamic Programming","Hash Table","Sorting","String","Math"]
+  },
+  {
+    "slug": "zoho",
+    "name": "Zoho",
+    "color": "#E42527",
+    "region": "Indian",
+    "tier": "Product",
+    "type": "product",
+    "tagline": "Chennai-based drive famous for its own multi-stage process: aptitude test, handwritten coding and machine rounds; minimal DSA-only bias.",
+    "typicalRoles": ["Project Trainee", "Member Technical Staff"],
+    "rounds": [
+      {"name": "Aptitude Test (Zoho's own)", "details": "15-20 quant and reasoning questions with no negative marking; shortlisting is purely on raw score."},
+      {"name": "Technical Round 1 (Coding on paper)", "details": "Write 4-5 pattern and number programs by hand - loops, strings, matrices and date logic."},
+      {"name": "Advanced Coding + Technical Interview", "details": "Build a small module (e.g., a file parser) and discuss OOP design; SQL basics get checked here."},
+      {"name": "HR Round", "details": "Family background, willingness to be based in Chennai and the 3-year agreement discussion."}
+    ],
+    "oaPattern": {
+      "platform": "Zoho's in-house test portal",
+      "duration": "60-90 min",
+      "questions": "Aptitude MCQs, then handwritten coding rounds",
+      "note": "No LeetCode-style judge - clean logic and the ability to dry-run code on paper matter most."
+    },
+    "topicsFocus": ["Array","String","Dynamic Programming","Sorting","Hash Table","Two Pointers"]
+  },
+  {
+    "slug": "tcs",
+    "name": "TCS",
+    "color": "#1B4A96",
+    "region": "Indian",
+    "tier": "Service",
+    "type": "service",
+    "tagline": "NQT-based mass hiring into Ninja, Digital and Prime cadres; aptitude-first test and fundamentals-focused, candidate-friendly interviews.",
+    "typicalRoles": ["Assistant System Engineer (Ninja)", "Digital Cadre", "Prime Cadre"],
+    "rounds": [
+      {"name": "TCS NQT (Foundation + Advanced)", "details": "Quant, verbal and reasoning plus an advanced coding section; your score decides Ninja vs Digital vs Prime cadre."},
+      {"name": "Technical Interview", "details": "Resume-based - one programming language in depth, DBMS/OS basics and your academic projects."},
+      {"name": "Managerial (MR) Round", "details": "Situational questions, teamwork scenarios and internship learnings."},
+      {"name": "HR Round", "details": "Relocation flexibility, shift willingness and the service agreement / bond discussion."}
+    ],
+    "oaPattern": {
+      "platform": "TCS iON (NQT)",
+      "duration": "180 min (all sections)",
+      "questions": "Aptitude MCQs + 1-2 coding questions",
+      "note": "No negative marking in NQT; the advanced coding section is what decides a Digital or Prime cadre offer."
+    },
+    "topicsFocus": ["Array","Two Pointers","String","Hash Table","Sorting","Math"]
+  },
+  {
+    "slug": "infosys",
+    "name": "Infosys",
+    "color": "#007CC3",
+    "region": "Indian",
+    "tier": "Service",
+    "type": "service",
+    "tagline": "Systems Engineer and Power Programmer hiring via InfyTQ and off-campus tests; pseudocode, arithmetic and basic DSA matter most.",
+    "typicalRoles": ["Systems Engineer", "Digital Specialist Engineer", "Power Programmer"],
+    "rounds": [
+      {"name": "Infosys Online Test", "details": "Quant + reasoning + verbal, pseudocode MCQs and 1-3 coding questions; DSE and Power Programmer tracks get harder ones."},
+      {"name": "Technical Interview", "details": "Language fundamentals (usually Java/Python/C++), SQL queries and a mini-project explanation."},
+      {"name": "HR Round", "details": "Willingness to relocate to Mysore/Pune/Bangalore training centres and acceptance of the 2-year service agreement."}
+    ],
+    "oaPattern": {
+      "platform": "HackerRank / Infosys Meridian",
+      "duration": "150 min",
+      "questions": "Aptitude MCQs + 2-3 coding questions",
+      "note": "The Power Programmer track adds one advanced DP/graph problem; no negative marking anywhere."
+    },
+    "topicsFocus": ["Array","Dynamic Programming","String","Greedy","Hash Table","Sorting"]
+  },
+  {
+    "slug": "wipro",
+    "name": "Wipro",
+    "color": "#44196B",
+    "region": "Indian",
+    "tier": "Service",
+    "type": "service",
+    "tagline": "Elite and Turbo hiring through national talent hunts; pattern-based aptitude, essay writing and easy-level coding tasks.",
+    "typicalRoles": ["Project Engineer (Elite)", "Turbo Engineer"],
+    "rounds": [
+      {"name": "Online Test (ESW)", "details": "Aptitude, verbal and reasoning plus 2 coding problems and a written-communication / essay section."},
+      {"name": "Technical Interview", "details": "C/Java basics, array and string programs, DBMS normal forms and your academic projects."},
+      {"name": "HR Round", "details": "Bond acceptance (service agreement), shift flexibility and preferred work location."}
+    ],
+    "oaPattern": {
+      "platform": "HackerRank / AMCAT",
+      "duration": "140 min",
+      "questions": "Aptitude MCQs + 2 coding questions",
+      "note": "The essay is auto-evaluated for grammar and structure; the coding section stays easy-level."
+    },
+    "topicsFocus": ["Array","String","Hash Table","Sorting","Math","Two Pointers"]
+  },
+  {
+    "slug": "accenture",
+    "name": "Accenture",
+    "color": "#A100FF",
+    "region": "Global",
+    "tier": "Service",
+    "type": "service",
+    "tagline": "Application Development Associate hiring via the Cognitive & Technical assessment; pseudocode and communication are the real filters.",
+    "typicalRoles": ["Application Development Associate", "Application Development Analyst"],
+    "rounds": [
+      {"name": "Cognitive & Technical Assessment", "details": "English ability, quantitative and pseudocode MCQs plus 1-2 coding questions in the newer pattern."},
+      {"name": "Technical Interview", "details": "Cloud/tech-awareness questions, basic DSA, SQL joins and a project walk-through."},
+      {"name": "HR Round", "details": "Communication skills, client-facing scenarios, relocation and contract details."}
+    ],
+    "oaPattern": {
+      "platform": "HackerRank (Prerequisite test)",
+      "duration": "90-110 min",
+      "questions": "Pseudocode MCQs + 2 coding questions",
+      "note": "Clearing the cognitive section is mandatory before technical evaluation; no negative marking."
+    },
+    "topicsFocus": ["Array","Hash Table","Two Pointers","Math","String","Dynamic Programming"]
+  },
+  {
+    "slug": "cognizant",
+    "name": "Cognizant",
+    "color": "#1B4E8F",
+    "region": "Global",
+    "tier": "Service",
+    "type": "service",
+    "tagline": "GenC, GenC Elevate and GenC Next hiring tracks; aptitude and communication heavy with project-centric technical rounds.",
+    "typicalRoles": ["Programmer Analyst Trainee", "GenC Elevate Engineer"],
+    "rounds": [
+      {"name": "GenC Online Test", "details": "Quant, reasoning and verbal plus automata-style coding (1-2 easy problems); Elevate/Next add SQL and harder coding."},
+      {"name": "Technical Interview", "details": "Your final-year project in depth, one programming language of your choice, and HTML/CSS/SQL basics."},
+      {"name": "HR Round", "details": "Standard HR - communication check, night-shift consent and relocation flexibility."}
+    ],
+    "oaPattern": {
+      "platform": "SHL / Cognizant portal",
+      "duration": "120 min",
+      "questions": "Aptitude MCQs + 1-2 coding questions",
+      "note": "An AI-scored Communication Assessment (speaking + writing) is bundled for GenC Next candidates."
+    },
+    "topicsFocus": ["Array","Database","Hash Table","String","Two Pointers","Math"]
+  },
+  {
+    "slug": "deloitte",
+    "name": "Deloitte",
+    "color": "#86BC25",
+    "region": "Global",
+    "tier": "Service",
+    "type": "service",
+    "tagline": "US-India Analyst hiring with a notoriously tough communication (Versant) round; aptitude, SQL and basic coding decide offers.",
+    "typicalRoles": ["Analyst - USI Consulting", "Technology Analyst"],
+    "rounds": [
+      {"name": "Online Test (Deloitte Quadrant)", "details": "Quant, logical reasoning and verbal MCQs with a tight sectional time of roughly one minute per question."},
+      {"name": "Versant / Communication Round", "details": "AI-evaluated speaking and writing test - repeating sentences, story retelling and email writing."},
+      {"name": "Technical + Group Interview", "details": "Basic coding and SQL questions followed by a group case discussion for Analyst roles."},
+      {"name": "HR Round", "details": "Fit-for-consulting questions, willingness to work from client sites and certification commitments."}
+    ],
+    "oaPattern": {
+      "platform": "AMCAT / Deloitte portal",
+      "duration": "95 min",
+      "questions": "Aptitude MCQs (Quadrant) + optional coding section",
+      "note": "Verbal and Versant rounds are eliminations - most candidates get filtered here, not in coding."
+    },
+    "topicsFocus": ["Array","String","Hash Table","Two Pointers","Database","Sorting"]
+  }
+]
