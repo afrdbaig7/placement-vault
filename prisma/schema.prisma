@@ -1,0 +1,188 @@
+// Campus Placement Prep Platform — Prisma schema (SQLite)
+// Mirrors the doc's core tables: profiles, drives, oa_reports (+ oa_bodies),
+// unlocks, append-only coin_ledger, experiences, doubts/answers/votes, flags.
+// Note: SQLite has no enums/lists, so roles/statuses are strings and
+// topic arrays are stored as JSON strings.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// ---------- profiles ----------
+model User {
+  id            String   @id @default(cuid())
+  email         String   @unique
+  name          String
+  image         String?
+  role          String   @default("STUDENT") // STUDENT | SENIOR | MOD | ADMIN
+  rollNumber    String?  // collected at first login; mods verify it
+  rollVerified  Boolean  @default(false)
+  placedCompany String?  // verified "placed at X" badge for seniors
+  batch         String?  // e.g. "2026"
+  createdAt     DateTime @default(now())
+
+  reports     OaReport[]
+  experiences Experience[]
+  doubts      Doubt[]
+  answers     Answer[]
+  votes       Vote[]
+  flags       Flag[]
+  unlocks     Unlock[]
+  ledger      CoinLedger[]
+}
+
+// ---------- drives ----------
+model Drive {
+  id        String   @id @default(cuid())
+  company   String // company slug, matches src/data/companies.json
+  role      String
+  driveDate DateTime
+  status    String   @default("OPEN") // OPEN | CLOSED  (open drive = OA embargo active)
+  branches  String   @default("ALL") // CSV of eligible branches or ALL
+  minCgpa   Float?
+  notes     String?
+  createdAt DateTime @default(now())
+
+  reports OaReport[]
+}
+
+// ---------- oa_reports + gated oa_bodies ----------
+model OaReport {
+  id          String   @id @default(cuid())
+  authorId    String
+  driveId     String
+  round       String
+  platform    String
+  topics      String   @default("[]") // JSON string array
+  difficulty  String // Easy | Medium | Hard
+  outcome     String // Cleared | Not cleared | Did not attempt
+  summary     String // public description, no question text
+  status      String   @default("PENDING") // PENDING | APPROVED | REJECTED | REMOVED
+  modNote     String?
+  upvoteCount Int      @default(0)
+  createdAt   DateTime @default(now())
+
+  author  User     @relation(fields: [authorId], references: [id])
+  drive   Drive    @relation(fields: [driveId], references: [id])
+  body    OaBody?
+  unlocks Unlock[]
+}
+
+// Question text lives in a separate table so it can be gated on its own
+// (DB-level equivalent of the doc's RLS-protected oa_bodies).
+model OaBody {
+  id       String @id @default(cuid())
+  reportId String @unique
+  text     String
+
+  report OaReport @relation(fields: [reportId], references: [id], onDelete: Cascade)
+}
+
+// ---------- unlocks ----------
+model Unlock {
+  id        String   @id @default(cuid())
+  userId    String
+  reportId  String
+  free      Boolean  @default(false) // unlocked via give-to-get (or author/mod)
+  createdAt DateTime @default(now())
+
+  user   User     @relation(fields: [userId], references: [id])
+  report OaReport @relation(fields: [reportId], references: [id])
+
+  @@unique([userId, reportId])
+}
+
+// ---------- append-only coin ledger ----------
+model CoinLedger {
+  id        String   @id @default(cuid())
+  userId    String
+  amount    Int // positive = earn, negative = spend
+  reason    String // WELCOME | REPORT_APPROVED | EXPERIENCE_APPROVED | ANSWER_ACCEPTED | UPVOTE_RECEIVED | UNLOCK_OA | GIVE_TO_GET | MOD_GRANT
+  refId     String? // related entity id (reportId / experienceId / answerId / voteKey / reportId)
+  note      String?
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+
+  // stops double rewards: one row per (user, reason, ref)
+  @@unique([userId, reason, refId])
+  @@index([userId])
+}
+
+// ---------- experiences ----------
+model Experience {
+  id          String   @id @default(cuid())
+  authorId    String
+  company     String // company slug
+  role        String
+  round       String // which round the experience describes
+  platform    String
+  topics      String   @default("[]") // JSON string array
+  difficulty  String
+  outcome     String
+  body        String
+  status      String   @default("PENDING") // PENDING | APPROVED | REJECTED | REMOVED
+  modNote     String?
+  upvoteCount Int      @default(0)
+  createdAt   DateTime @default(now())
+
+  author User @relation(fields: [authorId], references: [id])
+}
+
+// ---------- doubts, answers, votes ----------
+model Doubt {
+  id          String   @id @default(cuid())
+  authorId    String
+  company     String
+  title       String
+  body        String
+  anonymous   Boolean  @default(false)
+  upvoteCount Int      @default(0)
+  createdAt   DateTime @default(now())
+
+  author  User     @relation(fields: [authorId], references: [id])
+  answers Answer[]
+}
+
+model Answer {
+  id          String   @id @default(cuid())
+  doubtId     String
+  authorId    String
+  body        String
+  accepted    Boolean  @default(false)
+  upvoteCount Int      @default(0)
+  createdAt   DateTime @default(now())
+
+  doubt  Doubt @relation(fields: [doubtId], references: [id], onDelete: Cascade)
+  author User  @relation(fields: [authorId], references: [id])
+}
+
+model Vote {
+  id         String   @id @default(cuid())
+  userId     String
+  targetType String // REPORT | EXPERIENCE | DOUBT | ANSWER
+  targetId   String
+  createdAt  DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@unique([userId, targetType, targetId])
+}
+
+// ---------- flags (report/takedown) ----------
+model Flag {
+  id         String   @id @default(cuid())
+  reporterId String
+  targetType String // REPORT | EXPERIENCE | DOUBT | ANSWER
+  targetId   String
+  reason     String
+  resolved   Boolean  @default(false)
+  createdAt  DateTime @default(now())
+
+  reporter User @relation(fields: [reporterId], references: [id])
+}
